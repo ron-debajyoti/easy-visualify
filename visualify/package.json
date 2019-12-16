@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "cookie-parser": "^1.4.4",
+    "cors": "^2.8.5",
+    "fs": "0.0.1-security",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-scripts": "0.9.5",

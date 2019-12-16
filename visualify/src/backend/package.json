@@ -1,0 +1,19 @@
+{
+    "name": "visualify_backend",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+      "dotenv": "^8.2.0",
+      "express": "^4.17.1",
+      "querystring": "^0.2.0",
+      "request": "^2.88.0"
+    },
+    "devDependencies": {},
+    "scripts": {
+      "start": "react-scripts start",
+      "build": "react-scripts build",
+      "test": "react-scripts test --env=jsdom",
+      "eject": "react-scripts eject"
+    }
+  }
+  

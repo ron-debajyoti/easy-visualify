@@ -1,5 +1,6 @@
-import React, { Component, memo } from 'react';
+import React, { useState, Component, memo } from 'react';
 import { ZoomableGroup, ComposableMap, Geographies, Geography } from "react-simple-maps";
+import ReactTooltip from "react-tooltip";
 
 import "./styles.css";
 
@@ -9,7 +10,10 @@ const geoUrl =
 
 import './App.css';
 
-const App = ({setTooltipContent}) => {
+
+
+const App=() =>{
+    const [content, setTooltipContent] = useState("");
     return (
       <div className="App">
         <ComposableMap data-tip="" projectionConfig={{ scale: 150 }}>
@@ -47,8 +51,9 @@ const App = ({setTooltipContent}) => {
             </Geographies>
           </ZoomableGroup>
         </ComposableMap>
+        <ReactTooltip>{content}</ReactTooltip>
       </div>
     );
-}
+  }
 
 export default memo(App);
