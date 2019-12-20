@@ -28,7 +28,6 @@ app.get('/callback', function(req, res) {
     url: 'https://accounts.spotify.com/api/token',
     form: {
       code: code,
-      port:'80',
       //proxy:'https://172.16.2.30:8080',
       redirect_uri,
       grant_type: 'authorization_code'
