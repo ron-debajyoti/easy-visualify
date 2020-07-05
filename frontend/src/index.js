@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 
-import App from './frontend/App';
+import App from './App';
 
 // function AppBuild() {
 //   const [content, setContent] = useState("");
