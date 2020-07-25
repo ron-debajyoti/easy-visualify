@@ -27,6 +27,7 @@
     "dev": "concurrently \"npm run server\" \"npm run react\" ",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "postinstall": "react-scripts build"
   }
 }
