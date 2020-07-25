@@ -36,7 +36,7 @@ dailyPlaylists = [
     {'country_code':'LT','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbMx56Rdq5lwc'},
     {'country_code':'LI','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbKGcyg6TFGx6'},
     {'country_code':'MY','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbJlfUljuZExa'},
-    {'country_code':'MT','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbMD2H5HJqmx9'},
+    # {'country_code':'MT','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbMD2H5HJqmx9'},
     {'country_code':'MX','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbO3qyFxbkOE1'},
     
     {'country_code':'NL','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbKCF6dqVpDkS'},
