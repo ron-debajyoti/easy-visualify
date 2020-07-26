@@ -1,1 +1,1 @@
-web: npm install frontend && node app/frontend/src/index.js
+web: npm install frontend && npm start
