@@ -1,2 +1,1 @@
-api: node frontend/server.js
-web: react-scripts start
+web: npm run dev
