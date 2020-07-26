@@ -1,7 +1,9 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
 # dependencies
-*/node_modules/
+node_modules/
+app/frontend/node_modules/
+app/backend/node_modules/
 */__pycache__/
 
 # testing
