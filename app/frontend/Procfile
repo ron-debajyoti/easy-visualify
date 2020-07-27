@@ -1,1 +1,1 @@
-web: npm install frontend && npm start
+web: npm start --prefix /visualify/app/frontend
