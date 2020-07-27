@@ -1,1 +1,1 @@
-web: npm start --prefix /visualify/app/frontend
+web: npm start --prefix /app/frontend
