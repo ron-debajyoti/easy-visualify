@@ -1,3 +1,5 @@
+
+require('dotenv').config()
 var express = require('express') 
 var path = require('path')
 var cors = require('cors')
@@ -22,10 +24,10 @@ app.get('/request',(req,res) => {
     mongoclient.connect(address, (err,client) => {
         if (err) throw err
         var db = client.db("visualify")
-        db.collection('myCollections').find().toArray((err,result) => {
+        var collection = db.collection("myCollection")
+        collection.find().toArray((err,result) => {
             if (err) throw err
-            // console.log(result)
-
+            console.log(result.length)
             res.send(result)
         })
     })
