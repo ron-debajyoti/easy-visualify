@@ -1,7 +1,7 @@
 
 const fetch = require('node-fetch')
 
-var url = 'https://localhost:3001'
+var url = process.env.BACKEND_URL || 'https://localhost:3001'
 
 export const fetchData = () => 
     fetch(`${url}`, {
