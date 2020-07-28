@@ -27,8 +27,7 @@ app.get('/request',(req,res) => {
         var collection = db.collection("myCollection")
         collection.find().toArray((err,result) => {
             if (err) throw err
-            console.log(result.length)
-            res.send(result)
+            res.send(JSON.stringify(result))
         })
     })
 })
