@@ -1,7 +1,8 @@
 import React, { useState, Component, memo } from 'react';
 import { ZoomableGroup, ComposableMap, Geographies, Geography } from "react-simple-maps";
 import * as util from './utils/Utility'
-import ReactTooltip from "react-tooltip";
+import countries from './utils/Countries'
+import PropTypes from 'prop-types'
 
 import "./styles.css";
 
@@ -10,97 +11,109 @@ const geoUrl = "https://raw.githubusercontent.com/zcreativelabs/react-simple-map
 
 
 import './App.css';
-const mapStyles = {
-  width: "90%",
-  height: "auto",
-}
+
+
+
+
+
 
 
 class App extends Component{
 
+  static propTypes = {
+    setTooltipContent:PropTypes.func.isRequired
+  }
+
   state = {
-    playlists : []
+    playlists : null
   }
 
   componentDidMount(){
    util.fetchData()
     .then( (playlists) => {
-      console.log(playlists)
-      console.log(this.playlists)
-      this.setState(() => {
+      this.setState(() => ({
         playlists
-      })
+      }))
+
+      console.log("fetched!")
     })
   }
 
 
+
+  renderTooltip = (geo,setTooltipContent) => {
+    const {NAME} = geo.properties
+    var countryObj = countries.filter((c) => {
+      return c.country === NAME
+    })[0]
+
+    if(countryObj === undefined){
+      // spotify data doesn't exist
+      setTooltipContent("")
+
+    }
+    else{
+      var dataObj = this.state.playlists.filter((c) => {
+        return c.country_code === countryObj.country_code
+      })[0].data
+
+      var finalData = []
+
+      dataObj.forEach(element => {
+        var obj = {}
+        obj['uri'] = element.track.uri
+        obj['popularity'] = element.track.popularity
+        obj['viewCoverArt'] = true
+        finalData.push(obj)
+      })
+
+      console.log(finalData)
+      setTooltipContent(finalData)
+    }
+  }
+  
+
+
   render() {
-  return(
-    <div>
-      <ComposableMap>
-        <ZoomableGroup zoom={1}>
-          <Geographies geography={geoUrl}>
-            {({ geographies }) =>
-              geographies.map(geo => (
-                <Geography
-                  key={geo.rsmKey}
-                  geography={geo}
-                  // onMouseEnter={() => {
-                  //   const { NAME, POP_EST } = geo.properties;
-                  //   setTooltipContent(`${NAME} — ${rounded(POP_EST)}`);
-                  // }}
-                  // onMouseLeave={() => {
-                  //   setTooltipContent("");
-                  // }}
-                  style={{
-                    default: { fill: "#CFD8DC" }
-                  }}
-                />
-              ))
-            }
-          </Geographies>
-        </ZoomableGroup>
-      </ComposableMap>
-    </div>
-  )
+
+    const {setTooltipContent} = this.props
+
+    return(
+      <div>
+        <ComposableMap data-tip="" projectionConfig={{scale:200}}>
+          <ZoomableGroup zoom={1}>
+            <Geographies geography={geoUrl}>
+              {({ geographies }) =>
+                geographies.map(geo => (
+                  <Geography
+                    key={geo.rsmKey}
+                    geography={geo}
+                    onMouseEnter={() => this.renderTooltip(geo,setTooltipContent)}
+                    onMouseLeave={() => {
+                      setTooltipContent("");
+                    }}
+                    style={{
+                      default: { fill: "#CFD8DC" },
+                      hover: {
+                        fill: "#F53",
+                        outline: "none"
+                      },
+                      pressed: {
+                        fill: "#E42",
+                        outline: "none"
+                      }
+                    }}
+                  />
+                ))
+              }
+            </Geographies>
+          </ZoomableGroup>
+        </ComposableMap>
+      </div>
+    )
   }
 
   
-
+// end of App class
 }
-
-
-
-// const App = ({ setTooltipContent }) => {
-
-//   return (
-//     <div>
-//       <ComposableMap>
-//         <ZoomableGroup zoom={1}>
-//           <Geographies geography={geoUrl}>
-//             {({ geographies }) =>
-//               geographies.map(geo => (
-//                 <Geography
-//                   key={geo.rsmKey}
-//                   geography={geo}
-//                   // onMouseEnter={() => {
-//                   //   const { NAME, POP_EST } = geo.properties;
-//                   //   setTooltipContent(`${NAME} — ${rounded(POP_EST)}`);
-//                   // }}
-//                   // onMouseLeave={() => {
-//                   //   setTooltipContent("");
-//                   // }}
-//                   style={{
-//                     default: { fill: "#CFD8DC" }
-//                   }}
-//                 />
-//               ))
-//             }
-//           </Geographies>
-//         </ZoomableGroup>
-//       </ComposableMap>
-//     </div>
-//   );
-// }
-
-export default App;
+export default memo(App);
