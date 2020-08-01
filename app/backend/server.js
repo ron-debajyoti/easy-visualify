@@ -10,7 +10,6 @@ var app=express()
 app.set('json spaces',2)
 let port = process.env.PORT || 3001
 let address = process.env.MONGODB_HOST || "mongodb://localhost:27017/"
-
 app.use(cors())
 app.use(express.static(path.join(__dirname,"src")))
 
@@ -23,11 +22,20 @@ app.all('/request', function(req, res, next) {
 app.get('/request',(req,res) => {
     mongoclient.connect(address, (err,client) => {
         if (err) throw err
+
+        var messageData =[]
         var db = client.db("visualify")
-        var collection = db.collection("myCollection")
-        collection.find().toArray((err,result) => {
+        var topPlaylists = db.collection("myCollection")
+        var viralPlaylists = db.collection("viralCollections")
+
+        topPlaylists.find().toArray((err,result) => {
             if (err) throw err
-            res.send(JSON.stringify(result))
+            messageData.push({'topPlaylists' : JSON.stringify(result)})
+            viralPlaylists.find().toArray((err,result) => {
+                if (err) throw err
+                messageData.push({'viralPlaylists' : JSON.stringify(result)})
+                res.send(messageData)
+            })
         })
     })
 })

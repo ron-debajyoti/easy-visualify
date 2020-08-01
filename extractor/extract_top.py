@@ -1,5 +1,5 @@
 import spotipy, pymongo, pprint 
-import settings,daily_playlists
+import settings,daily_top_playlists
 from spotipy.oauth2 import SpotifyClientCredentials
 import json
 
@@ -10,7 +10,7 @@ db_client = pymongo.MongoClient(settings.MONGODB_HOST)
 db = db_client["visualify"]
 col = db["myCollection"]
 
-playlists = daily_playlists.dailyPlaylists
+playlists = daily_top_playlists.dailyPlaylists
 username = 'spotifycharts'
 
 for item in playlists:
@@ -24,14 +24,14 @@ for item in playlists:
         data ={
             'playlist_id' : result['id'],
             'country_code' : item['country_code'],
-            'data':result['tracks']['items'][0:5] 
+            'data':result['tracks']['items'][0:9] 
             }
         with open('data.json','w') as outfile:
             json.dump(data,outfile)
         
         query = col.find( { 'playlist_id': data['playlist_id']})
         if query.count():
-            print('Updating extry for this country : ', data['country_code'])
+            print('Updating top extry for this country : ', data['country_code'])
             res = col.replace_one({'playlist_id' : data['playlist_id']}, data)
         else:
             res = col.insert_one(data)
