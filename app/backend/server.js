@@ -30,11 +30,11 @@ app.get('/request',(req,res) => {
 
         topPlaylists.find().toArray((err,result) => {
             if (err) throw err
-            messageData.push({'topPlaylists' : JSON.stringify(result)})
-            viralPlaylists.find().toArray((err,result) => {
+            messageData.push({'topPlaylists' : result})
+            viralPlaylists.find().toArray((err,result2) => {
                 if (err) throw err
-                messageData.push({'viralPlaylists' : JSON.stringify(result)})
-                res.send(messageData)
+                messageData.push({'viralPlaylists' : result2})
+                res.send(JSON.stringify(messageData))
             })
         })
     })
