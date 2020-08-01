@@ -15,12 +15,15 @@ html {
   .App {
     font-family: sans-serif;
     text-align: center;
+    float: left;
   }
 
-  .Entry{
-    margin: 0;
-    position: absolute;
-    top: 50%;
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
+  #button{
+    display: flex;
+    justify-content: flex-end;
+  }
+
+
+  #playlistWidget{
+    float :right;
   }

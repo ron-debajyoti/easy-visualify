@@ -13,11 +13,6 @@ const geoUrl = "https://raw.githubusercontent.com/zcreativelabs/react-simple-map
 import './App.css';
 
 
-
-
-
-
-
 class App extends Component{
 
   static propTypes = {
@@ -28,6 +23,8 @@ class App extends Component{
     playlists : null
   }
 
+
+
   componentDidMount(){
    util.fetchData()
     .then( (playlists) => {
@@ -35,13 +32,16 @@ class App extends Component{
         playlists
       }))
 
-      console.log("fetched!")
+      console.log("fetched data!")
     })
   }
 
 
 
-  renderTooltip = (geo,setTooltipContent) => {
+
+
+
+  renderDataOnClick = (geo,setTooltipContent) => {
     const {NAME} = geo.properties
     var countryObj = countries.filter((c) => {
       return c.country === NAME
@@ -53,21 +53,38 @@ class App extends Component{
 
     }
     else{
-      var dataObj = this.state.playlists.filter((c) => {
+      // spotify data does exist !
+
+      var dataObj1 = this.state.playlists[0].topPlaylists.filter((c) => {
         return c.country_code === countryObj.country_code
       })[0].data
 
-      var finalData = []
+      var dataObj2 = this.state.playlists[1].viralPlaylists.filter((c) => {
+        return c.country_code === countryObj.country_code
+      })[0].data
 
-      dataObj.forEach(element => {
+      var finalData1 = []
+      var finalData2 = []
+
+      dataObj1.forEach(element => {
         var obj = {}
         obj['uri'] = element.track.uri
         obj['popularity'] = element.track.popularity
         obj['viewCoverArt'] = true
-        finalData.push(obj)
+        finalData1.push(obj)
       })
 
-      console.log(finalData)
+      dataObj2.forEach(element => {
+        var obj = {}
+        obj['uri'] = element.track.uri
+        obj['popularity'] = element.track.popularity
+        obj['viewCoverArt'] = true
+        finalData2.push(obj)
+      })
+
+      var finalData = []
+      finalData.push(finalData1)
+      finalData.push(finalData2)
       setTooltipContent(finalData)
     }
   }
@@ -88,10 +105,10 @@ class App extends Component{
                   <Geography
                     key={geo.rsmKey}
                     geography={geo}
-                    onMouseEnter={() => this.renderTooltip(geo,setTooltipContent)}
-                    onMouseLeave={() => {
-                      setTooltipContent("");
-                    }}
+                    onClick={() => this.renderDataOnClick(geo,setTooltipContent)}
+                    // onMouseLeave={() => {
+                    //   setTooltipContent("");
+                    // }}
                     style={{
                       default: { fill: "#CFD8DC" },
                       hover: {
