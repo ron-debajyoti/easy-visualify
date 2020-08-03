@@ -50,6 +50,7 @@ var countries = [
     {country_code:'PL',country:'Poland'},
     {country_code:'PT',country:'Portugal'},
     {country_code:'RO',country:'Romania'},
+    {country_code:'RU',country:'Russia'},
     {country_code:'SG',country:'Singapore'},
     {country_code:'SK',country:'Slovakia'},
     {country_code:'ZA',country:'South Africa'},
@@ -61,6 +62,7 @@ var countries = [
     {country_code:'TR',country:'Turkey'},
     {country_code:'GB',country:'United Kingdom'},
     {country_code:'US',country:'United States of America'},
+    {country_code:'UA',country:'Ukraine'},
     {country_code:'UY',country:'Uruguay'},
     {country_code:'VN',country:'Vietnam'},
 ]

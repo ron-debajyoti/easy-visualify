@@ -41,7 +41,7 @@ class App extends Component{
 
 
 
-  renderDataOnClick = (geo,setTooltipContent) => {
+  renderDataOnClick = (geo,setTooltipContent,setTooltip) => {
     const {NAME} = geo.properties
     var countryObj = countries.filter((c) => {
       return c.country === NAME
@@ -49,7 +49,7 @@ class App extends Component{
 
     if(countryObj === undefined){
       // spotify data doesn't exist
-      setTooltipContent("")
+      setTooltipContent([NAME])
 
     }
     else{
@@ -85,6 +85,7 @@ class App extends Component{
       var finalData = []
       finalData.push(finalData1)
       finalData.push(finalData2)
+      finalData.push([NAME])
       setTooltipContent(finalData)
     }
   }
@@ -97,7 +98,7 @@ class App extends Component{
 
     return(
       <div>
-        <ComposableMap data-tip="" projectionConfig={{scale:200}}>
+        <ComposableMap data-tip="" projectionConfig={{scale:175}}>
           <ZoomableGroup zoom={1}>
             <Geographies geography={geoUrl}>
               {({ geographies }) =>
@@ -107,7 +108,7 @@ class App extends Component{
                     geography={geo}
                     onClick={() => this.renderDataOnClick(geo,setTooltipContent)}
                     // onMouseLeave={() => {
-                    //   setTooltipContent("");
+                    //   setTooltip("");
                     // }}
                     style={{
                       default: { fill: "#CFD8DC" },
