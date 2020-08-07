@@ -5,12 +5,11 @@ import countries from './utils/Countries'
 import PropTypes from 'prop-types'
 
 import "./styles.css";
+import './App.css';
 
 //const geoUrl ="https://unpkg.com/world-atlas@1.1.4/world/110m.json"
 const geoUrl = "https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json"
 
-
-import './App.css';
 
 
 class App extends Component{
@@ -41,7 +40,7 @@ class App extends Component{
 
 
 
-  renderDataOnClick = (geo,setTooltipContent,setTooltip) => {
+  renderDataOnClick = (geo,setTooltipContent) => {
     const {NAME} = geo.properties
     var countryObj = countries.filter((c) => {
       return c.country === NAME
@@ -94,7 +93,7 @@ class App extends Component{
 
   render() {
 
-    const {setTooltipContent} = this.props
+    const {setTooltipContent,setTooltip} = this.props
 
     return(
       <div>
@@ -107,9 +106,13 @@ class App extends Component{
                     key={geo.rsmKey}
                     geography={geo}
                     onClick={() => this.renderDataOnClick(geo,setTooltipContent)}
-                    // onMouseLeave={() => {
-                    //   setTooltip("");
-                    // }}
+                    onMouseEnter={() => {
+                      const {NAME} = geo.properties
+                      setTooltip(NAME)
+                    }}
+                    onMouseLeave={() => {
+                      setTooltip("");
+                    }}
                     style={{
                       default: { fill: "#CFD8DC" },
                       hover: {

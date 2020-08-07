@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 class PlayWidget extends Component{
 
-    static Proptypes = {
+    static propTypes = {
         width: PropTypes.number.isRequired,
         height: PropTypes.number.isRequired,
         uri: PropTypes.string.isRequired,

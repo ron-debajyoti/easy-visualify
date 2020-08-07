@@ -1,1 +1,1 @@
-worker: chmod u+x /extractor/job.sh && ./extractor/job.sh
+worker: chmod u+x extractor/job.sh && ./extractor/job.sh

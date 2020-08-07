@@ -16,9 +16,11 @@ html {
     font-family: sans-serif;
     text-align: center;
     float: left;
+    color: aliceblue;
   }
+  
 
-  #button{
+  /* #button{
     display: flex;
     justify-content: flex-end;
   }
@@ -26,4 +28,5 @@ html {
 
   #playlistWidget{
     float :right;
-  }
+    background-color: aquamarine;
+  } */

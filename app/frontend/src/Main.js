@@ -1,18 +1,59 @@
 import React, {Component} from 'react';
 import App from './App'
-import { Button } from 'react-bootstrap';
 import PlayWidget from './Widget'
 import {Link} from 'react-router-dom'
 import ReactTooltip from 'react-tooltip'
+import styled from 'styled-components/macro'
+import UserModal from './UserModal'
+
+const Button = styled.button`
+  background: palevioletred;
+  color: white;
+  font-size: 0.75em;
+  margin: 1em;
+  padding: 0.5em 1em;
+  border: 2px solid black;
+  border-radius: 3px;
+`;
+
+const TriggerButton = styled(Button)`
+  float: right;
+`
+
+
+const ButtonWrapper = styled.div`
+  display: inline-block;
+  background: white;
+`
+
+const Wrapper = styled.div`
+  background-color: white; 
+`
+
+
+
+const WidgetTitle = styled.div`
+  font-size: 1.5em;
+  float: center;
+  text-align: left;
+  color: palevioletred;
+  background-color: white;
+`
+
+const WidgetWrapper = styled.div`
+  padding: 1em;
+  background : aquamarine
+  float: right;
+`
 
 class Main extends Component{
     state = {
       content : "s",
+      country : "None",
       contentType : 'top'
     }
   
     componentDidMount(){
-      
     }
   
   
@@ -33,25 +74,21 @@ class Main extends Component{
         }))
     }
 
-    // tooltipRender = (content) => {
-    //     console.log("!!!!")
-    //     console.log(content)
-    //     this.render(
-    //         <div>
-    //             <ReactTooltip>{content}</ReactTooltip>
-    //         </div>
-    //     )
-    // }
+    tooltipRender = (content) => {
+        // console.log("!!!!")
+        // console.log(content)
+        this.setState(() => ({
+          country:content
+        }))
+    }
   
   
     IsValidData = () => {
       if (this.state.content.length >=2 ){
-        // console.log(this.state.content[0][0].uri)
-        // console.log(this.state.content[0][1].uri)
         if(this.state.contentType === "top"){
           return (
-            <div id='playlistWidget'>
-              <div> Top 10 Playlists of {this.state.content[2]} </div> 
+            <WidgetWrapper>
+              <WidgetTitle> Top 10 Playlists of {this.state.content[2]} </WidgetTitle> 
               <ol> 
                 <PlayWidget width={300} height={100} uri={this.state.content[0][0].uri} />
                 <PlayWidget width={300} height={100} uri={this.state.content[0][1].uri} />
@@ -63,13 +100,13 @@ class Main extends Component{
                 <PlayWidget width={300} height={100} uri={this.state.content[0][7].uri} />
                 <PlayWidget width={300} height={100} uri={this.state.content[0][8].uri} />
               </ol>
-            </div>
+            </WidgetWrapper>
           )
         }
         else{
           return (
-            <div>
-              <div> Viral 10 Playlists of {this.state.content[2]} </div>
+            <WidgetWrapper>
+              <WidgetTitle> Viral 10 Playlists of {this.state.content[2]} </WidgetTitle>
               <ol >
                 <PlayWidget width={300} height={100} uri={this.state.content[1][0].uri} />
                 <PlayWidget width={300} height={100} uri={this.state.content[1][1].uri} />
@@ -81,27 +118,31 @@ class Main extends Component{
                 <PlayWidget width={300} height={100} uri={this.state.content[1][7].uri} />
                 <PlayWidget width={300} height={100} uri={this.state.content[1][8].uri} />
               </ol>
-            </div>
+            </WidgetWrapper>
           )
         }
       }
       else{
-        return (<div> Spotify is not supported in {this.state.content[0]} !</div>)
+        return (<WidgetTitle> Spotify is not supported in {this.state.content[0]} !</WidgetTitle>)
       }
     }
   
     render(){
       return(
-        <Link to='/main'>
-        <div id='wrapper'> 
-            <div id='button'>
-            <Button className="Top10" onClick={() => this.onButtonClick("top")}> View Top 10 </Button>
-            <Button className="Viral10" onClick={() => this.onButtonClick("viral")}> View Viral 10 </Button>
-            </div>
-            <App setTooltipContent={(e) => this.onUpdate(e)} />
+        
+        <Wrapper> 
+            {/* <div id='button'> */}
+            <UserModal />
+            <Link to='/main'>
+              <App setTooltipContent={(e) => this.onUpdate(e)} setTooltip={this.tooltipRender}/>
+            </Link>
+            <ButtonWrapper>
+              <TriggerButton className="Top10" onClick={() => this.onButtonClick("top")}> View Top 10 </TriggerButton>
+              <TriggerButton className="Viral10" onClick={() => this.onButtonClick("viral")}> View Viral 10 </TriggerButton>
+            </ButtonWrapper>
             <this.IsValidData />
-        </div>
-        </Link>
+            <ReactTooltip>{this.state.country}</ReactTooltip>
+        </Wrapper>  
       );
     }
   
