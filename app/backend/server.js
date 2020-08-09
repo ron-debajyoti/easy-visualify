@@ -41,7 +41,7 @@ app.get('/request',(req,res) => {
 })
 
 app.get('/login',(req,res) => {
-    let redirect_uri = 'localhost:8888/login'
+    let redirect_uri = process.env.AUTH_URL || 'localhost:8888/login'
     res.redirect(redirect_uri)
 })
 
