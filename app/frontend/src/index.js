@@ -1,6 +1,5 @@
-import React,{ Component } from 'react'
-import {BrowserRouter, Route, Link} from 'react-router-dom'
-import ReactTooltip from 'react-tooltip'
+import React from 'react'
+import {BrowserRouter} from 'react-router-dom'
 import ReactDOM from 'react-dom';
 import IndexPage from './IndexPage'
 

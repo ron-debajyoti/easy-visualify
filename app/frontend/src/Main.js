@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import queryString from 'querystring'
 import App from './App'
 import PlayWidget from './Widget'
 import {Link} from 'react-router-dom'
@@ -50,10 +51,13 @@ class Main extends Component{
     state = {
       content : "s",
       country : "None",
-      contentType : 'top'
+      contentType : 'top',
+      accessToken : null
     }
   
     componentDidMount(){
+      let accessToken = queryString.parse(window.location.search).access_token
+      console.log(accessToken)
     }
   
   

@@ -4,7 +4,7 @@ import styled from 'styled-components/macro'
 
 
 const Button = styled.button`
-    font-size: 0.75em;
+    font-size: 1em;
     margin: 1em;
     padding: 0.5em 1em;
     border: 2px solid black;

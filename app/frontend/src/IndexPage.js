@@ -1,9 +1,7 @@
 import React, {Component} from 'react'
 import {Route, Link, Switch} from 'react-router-dom'
 import styled from 'styled-components/macro'
-import Main from './Main'
-
-
+require('dotenv').config()
 
 const Title = styled.h1`
     font-size: 1.5em;
@@ -29,8 +27,11 @@ class IndexPage extends Component{
                 <Title>
                     Easy Visualify
                 </Title>
-                <Link to='/main'> 
-                    <Button> Click to Enter </Button>
+                <Link to='/login'>
+                    <Button onClick={() => { 
+                        var url = process.env.AUTH_URL || 'http://localhost:3001/login'; 
+                        window.location.href= url}
+                        }> Click to Enter </Button>
                 </Link>
             </Wrapper>
         )    
@@ -42,7 +43,8 @@ class IndexPage extends Component{
             <Route>
                 <Switch>
                     <Route exact path='/' component={this.mainPage} />
-                    <Route path='/main' component={Main} />
+                    <Route path='/main' component={() => {
+                    }} />
                 </Switch>
             </Route>
         )
