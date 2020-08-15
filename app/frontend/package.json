@@ -19,17 +19,19 @@
     "react-simple-maps": "^2.1.2",
     "react-tooltip": "^3.11.1",
     "request": "^2.88.2",
+    "serve": "^11.3.2",
     "styled-components": "^5.1.1"
   },
   "devDependencies": {
     "babel-plugin-styled-components": "^1.11.1"
   },
   "scripts": {
+    "dev": "react-scripts start",
     "start": "serve -s build ",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "postinstall": "npm run build"
+    "pheroku-postinstall": "npm run build"
   },
   "browserslist": {
     "production": [
