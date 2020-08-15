@@ -31,7 +31,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "heroku-postinstall": "npm run build"
+    "heroku-postbuild": "npm run build"
   },
   "browserslist": {
     "production": [
