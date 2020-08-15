@@ -1,1 +1,1 @@
-web: npm install && npm start --prefix app/frontend
+web: npm install --prefix app/frontend && npm run heroku-postbuild --prefix app/frontend && npm start --prefix app/frontend
