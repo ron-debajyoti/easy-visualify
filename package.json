@@ -26,6 +26,7 @@
     "react-simple-maps": "^2.1.2",
     "react-tooltip": "^3.11.1",
     "request": "^2.88.2",
+    "serve": "^11.3.2",
     "styled-components": "^5.1.1"
   },
   "devDependencies": {
