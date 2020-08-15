@@ -32,7 +32,7 @@ class IndexPage extends Component{
                 </Title>
                 <Link to='/login'>
                     <Button onClick={() => { 
-                        var url = process.env.AUTH_URL || 'http://localhost:3001/login'; 
+                        var url = process.env.AUTH_URL; 
                         window.location.href= url}
                         }> Click to Enter </Button>
                 </Link>
