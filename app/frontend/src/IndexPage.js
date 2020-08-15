@@ -1,6 +1,9 @@
 import React, {Component} from 'react'
 import {Route, Link, Switch} from 'react-router-dom'
 import styled from 'styled-components/macro'
+import {AuthenticatedRoute} from './Authenticate'
+import Main from './Main'
+import Cookies from 'js-cookie'
 require('dotenv').config()
 
 const Title = styled.h1`
@@ -36,15 +39,14 @@ class IndexPage extends Component{
             </Wrapper>
         )    
     }
-    
+
 
     render(){
         return(
             <Route>
                 <Switch>
                     <Route exact path='/' component={this.mainPage} />
-                    <Route path='/main' component={() => {
-                    }} />
+                    <Route path='/main' render={() => AuthenticatedRoute()}/>
                 </Switch>
             </Route>
         )

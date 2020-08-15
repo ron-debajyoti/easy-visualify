@@ -1,11 +1,14 @@
 import React, {Component} from 'react';
-import queryString from 'querystring'
+import queryString from 'query-string'
 import App from './App'
 import PlayWidget from './Widget'
 import {Link} from 'react-router-dom'
 import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components/macro'
 import UserModal from './UserModal'
+import * as util from './utils/Utility'
+import Cookies from 'js-cookie'
+var _ = require('lodash')
 
 const Button = styled.button`
   background: palevioletred;
@@ -47,20 +50,99 @@ const WidgetWrapper = styled.div`
   float: right;
 `
 
+
+
+
 class Main extends Component{
     state = {
       content : "s",
       country : "None",
       contentType : 'top',
-      accessToken : null
+      user : {
+        display_name: null,
+        country: null,
+        followers: null,
+        images:null,
+        external_urls: null,
+        product: null,
+        topTracks: null,
+        topArtists: null,
+        recommendedGenre: null
+      }
     }
   
     componentDidMount(){
-      let accessToken = queryString.parse(window.location.search).access_token
-      console.log(accessToken)
+      // let accessToken = queryString.parse(window.location.search)['?access_token']
+      // console.log(queryString.parse(window.location.search))
+      // console.log(accessToken)
+      var access_token = Cookies.get('access_token')
+      console.log(access_token)
+      util.fetchUserData(access_token)
+        .then(data => {
+          this.setState(() => ({
+            ...this.state,
+            user : {
+              ...this.state.user,
+              display_name: data.display_name,
+              country: data.country,
+              followers: data.followers.total,
+              external_urls: data.external_urls,
+              images: data.images,
+              product:data.product
+            }
+          }))
+        })
+
+      util.fetchTopTracks(access_token)
+        .then(data => {
+          this.setState(() => ({
+            ...this.state,
+            user : {
+              ...this.state.user,
+              topTracks : data
+            }
+          }))
+        })
+
+      
+      util.fetchTopArtists(access_token)
+        .then(data => {
+          this.setState(() => ({
+            ...this.state,
+            user : {
+              ...this.state.user,
+              topArtists : data
+            }
+          }))
+        })
+        .then(() => this.updateGenre())
+        .then(genre => {
+          console.log(genre)
+          this.setState(() => ({
+            ...this.state,
+            user : {
+              ...this.state.user,
+              recommendedGenre : genre
+            }
+        }))
+      })
+        .then(() => console.log(this.state.user))
+      
     }
   
   
+    updateGenre = async () => {
+        var genre = []
+        this.state.user.topArtists.items.slice(0,10).map((artist)=> {
+          var temp = artist.genres
+          genre = genre.concat(temp)
+          genre = _.uniq(genre)
+        })
+        return genre
+    }
+
+
+
     onUpdate = (content) => {
       this.setState(() => ({
         content
@@ -131,12 +213,13 @@ class Main extends Component{
       }
     }
   
-    render(){
+    render() {
       return(
         
         <Wrapper> 
-            {/* <div id='button'> */}
-            <UserModal />
+            {/* {console.log(this.state.user)} */}
+            <h3 style={{'textAlign' :'center'}}>Welcome</h3>
+            <UserModal userObject={this.state.user} />
             <Link to='/main'>
               <App setTooltipContent={(e) => this.onUpdate(e)} setTooltip={this.tooltipRender}/>
             </Link>
@@ -149,6 +232,8 @@ class Main extends Component{
         </Wrapper>  
       );
     }
+
+
   
     // end of Main Class
   }

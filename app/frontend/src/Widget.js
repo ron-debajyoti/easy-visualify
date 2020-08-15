@@ -18,7 +18,7 @@ class PlayWidget extends Component{
       `${this.props.viewCoverArt ? '&view=coverart' : ''}`;
 
       return(
-          <iframe title={this.props.title}
+          <embed title={this.props.title}
                     src={src}
                     width={this.props.width}
                     height={this.props.height}/>
