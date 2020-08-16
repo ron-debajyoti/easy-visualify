@@ -11,9 +11,8 @@ var app=express()
 app.set('json spaces',2)
 let port = process.env.PORT || 3001
 let address = process.env.MONGODB_HOST || "mongodb://localhost:27017/"
-app
-    .use(cors())
-    // .use(express.static(path.join(__dirname,"../frontend/build")))
+app.use(cors())
+    .use(express.static(path.join(__dirname,"../frontend/build")))
     // .use(
     //     history({
     //         verbose: true,
@@ -39,7 +38,7 @@ app
 // });
 
 
-app.all('/request', function(req, res, next) {
+app.all('/*', function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();

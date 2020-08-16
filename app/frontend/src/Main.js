@@ -1,5 +1,4 @@
-import React, {Component} from 'react';
-import queryString from 'query-string'
+import React, {Component} from 'react'
 import App from './App'
 import PlayWidget from './Widget'
 import {Link} from 'react-router-dom'
@@ -185,6 +184,7 @@ class Main extends Component{
                 <PlayWidget width={300} height={100} uri={this.state.content[0][6].uri} />
                 <PlayWidget width={300} height={100} uri={this.state.content[0][7].uri} />
                 <PlayWidget width={300} height={100} uri={this.state.content[0][8].uri} />
+                <PlayWidget width={300} height={100} uri={this.state.content[0][9].uri} />
               </ol>
             </WidgetWrapper>
           )
@@ -203,6 +203,7 @@ class Main extends Component{
                 <PlayWidget width={300} height={100} uri={this.state.content[1][6].uri} />
                 <PlayWidget width={300} height={100} uri={this.state.content[1][7].uri} />
                 <PlayWidget width={300} height={100} uri={this.state.content[1][8].uri} />
+                <PlayWidget width={300} height={100} uri={this.state.content[1][9].uri} />
               </ol>
             </WidgetWrapper>
           )
@@ -218,7 +219,7 @@ class Main extends Component{
         
         <Wrapper> 
             {/* {console.log(this.state.user)} */}
-            <h3 style={{'textAlign' :'center'}}>Welcome</h3>
+            <h1 style={{'textAlign' :'center'}}>Welcome</h1>
             <UserModal userObject={this.state.user} />
             <Link to='/main'>
               <App setTooltipContent={(e) => this.onUpdate(e)} setTooltip={this.tooltipRender}/>

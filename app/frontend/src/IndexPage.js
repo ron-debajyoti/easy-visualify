@@ -2,8 +2,6 @@ import React, {Component} from 'react'
 import {Route, Switch, Link} from 'react-router-dom'
 import styled from 'styled-components/macro'
 import {AuthenticatedRoute} from './Authenticate'
-import Main from './Main'
-import Cookies from 'js-cookie'
 
 const Title = styled.h1`
     font-size: 1.5em;
