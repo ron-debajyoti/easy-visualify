@@ -13,30 +13,30 @@ let port = process.env.PORT || 3001
 let address = process.env.MONGODB_HOST || "mongodb://localhost:27017/"
 app
     .use(cors())
-    .use(express.static(path.join(__dirname,"../frontend/build")))
-    .use(
-        history({
-            verbose: true,
-            rewrites: [
-                { from: /\/login/, to: '/login' },
-                { from: /\/callback/, to: '/callback' },
-                { from: /\/refresh_token/, to: '/refresh_token' },
-                { from: /\/request/, to: '/request' } 
-            ]
-        })
-    )
+    // .use(express.static(path.join(__dirname,"../frontend/build")))
+    // .use(
+    //     history({
+    //         verbose: true,
+    //         rewrites: [
+    //             { from: /\/login/, to: '/login' },
+    //             { from: /\/callback/, to: '/callback' },
+    //             { from: /\/refresh_token/, to: '/refresh_token' },
+    //             { from: /\/request/, to: '/request' } 
+    //         ]
+    //     })
+    // )
 
 
 
 
-app.get('*', function(req, res) {
-    res.sendFile(path.resolve(__dirname, '../frontend/build', 'index.html'));
-  });
+// app.get('*', function(req, res) {
+//     res.sendFile(path.resolve(__dirname, '../frontend/build', 'index.html'));
+//   });
 
 
-app.get('/', function (req, res) {
-res.render(path.resolve(__dirname, '../frontend/build/index.html'));
-});
+// app.get('/', function (req, res) {
+// res.render(path.resolve(__dirname, '../frontend/build/index.html'));
+// });
 
 
 app.all('/request', function(req, res, next) {
