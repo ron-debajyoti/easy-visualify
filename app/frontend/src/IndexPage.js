@@ -1,10 +1,9 @@
 import React, {Component} from 'react'
-import {Route, Link, Switch} from 'react-router-dom'
+import {Route, Switch, Link} from 'react-router-dom'
 import styled from 'styled-components/macro'
 import {AuthenticatedRoute} from './Authenticate'
 import Main from './Main'
 import Cookies from 'js-cookie'
-require('dotenv').config()
 
 const Title = styled.h1`
     font-size: 1.5em;
@@ -30,11 +29,10 @@ class IndexPage extends Component{
                 <Title>
                     Easy Visualify
                 </Title>
-                <Link to='/login'>
-                    <Button onClick={() => { 
-                        var url = process.env.AUTH_URL; 
-                        window.location.href= url}
-                        }> Click to Enter </Button>
+                <Link to='/'>
+                    <Button onClick={() => {window.location.href = process.env.REACT_APP_AUTH_URL || "localhost:3001/login"}}>
+                        Log In
+                    </Button>
                 </Link>
             </Wrapper>
         )    

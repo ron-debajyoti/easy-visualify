@@ -25,14 +25,14 @@ export const fetchUserData = (access_token) =>
     .catch(err => console.log(err))
 
 export const fetchTopTracks = (access_token) =>
-    fetch('https://api.spotify.com/v1/me/top/tracks?limit=15', {
+    fetch('https://api.spotify.com/v1/me/top/tracks', {
         headers : {'Authorization': ' Bearer ' + access_token}
     })
     .then(response => response.json())
     .catch(err => console.log(err))
 
 export const fetchTopArtists = (access_token) => 
-    fetch('https://api.spotify.com/v1/me/top/artists?limit=15',{
+    fetch('https://api.spotify.com/v1/me/top/artists',{
         headers : {'Authorization': ' Bearer ' + access_token}
     })
     .then(response => response.json())

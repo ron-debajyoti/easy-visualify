@@ -30,9 +30,9 @@
     "start": "serve -s build ",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "heroku-postbuild": "npm run build"
+    "eject": "react-scripts eject"
   },
+  "homepage":"https://easy-visualify.herokuapp.com",
   "browserslist": {
     "production": [
       ">0.2%",
