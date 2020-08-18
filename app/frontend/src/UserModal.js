@@ -2,6 +2,9 @@ import React,{Component} from 'react'
 import ReactModal from 'react-modal'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
+import Cookies from 'js-cookie'
+import * as util from './utils/Utility'
+import {Radar} from 'react-chartjs-2'
 
 const Button = styled.button`
     font-size: 1em;
@@ -135,10 +138,13 @@ class UserModal extends Component {
     constructor () {
       super();
       this.state = {
-        showModal: false
+        showModal: false,
+        chartData : null
       };
       this.handleOpenModal = this.handleOpenModal.bind(this);
       this.handleCloseModal = this.handleCloseModal.bind(this);
+      this.visualTrackData = this.visualTrackData.bind(this);
+      this.renderChart = this.renderChart.bind(this);
     }
 
     static propTypes = {
@@ -146,6 +152,73 @@ class UserModal extends Component {
     }
     
 
+    visualTrackData = () => {
+      var access_token = Cookies.get('access_token')
+      var datatype = {
+        "danceability": 0,
+        "energy": 0,
+        "key": 0,
+        "loudness": 0,
+        "mode": 0,
+        "speechiness": 0,
+        "acousticness": 0,
+        "instrumentalness": 0,
+        "liveness": 0,
+        "valence": 0,
+        "tempo": 0
+      }
+
+      return Promise.all( 
+        this.props.userObject.topTracks.map(track => 
+          util.fetchAudioFeatures(access_token,track.id)
+          .then(response => {
+            for (let [key,value] of Object.entries(response)){
+              datatype[key] = datatype[key]+value/30
+            }
+            return datatype
+          })
+        )
+      ).then(data => data.slice(0,1))
+      .then(data => {
+        this.setState(() => ({
+          ...this.state,
+          chartData:data[0]
+        }))
+      })
+
+      //end of visualTrackData
+    }
+
+
+    renderChart = () => {
+      this.visualTrackData()
+      .then(() => {
+        var renderData = []
+        var labelData = []
+        if(this.state.chartData !== null){
+          for (let [key, value] of Object.entries(this.state.chartData)){
+            renderData.concat(value)
+            labelData.concat(key)
+          }
+          const data = {
+            labels : labelData,
+            datasets : [{
+              label: 'Top 30 songs analysis',
+              backgroundColor: 'rgba(179,181,198,0.2)',
+              data : renderData
+            }]
+          }
+          return data
+        }
+        else{
+          console.log(this.state.chartData)
+          console.log('broken')
+          return null
+        }
+      })
+
+      
+    }
 
     
     handleOpenModal () {
@@ -157,6 +230,10 @@ class UserModal extends Component {
     }
     
     checkPropIsNull = () => {
+      this.renderChart()
+      .then(() => {
+        
+      })
       if(this.props.userObject.display_name.length > 0){
         return (
           <div>
@@ -210,8 +287,8 @@ class UserModal extends Component {
                 {this.props.userObject.recommendedGenre? (
                   <ul>
                     {this.props.userObject.recommendedGenre.slice(0,10).map((item,i) => (
-                      <Artist>
-                      <ArtistName key={i}>
+                      <Artist key={i}>
+                      <ArtistName >
                         <span>{item}</span>
                       </ArtistName>
                       </Artist>
@@ -220,26 +297,9 @@ class UserModal extends Component {
                 ) : (<div></div>)}
               </div>
               </Heading>
-
+            
             </MinorWrapper>
-
-            <MinorWrapper>
-              {/* <Heading>
-                <h3>Top Music Genre</h3>
-              </Heading>
-              <div>
-                {this.props.userObject.recommendedGenre? (
-                  <ol>
-                    {this.props.userObject.recommendedGenre.slice(0,10).map((item,i) => (
-                      <ArtistName key={i}>
-                        <span>{item}</span>
-                      </ArtistName>
-                    ))}
-                  </ol>
-                ) : (<div></div>)}
-              </div> */}
-            </MinorWrapper>
-
+            <Button onClick={this.renderChart}>View Track Analysis</Button>
 
 
 

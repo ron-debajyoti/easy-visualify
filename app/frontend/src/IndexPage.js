@@ -28,7 +28,7 @@ class IndexPage extends Component{
                     Easy Visualify
                 </Title>
                 <Link to='/'>
-                    <Button onClick={() => {window.location.href = process.env.REACT_APP_AUTH_URL || "localhost:3001/login"}}>
+                    <Button onClick={() => {window.location.href = process.env.REACT_APP_AUTH_URL}}>
                         Log In
                     </Button>
                 </Link>

@@ -98,7 +98,7 @@ class Main extends Component{
             ...this.state,
             user : {
               ...this.state.user,
-              topTracks : data
+              topTracks : data.items
             }
           }))
         })
