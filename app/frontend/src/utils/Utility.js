@@ -27,6 +27,13 @@ export const fetchTopTracks = (access_token) =>
         headers : {'Authorization': ' Bearer ' + access_token}
     })
     .then(response => response.json())
+    .then(response => {
+        if(response.items.count < 0)
+            throw "Empty item"
+        else{
+            return response
+        }
+    })
     .catch(err => console.log(err))
 
 export const fetchTopArtists = (access_token) => 

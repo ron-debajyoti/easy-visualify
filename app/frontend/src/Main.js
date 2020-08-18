@@ -67,7 +67,8 @@ class Main extends Component{
         topTracks: null,
         topArtists: null,
         recommendedGenre: null
-      }
+      },
+      allUpdated :false
     }
   
     componentDidMount(){
@@ -76,7 +77,9 @@ class Main extends Component{
       // console.log(accessToken)
       var access_token = Cookies.get('access_token')
       console.log(access_token)
-      util.fetchUserData(access_token)
+
+      Promise.all(
+        [util.fetchUserData(access_token)
         .then(data => {
           this.setState(() => ({
             ...this.state,
@@ -90,42 +93,46 @@ class Main extends Component{
               product:data.product
             }
           }))
-        })
-
-      util.fetchTopTracks(access_token)
-        .then(data => {
-          this.setState(() => ({
-            ...this.state,
-            user : {
-              ...this.state.user,
-              topTracks : data.items
-            }
-          }))
-        })
-
-      
-      util.fetchTopArtists(access_token)
-        .then(data => {
-          this.setState(() => ({
-            ...this.state,
-            user : {
-              ...this.state.user,
-              topArtists : data
-            }
-          }))
-        })
-        .then(() => this.updateGenre())
-        .then(genre => {
-          console.log(genre)
-          this.setState(() => ({
-            ...this.state,
-            user : {
-              ...this.state.user,
-              recommendedGenre : genre
-            }
+        }),
+        util.fetchTopTracks(access_token)
+          .then(data => {
+            this.setState(() => ({
+              ...this.state,
+              user : {
+                ...this.state.user,
+                topTracks : data.items
+              }
+            }))
+          }),        
+        util.fetchTopArtists(access_token)
+          .then(data => {
+            this.setState(() => ({
+              ...this.state,
+              user : {
+                ...this.state.user,
+                topArtists : data
+              }
+            }))
+          })
+          .then(() => this.updateGenre())
+          .then(genre => {
+            this.setState(() => ({
+              ...this.state,
+              user : {
+                ...this.state.user,
+                recommendedGenre : genre
+              }
+            }))
+          })
+        ])
+      .then(() => {
+        this.setState(() => ({
+          ...this.state,
+          allUpdated : true
         }))
       })
-        .then(() => console.log(this.state.user))
+      .then(() => console.log(this.state))
+      
       
     }
   
@@ -215,23 +222,31 @@ class Main extends Component{
     }
   
     render() {
-      return(
-        
-        <Wrapper> 
-            {/* {console.log(this.state.user)} */}
-            <h1 style={{'textAlign' :'center'}}>Welcome</h1>
-            <UserModal userObject={this.state.user} />
-            <Link to='/main'>
-              <App setTooltipContent={(e) => this.onUpdate(e)} setTooltip={this.tooltipRender}/>
-            </Link>
-            <ButtonWrapper>
-              <TriggerButton className="Top10" onClick={() => this.onButtonClick("top")}> View Top 10 </TriggerButton>
-              <TriggerButton className="Viral10" onClick={() => this.onButtonClick("viral")}> View Viral 10 </TriggerButton>
-            </ButtonWrapper>
-            <this.IsValidData />
-            <ReactTooltip>{this.state.country}</ReactTooltip>
-        </Wrapper>  
-      );
+      if(this.state.allUpdated){
+        return(
+          <Wrapper> 
+              {/* {console.log(this.state.user)} */}
+              <h1 style={{'textAlign' :'center'}}>Welcome</h1>
+              <UserModal userObject={this.state.user} />
+              <Link to='/main'>
+                <App setTooltipContent={(e) => this.onUpdate(e)} setTooltip={this.tooltipRender}/>
+              </Link>
+              <ButtonWrapper>
+                <TriggerButton className="Top10" onClick={() => this.onButtonClick("top")}> View Top 10 </TriggerButton>
+                <TriggerButton className="Viral10" onClick={() => this.onButtonClick("viral")}> View Viral 10 </TriggerButton>
+              </ButtonWrapper>
+              <this.IsValidData />
+              <ReactTooltip>{this.state.country}</ReactTooltip>
+          </Wrapper>  
+        );
+      }
+      else{
+        console.log('okay somethings wrong here')
+        return(
+          <h1>Please wait!</h1>
+        )
+      }
+      
     }
 
 

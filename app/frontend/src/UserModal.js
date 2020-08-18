@@ -118,7 +118,7 @@ const Heading = styled.div`
   display: inline-block;
   float : left;
   justify-content: space-between;
-  margin: 20px 20px
+  margin: 40px 50px
   h3 {
     display: inline-block;
     margin: 0;
@@ -150,6 +150,10 @@ class UserModal extends Component {
     static propTypes = {
       userObject: PropTypes.object.isRequired
     }
+
+    componentDidMount(){
+      this.renderChart()
+    }
     
 
     visualTrackData = () => {
@@ -157,9 +161,6 @@ class UserModal extends Component {
       var datatype = {
         "danceability": 0,
         "energy": 0,
-        "key": 0,
-        "loudness": 0,
-        "mode": 0,
         "speechiness": 0,
         "acousticness": 0,
         "instrumentalness": 0,
@@ -172,6 +173,7 @@ class UserModal extends Component {
         this.props.userObject.topTracks.map(track => 
           util.fetchAudioFeatures(access_token,track.id)
           .then(response => {
+            // console.log(response)
             for (let [key,value] of Object.entries(response)){
               datatype[key] = datatype[key]+value/30
             }
@@ -179,12 +181,6 @@ class UserModal extends Component {
           })
         )
       ).then(data => data.slice(0,1))
-      .then(data => {
-        this.setState(() => ({
-          ...this.state,
-          chartData:data[0]
-        }))
-      })
 
       //end of visualTrackData
     }
@@ -192,29 +188,42 @@ class UserModal extends Component {
 
     renderChart = () => {
       this.visualTrackData()
-      .then(() => {
+      .then((dataPassed) => {
         var renderData = []
         var labelData = []
-        if(this.state.chartData !== null){
-          for (let [key, value] of Object.entries(this.state.chartData)){
-            renderData.concat(value)
-            labelData.concat(key)
+        if(dataPassed[0] !== null || dataPassed[0] !== undefined){
+          for (var item in dataPassed[0]){
+            labelData = labelData.concat(item)
+            renderData = renderData.concat(dataPassed[0][item])
           }
+          // console.log(labelData)
+          // console.log(renderData)
           const data = {
-            labels : labelData,
+            labels : labelData.slice(0,7),
             datasets : [{
               label: 'Top 30 songs analysis',
-              backgroundColor: 'rgba(179,181,198,0.2)',
-              data : renderData
+              backgroundColor: 'rgba(255,99,132,0.2)',
+              borderColor: 'rgba(179,181,198,1)',
+              pointBackgroundColor: 'rgba(179,181,198,1)',
+              pointBorderColor: '#fff',
+              pointHoverBackgroundColor: '#fff',
+              pointHoverBorderColor: 'rgba(179,181,198,1)',
+              data : renderData.slice(0,7)
             }]
           }
           return data
         }
         else{
-          console.log(this.state.chartData)
+          console.log(dataPassed[0])
           console.log('broken')
           return null
         }
+      })
+      .then(data => {
+        this.setState(() => ({
+          ...this.state,
+          chartData:data
+        }))
       })
 
       
@@ -230,10 +239,6 @@ class UserModal extends Component {
     }
     
     checkPropIsNull = () => {
-      this.renderChart()
-      .then(() => {
-        
-      })
       if(this.props.userObject.display_name.length > 0){
         return (
           <div>
@@ -280,7 +285,6 @@ class UserModal extends Component {
               </div>
               </Heading>
               
-              
               <Heading>
                 <h3>Top Music Genre</h3>
                 <div>
@@ -298,12 +302,9 @@ class UserModal extends Component {
               </div>
               </Heading>
             
+              
             </MinorWrapper>
-            <Button onClick={this.renderChart}>View Track Analysis</Button>
-
-
-
-
+            <Radar data={this.state.chartData} options={{legend:{fontsize:20}}} />
             <Button onClick={this.handleCloseModal}>Close</Button>
           </div>
         )
