@@ -15,7 +15,6 @@ const getAccessToken = () => Cookies.get('access_token')
 const getRefreshToken = () => Cookies.get('refresh_token')
 const isAuthenticated = () => {
     const temp = getAccessToken()
-    console.log(temp)
     if(temp === undefined) return false
     else return true
 }
@@ -28,7 +27,6 @@ const redirectToLogin = () => {
 
 const setTokens = () => {
     const tokens = queryString.parse(window.location.search)
-    console.log(tokens)
     if(util.isEmpty(tokens)){
         return false
     }

@@ -76,8 +76,6 @@ class Main extends Component{
       // console.log(queryString.parse(window.location.search))
       // console.log(accessToken)
       var access_token = Cookies.get('access_token')
-      console.log(access_token)
-
       Promise.all(
         [util.fetchUserData(access_token)
         .then(data => {
@@ -131,8 +129,6 @@ class Main extends Component{
           allUpdated : true
         }))
       })
-      .then(() => console.log(this.state))
-      
       
     }
   
@@ -217,6 +213,9 @@ class Main extends Component{
         }
       }
       else{
+        if(this.state.content[0] === 's'){
+          return (<WidgetTitle> Click on a country to begin! </WidgetTitle>)
+        }
         return (<WidgetTitle> Spotify is not supported in {this.state.content[0]} !</WidgetTitle>)
       }
     }
@@ -241,9 +240,9 @@ class Main extends Component{
         );
       }
       else{
-        console.log('okay somethings wrong here')
+        console.log('okay page is loading')
         return(
-          <h1>Please wait!</h1>
+          <h3 style={{'textAlign':'center'}}>Loading ... </h3>
         )
       }
       

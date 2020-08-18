@@ -95,7 +95,7 @@ class App extends Component{
 
     return(
       <div>
-        <ComposableMap data-tip="" projectionConfig={{scale:175}}>
+        <ComposableMap data-tip="" projectionConfig={{scale:150}}>
           <ZoomableGroup zoom={1}>
             <Geographies geography={geoUrl}>
               {({ geographies }) =>

@@ -19,8 +19,9 @@ const Button = styled.button`
 const Img = styled.img`
   float: left;
   border-radius : 100%;
-  width: 400%;
+  width: 450%;
   height: auto;
+  margin: 5px
 `
 
 const Wrapper = styled.div`
@@ -121,7 +122,7 @@ const Heading = styled.div`
   margin: 40px 50px
   h3 {
     display: inline-block;
-    margin: 0;
+    margin: 10;
   }
 `
 const MinorWrapper = styled.section`
@@ -284,8 +285,8 @@ class UserModal extends Component {
                 ) : (<div></div>)}
               </div>
               </Heading>
-              
-              <Heading>
+              <div style={{'margin':'10px'}}></div>
+              <Heading style>
                 <h3>Top Music Genre</h3>
                 <div>
                 {this.props.userObject.recommendedGenre? (
