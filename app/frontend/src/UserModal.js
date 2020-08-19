@@ -73,8 +73,6 @@ const Stat = styled.div`
 
 const Stats = styled.div`
     display: flex;
-    // grid-template-columns: repeat(3, 1fr);
-    // grid-gap: 30px;
     margin-top: 20px;
 `
 
@@ -127,10 +125,8 @@ const Heading = styled.div`
 `
 const MinorWrapper = styled.section`
   display: flex;
-  // grid-template-columns: 1fr 1fr;
-  // grid-gap: 70px;
   width: 70%;
-  // float : left;
+  justify-content: center;
   margin-top: 100px;
   overflow: auto;
 `

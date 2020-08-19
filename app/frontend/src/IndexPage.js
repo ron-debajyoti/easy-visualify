@@ -2,21 +2,34 @@ import React, {Component} from 'react'
 import {Route, Switch, Link} from 'react-router-dom'
 import styled from 'styled-components/macro'
 import {AuthenticatedRoute} from './Authenticate'
+import Background from './images/map.png'
 
 const Title = styled.h1`
     font-size: 1.5em;
-    text-align: center;
+    margin: 0px 0px 10px;
+    float: center;
 `
-const Wrapper = styled.div`
-    padding: 4em;
+const Wrapper = styled.main`
+    height: 100%;
+    min-height: 100vh;
+    box-sizing: inherit;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-image: url(${Background});
 `
 const Button = styled.button`
     font-size: 1em;
     margin: 1em;
     padding: 0.25em 1em;
-    text-align = center;
-    border: 2px solid palevioletred;
-    border-radius: 3px;
+    background-color: rgb(29,185,84);
+    color: white;
+    text-align : center;
+    border: 2px solid black;
+    border-radius: 20px;
 `
 
 class IndexPage extends Component{

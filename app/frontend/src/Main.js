@@ -38,6 +38,7 @@ const Wrapper = styled.div`
 const WidgetTitle = styled.div`
   font-size: 1.5em;
   float: center;
+  margin: 50px 10px
   text-align: left;
   color: palevioletred;
   background-color: white;
@@ -151,8 +152,8 @@ class Main extends Component{
         })
       )
       console.log("updated state !")
-      console.log(this.state.contentType)
-      console.log(this.state.content)
+      // console.log(this.state.contentType)
+      // console.log(this.state.content)
     }
   
   
