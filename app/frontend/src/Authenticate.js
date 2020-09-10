@@ -9,13 +9,23 @@ const WrongPage = styled.div`
     font-size: 1.5em;
     text-align: center
 `
+const EXPIRATION_TIME = 60*60*1000
 
-
+const setTimestamp = () => {
+    window.localStorage.setItem('token_timestamp',Date.now())
+}
+const getTimestamp = () => window.localStorage.getItem('token_timestamp')
 const getAccessToken = () => Cookies.get('access_token')
 const getRefreshToken = () => Cookies.get('refresh_token')
 const isAuthenticated = () => {
     const temp = getAccessToken()
-    if(temp === undefined) return false
+    if(temp === undefined || ((Date.now()-getTimestamp())>EXPIRATION_TIME ) ){
+        var re_token = getRefreshToken()
+        if(re_token === undefined) return false
+        else{
+            return refreshAccessToken(re_token)
+        }
+    }
     else return true
 }
 
@@ -31,15 +41,27 @@ const setTokens = () => {
         return false
     }
     else{
-        // console.log(tokens.access_token)
-        const expires = (tokens.expires_in || 60*60 ) * 1000
-        const oneHour = new Date(new Date().getTime() + expires)
-
-        Cookies.set('access_token',tokens.access_token, {expires : oneHour})
+        setTimestamp()
+        Cookies.set('access_token',tokens.access_token)
         Cookies.set('refresh_token', tokens.refresh_token)
         return true
     }
     
+}
+
+const refreshAccessToken = async (refresh_token) => {
+    try{
+        var access_token = await util.getNewAccessToken(refresh_token)
+        if(access_token === undefined || access_token === null)return false
+        else{
+            setTimestamp()
+            Cookies.set('access_token',access_token)
+            return true
+        }
+    }
+    catch(e){
+        console.error(e)
+    }
 }
 
 

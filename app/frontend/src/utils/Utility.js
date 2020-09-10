@@ -2,12 +2,25 @@ require('dotenv').config()
 const fetch = require('node-fetch')
 
 var url = process.env.BACKEND_URL || "https://easy-visualify-backend.herokuapp.com/request/"
+var url2 = process.env.REACT_APP_AUTHEN_URL || 'http://localhost:8888/refresh_token'
 export const fetchData = () => 
     fetch(url, {
         method: 'GET'
     })
     .then(response => response.json())
     .catch( err => console.log(err))
+
+
+export const getNewAccessToken = (refresh_token) =>{
+    return fetch(url, {
+        method:'GET',
+        headers: {
+            refresh_token: refresh_token
+        }
+    })
+    .catch(err => console.log(err))
+}
+
 
 
 export const isEmpty = (obj) => {

@@ -71,7 +71,6 @@ app.get('/login',(req,res) => {
     res.redirect(redirect_uri)
 })
 
-
 // app.get('/refresh_token', (req,res) => {
 //     var refresh_token = req.query.refresh_token
 //     const authOptions = {
