@@ -31,7 +31,7 @@ const isAuthenticated = () => {
 
 const redirectToLogin = () => {
     console.log('this is called')
-    this.history.push('/login')
+    this.props.history.push('/')
   }
 
 
@@ -67,7 +67,8 @@ const refreshAccessToken = async (refresh_token) => {
 
 const authenticate = async () => {
     // console.log("k")
-    if(getRefreshToken() && getAccessToken()){
+    if(getRefreshToken() && getAccessToken() && ((Date.now()-getTimestamp())< EXPIRATION_TIME )){
+        console.log('problem in here ')
       return true
     }
     redirectToLogin()
@@ -104,9 +105,10 @@ class Authenticate extends Component{
 
 export const AuthenticatedRoute =() => {
     var temp = isAuthenticated()
-    // console.log(temp)
+    
     var temp2 = setTokens()
-    // console.log(temp2)
+    //console.log(temp)
+    //console.log(temp2)
     if(temp || temp2 ){
         // console.log('yaya')
         return (

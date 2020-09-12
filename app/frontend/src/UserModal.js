@@ -5,6 +5,7 @@ import styled from 'styled-components/macro'
 import Cookies from 'js-cookie'
 import * as util from './utils/Utility'
 import {Radar} from 'react-chartjs-2'
+var _ = require('lodash')
 
 const Button = styled.button`
     font-size: 1em;
@@ -52,6 +53,11 @@ const Name = styled.h1`
     float: left;
     margin: 20px 0 0;
 `
+
+const ChartTitle = styled.h3`
+    text-align : center;
+`
+
 const Number = styled.div`
   color: black;
   font-weight: 500;
@@ -152,6 +158,8 @@ class UserModal extends Component {
       this.renderChart()
     }
     
+    
+
 
     visualTrackData = () => {
       var access_token = Cookies.get('access_token')
@@ -165,6 +173,13 @@ class UserModal extends Component {
         "valence": 0,
         "tempo": 0
       }
+      var template = {
+        'name': null,
+        'description': null,
+        'tracks': [],
+        'trackAnalysis':null,
+        'count': 0
+      }
 
       return Promise.all( 
         this.props.userObject.topTracks.map(track => 
@@ -176,9 +191,98 @@ class UserModal extends Component {
             }
             return datatype
           })
-        )
-      ).then(data => data.slice(0,1))
+        ).concat(
+        this.props.userObject.userPlaylists.map(playlist => {
+          if(playlist.owner.display_name === this.props.userObject.display_name){
+            var offset= 0
+            var playlistTemp = JSON.parse(JSON.stringify(template))
+            playlistTemp.name = playlist.name
+            playlistTemp.description = playlist.description
 
+            var checker = async (access_token,playlist,offset) => {
+              if(offset < playlist.tracks.total){
+                return util.fetchTracksfromPlaylists(access_token,playlist.href,offset)
+                  .then(response => {
+                    playlistTemp.tracks = playlistTemp.tracks.concat(response.items)
+                    //console.log(playlistTemp.tracks)
+                    offset += 100
+                  })
+                  .then(() => checker(access_token,playlist,offset))
+              }
+              else{
+                return playlistTemp
+              }
+            }
+            return checker(access_token,playlist,offset)
+              .then(() => {
+                playlistTemp.count = playlistTemp.tracks.length
+                // console.log(playlistTemp)
+                return playlistTemp
+              })
+          }
+          // else{
+          //   return null
+          // }
+        })
+        )
+      ).then(data => {
+        var topSongsData = data.slice(0,1)
+        var playlistData = data.slice(30,data.length)
+
+        var pd = playlistData.map(async playlist => {
+          if(playlist !== undefined){
+            var datatype = {
+              "danceability": 0,
+              "energy": 0,
+              "speechiness": 0,
+              "acousticness": 0,
+              "instrumentalness": 0,
+              "liveness": 0,
+              "valence": 0,
+              "tempo": 0
+            }
+            var template = {
+              'name': playlist.name,
+              'description': playlist.description,
+              'trackData': null
+            }
+            //our batchsize = 100 tracks
+            //our timeout = 1000ms
+            var f = async (arrayTracks) => 
+                util.fetchAudioFeaturesForMultipleTracks(access_token,arrayTracks)
+                  .then(response => {
+                    return response.audio_features.map(r => {
+                      for (let [key,value] of Object.entries(r)){
+                        datatype[key] = datatype[key]+value/playlist.count
+                      }
+                      return datatype
+                    }) 
+                  })
+            
+
+            //looping across the playlist.track in batches of 100 to avoid API rate limit exceeded error 
+            var i,j, chunk=100;
+            let promises = []
+            for(i=0; j=playlist.tracks.length, i<j; i+=chunk){
+              let block = playlist.tracks.slice(i,i+chunk).map(t=> t.track.id).join()
+              promises.push(f(block)
+                .then(response => {
+                  response = response.slice(0,1)[0]
+                  template.trackData = JSON.parse(JSON.stringify(response))
+                  return template
+                }))
+              }
+            return Promise.all(promises)
+          }
+        })
+        
+        return Promise.all(pd)
+          .then(data => data.filter( item => item !==undefined))
+          .then(data => data.map(item => item[0]))
+          .then(data => {
+            return ({'topSongsData':topSongsData,'playlistData':data})
+          })
+      })
       //end of visualTrackData
     }
 
@@ -186,35 +290,58 @@ class UserModal extends Component {
     renderChart = () => {
       this.visualTrackData()
       .then((dataPassed) => {
-        var renderData = []
+        var playlistData = JSON.parse(JSON.stringify(dataPassed.playlistData))
+        var topSongsData = dataPassed.topSongsData[0]
+
+        var datasets = []
         var labelData = []
-        if(dataPassed[0] !== null || dataPassed[0] !== undefined){
-          for (var item in dataPassed[0]){
+        //modeling data for Top 30 songs
+        if(topSongsData !== null || topSongsData !== undefined){
+          var temp = []
+          for (var item in topSongsData){
             labelData = labelData.concat(item)
-            renderData = renderData.concat(dataPassed[0][item])
+            temp = temp.concat(topSongsData[item])
           }
-          // console.log(labelData)
-          // console.log(renderData)
-          const data = {
-            labels : labelData.slice(0,7),
-            datasets : [{
-              label: 'Top 30 songs analysis',
-              backgroundColor: 'rgba(255,99,132,0.2)',
-              borderColor: 'rgba(179,181,198,1)',
-              pointBackgroundColor: 'rgba(179,181,198,1)',
+          datasets = datasets.concat({
+            label: 'Top 30 songs analysis',
+            backgroundColor: 'rgba(255,99,132,0.2)',
+            borderColor: 'rgba(179,181,198,1)',
+            pointBackgroundColor: 'rgba(179,181,198,1)',
+            pointBorderColor: '#fff',
+            pointHoverBackgroundColor: '#fff',
+            pointHoverBorderColor: 'rgba(179,181,198,1)',
+            data : temp.slice(0,7)
+          })
+        }
+
+        // modeling data for Playlists
+        playlistData.forEach((item) => {
+          if(item.trackData !==null || item.trackData !== undefined){
+            temp = []
+            for (var i in item.trackData){
+              temp = temp.concat(item.trackData[i])
+            }
+            var backgroundColor = '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6)
+            var borderColor = '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6)
+            datasets = datasets.concat({
+              label: item.name,
+              backgroundColor: backgroundColor,
+              borderColor:borderColor,
+              pointBackgroundColor:borderColor,
               pointBorderColor: '#fff',
-              pointHoverBackgroundColor: '#fff',
-              pointHoverBorderColor: 'rgba(179,181,198,1)',
-              data : renderData.slice(0,7)
-            }]
+              pointHoverBackgroundColor:'#fff',
+              pointHoverBorderColor: borderColor,
+              data : temp.slice(0,7)
+            })
           }
-          return data
+        })
+
+        // console.log(datasets)
+        const data = {
+          labels : labelData.slice(0,7),
+          datasets : datasets
         }
-        else{
-          console.log(dataPassed[0])
-          console.log('broken')
-          return null
-        }
+        return data
       })
       .then(data => {
         this.setState(() => ({
@@ -301,7 +428,10 @@ class UserModal extends Component {
             
               
             </MinorWrapper>
-            <Radar data={this.state.chartData} options={{legend:{fontsize:20}}} />
+            <div>
+              <ChartTitle> Audio Analysis of Tracks and Playlists </ChartTitle>
+              <Radar data={this.state.chartData} options={{legend:{fontsize:20}}} />
+            </div>
             <Button onClick={this.handleCloseModal}>Close</Button>
           </div>
         )

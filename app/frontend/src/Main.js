@@ -67,7 +67,8 @@ class Main extends Component{
         product: null,
         topTracks: null,
         topArtists: null,
-        recommendedGenre: null
+        recommendedGenre: null,
+        userPlaylists: null,
       },
       allUpdated :false
     }
@@ -102,7 +103,17 @@ class Main extends Component{
                 topTracks : data.items
               }
             }))
-          }),        
+          }),     
+        util.fetchUserPlaylists(access_token)
+          .then(data => {
+            this.setState(() => ({
+              ...this.state,
+              user : {
+                ...this.state.user,
+                userPlaylists: data.items
+              }
+            }))
+          }),
         util.fetchTopArtists(access_token)
           .then(data => {
             this.setState(() => ({
