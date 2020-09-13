@@ -321,8 +321,11 @@ class UserModal extends Component {
             for (var i in item.trackData){
               temp = temp.concat(item.trackData[i])
             }
-            var backgroundColor = '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6)
-            var borderColor = '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6)
+            var backgroundColor = '#33'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6)
+            var borderColor = '#33'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6)
+
+            console.log(backgroundColor)
+            console.log(borderColor)
             datasets = datasets.concat({
               label: item.name,
               backgroundColor: backgroundColor,
