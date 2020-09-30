@@ -47,11 +47,11 @@ app.all('/*', function(req, res, next) {
 app.get('/request',(req,res) => {
     mongoclient.connect(address, (err,client) => {
         if (err) throw err
-
         var messageData =[]
         var db = client.db("visualify")
         var topPlaylists = db.collection("myCollection")
         var viralPlaylists = db.collection("viralCollections")
+        var radarPlaylists = db.collection("radarCollections")
 
         topPlaylists.find().toArray((err,result) => {
             if (err) throw err
@@ -59,7 +59,13 @@ app.get('/request',(req,res) => {
             viralPlaylists.find().toArray((err,result2) => {
                 if (err) throw err
                 messageData.push({'viralPlaylists' : result2})
-                res.send(JSON.stringify(messageData))
+                radarPlaylists.find().toArray((err,result3) => {
+                    if (err) throw err
+
+                    console.log('done till here ')
+                    messageData.push({'radarPlaylists' : result3})
+                    res.send(JSON.stringify(messageData))
+                })
             })
         })
     })
@@ -72,6 +78,7 @@ app.get('/login',(req,res) => {
 })
 
 // app.get('/refresh_token', (req,res) => {
+//     console.log('wt')
 //     var refresh_token = req.query.refresh_token
 //     const authOptions = {
 //         url: 'https://accounts.spotify.com/api/token',
