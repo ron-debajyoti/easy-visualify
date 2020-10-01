@@ -22,10 +22,10 @@ for item in playlists:
             }
         with open('data.json','w') as outfile:
             json.dump(data,outfile)
-        query = col.find( { 'playlist_id': data['playlist_id']})
+        query = col.find( { 'country_code': data['country_code']})
         if query.count():
             print('Updating top extry for this country : ', data['country_code'])
-            res = col.replace_one({'playlist_id' : data['playlist_id']}, data)
+            res = col.replace_one({'country_code' : data['country_code']}, data)
         else:
             res = col.insert_one(data)
 

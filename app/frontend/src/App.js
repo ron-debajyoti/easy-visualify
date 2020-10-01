@@ -81,23 +81,45 @@ class App extends Component{
         setTooltipContent(finalData)
       } else {
         /*
-          This is for the rest of the countries which have all the Top10 and
+          This is for the rest of the countries which have the Top10 and
           Viral 10 playlists data available to us.
         */
-        var dataObj1 = this.state.playlists[0].topPlaylists.filter((c) => {
-          return c.country_code === countryObj.country_code
-        })[0].data
-      
-        var dataObj2 = this.state.playlists[1].viralPlaylists.filter((c) => {
-          return c.country_code === countryObj.country_code
-        })[0].data
-  
-        if (this.state.playlists[2].radarPlaylists.length > 0){
-          var dataObj3 = this.state.playlists[2].radarPlaylists.filter((c) => {
+        var dataObj1 = []
+        var dataObj2 = []
+        var dataObj3 = []
+
+
+        if (this.state.playlists[0].topPlaylists.length > 0){
+          var o = this.state.playlists[0].topPlaylists.filter((c) => {
             return c.country_code === countryObj.country_code
-          })[0].data
-        } else {
-          var dataObj3 = []
+          })
+          if (o[0] !== undefined && o[0].data.length > 0){
+            dataObj1 = o[0].data
+          }
+        }
+        
+        if (this.state.playlists[1].viralPlaylists.length > 0){
+          var ob = this.state.playlists[1].viralPlaylists.filter((c) => {
+            return c.country_code === countryObj.country_code
+          })
+          if (ob[0] !== undefined && ob[0].data.length > 0){
+            dataObj2 = ob[0].data
+          }
+        }
+  
+        /*
+          Many countries still do not have the Radar playlists data available yet
+        */
+        if (this.state.playlists[2].radarPlaylists.length > 0){
+          // Filtering the country from the list of playlists 
+          var obj = this.state.playlists[2].radarPlaylists.filter((c) => {
+            return c.country_code === countryObj.country_code
+          })
+
+          // Checking if the Radar playlist for that country exists
+          if (obj[0] !== undefined && obj[0].data.length > 0){
+            dataObj3 = obj[0].data
+          }
         }
   
         var finalData1 = []
@@ -119,15 +141,18 @@ class App extends Component{
           obj['viewCoverArt'] = true
           finalData2.push(obj)
         })
-  
-        dataObj3.forEach(element => {
-          var obj = {}
-          obj['uri'] = element.track.uri
-          obj['popularity'] = element.track.popularity
-          obj['viewCoverArt'] = true
-          finalData3.push(obj)
-        })
-  
+        
+        // console.log(dataObj3)
+        if (dataObj3.length > 0){
+          dataObj3.forEach(element => {
+            var obj = {}
+            obj['uri'] = element.track.uri
+            obj['popularity'] = element.track.popularity
+            obj['viewCoverArt'] = true
+            finalData3.push(obj)
+          })
+        }
+
         // console.log(dataObj3)
         var finalData = []
         finalData.push(finalData1)
@@ -140,9 +165,8 @@ class App extends Component{
   }
   
   render() {
-
-    const {setTooltipContent,setTooltip} = this.props
     if(this.state.dataFetch){
+      const {setTooltipContent,setTooltip} = this.props
       return(
         <div>
           <ComposableMap data-tip="" projectionConfig={{scale:150}}>
@@ -155,8 +179,8 @@ class App extends Component{
                       geography={geo}
                       onClick={() => this.renderDataOnClick(geo,setTooltipContent)}
                       onMouseEnter={() => {
-                        const {NAME,CONTINENT} = geo.properties
-                        setTooltip(NAME,CONTINENT)
+                        const {NAME} = geo.properties
+                        setTooltip(NAME)
                       }}
                       onMouseLeave={() => {
                         setTooltip("");
@@ -183,7 +207,7 @@ class App extends Component{
     } else {
       return (
         <div>
-          Map Data is loading and rendering. Please wait.
+          Map data is loading and rendering. Please wait.
         </div>
       )
     }

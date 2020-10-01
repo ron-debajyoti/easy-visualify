@@ -207,7 +207,8 @@ class Main extends Component{
           } else {
             return (
             <WidgetTitle>
-              <WidgetTitle style={{'font-size':'1em'}}> Spotify doesn't have the data yet. Try Radar Tracks   </WidgetTitle>
+              <WidgetTitle style={{'fontSize':'1em'}}> Spotify doesn't have the data yet.
+               Try Radar Tracks   </WidgetTitle>
             </WidgetTitle>
             )
           }
@@ -234,12 +235,13 @@ class Main extends Component{
             } else {
               return (
                 <WidgetTitle>
-                  <WidgetTitle> Spotify doesn't have the data yet. Try Radar Tracks </WidgetTitle>
+                  <WidgetTitle style={{'fontSize':'1em'}}> Spotify doesn't have the data yet.
+                   Try Radar Tracks </WidgetTitle>
                 </WidgetTitle>
                 )
             }
           } else {
-            if (this.state.content[1].length > 0){
+            if (this.state.content[2].length > 0){
               return (
                 <WidgetWrapper>
                   <WidgetTitle> Radar Tracks of {this.state.content[3]} </WidgetTitle>
@@ -270,7 +272,8 @@ class Main extends Component{
             } else {
               return (
                 <WidgetTitle>
-                  <WidgetTitle> Spotify doesn't have the data yet. Try other Tracks </WidgetTitle>
+                  <WidgetTitle style={{'fontSize':'1em'}}> Spotify doesn't have the data yet.
+                   Try other Tracks </WidgetTitle>
                 </WidgetTitle>
                 )
             }
