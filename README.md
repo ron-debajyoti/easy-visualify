@@ -13,9 +13,9 @@ Built with a couple of frameworks and tools, some of them are :
 - [React Chartjs 2](https://github.com/jerairrest/react-chartjs-2)
 
 ## Setup
-1. First [Register a Spotify App]((https://developer.spotify.com/dashboard/applications). 
+1. First [Register a Spotify App](https://developer.spotify.com/dashboard/applications). 
 1. Create your own MongoDB cluster in the MongoDB Cloud.
-1. Create a simple auth server at a port. Your server URI can be like this: `http://localhost:8888`.
+1. Create a simple auth server at a port. Check this [repository](https://github.com/ron-debajyoti/auth) for a guide. Your server URI can be like this: `http://localhost:8888`.
 1. Add `http://localhost:8888/callback` as a Redirect URI in your spotify App settings.
 1. Fork and clone the repo and use `npm install` in the root and also in the app/frontend and app/backend directory folder (just in case!)
 1. Create `.env` files in app/frontend, app/backend and in extractor directory folder based on the example.
