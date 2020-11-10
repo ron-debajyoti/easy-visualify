@@ -3,7 +3,7 @@ import ReactModal from 'react-modal'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
 import Cookies from 'js-cookie'
-import * as util from './utils/Utility'
+import * as util from '../utils/Utility'
 import {Radar} from 'react-chartjs-2'
 var _ = require('lodash')
 

@@ -1,11 +1,11 @@
 import React, { Component, memo } from 'react';
 import { ZoomableGroup, ComposableMap, Geographies, Geography } from "react-simple-maps";
-import * as util from './utils/Utility'
-import countries from './utils/Countries'
+import * as util from '../utils/Utility'
+import countries from '../utils/Countries'
 import PropTypes from 'prop-types'
 
-import "./css/styles.css";
-import './css/App.css';
+import "../css/styles.css";
+import '../css/App.css';
 
 //const geoUrl ="https://unpkg.com/world-atlas@1.1.4/world/110m.json"
 const geoUrl = "https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json"

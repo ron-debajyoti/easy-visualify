@@ -3,7 +3,7 @@ import Cookies from 'js-cookie'
 import styled from 'styled-components/macro'
 import queryString from 'query-string'
 import Main from './Main'
-import * as util from './utils/Utility'
+import * as util from '../utils/Utility'
 
 const WrongPage = styled.div`
     font-size: 1.5em;

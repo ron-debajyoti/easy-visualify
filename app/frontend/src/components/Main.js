@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom'
 import ReactTooltip from 'react-tooltip'
 import styled from 'styled-components/macro'
 import UserModal from './UserModal'
-import * as util from './utils/Utility'
+import * as util from '../utils/Utility'
 import Cookies from 'js-cookie'
 var _ = require('lodash')
 

@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {Route, Switch, Link} from 'react-router-dom'
 import styled from 'styled-components/macro'
 import {AuthenticatedRoute} from './Authenticate'
-import Background from './images/map.png'
+import Background from '../images/map.png'
 
 const Title = styled.h1`
     font-size: 1.5em;
