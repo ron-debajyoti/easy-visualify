@@ -147,7 +147,7 @@ class Main extends Component{
   
     updateGenre = async () => {
         var genre = []
-        this.state.user.topArtists.items.slice(0,10).map((artist) => {
+        this.state.user.topArtists.items.slice(0,10).map(artist => {
           var temp = artist.genres
           genre = genre.concat(temp)
           genre = _.uniq(genre)
@@ -185,22 +185,18 @@ class Main extends Component{
   
     IsValidData = () => {
       if (this.state.content.length >=2 ){
+        var populateCards1 = this.state.content[0].map( element => <PlayWidget key={element.uri} width={300} height={100} uri={element.uri} />)
+        var populateCards2 = this.state.content[1].map( element => <PlayWidget key={element.uri} width={300} height={100} uri={element.uri} />)
+        var populateCards3 = this.state.content[2].map( element => <PlayWidget key={element.uri} width={300} height={100} uri={element.uri} />)
+
         if(this.state.contentType === "top"){
           if(this.state.content[0].length > 0){
             return (
               <WidgetWrapper>
-                <WidgetTitle> Top 10 Tracks of {this.state.content[3]} </WidgetTitle> 
+                <WidgetTitle> Top 10 Tracks of {this.state.content[3]} </WidgetTitle>
+                
                 <ol> 
-                  <PlayWidget width={300} height={100} uri={this.state.content[0][0].uri} />
-                  <PlayWidget width={300} height={100} uri={this.state.content[0][1].uri} />
-                  <PlayWidget width={300} height={100} uri={this.state.content[0][2].uri} />
-                  <PlayWidget width={300} height={100} uri={this.state.content[0][3].uri} />
-                  <PlayWidget width={300} height={100} uri={this.state.content[0][4].uri} />
-                  <PlayWidget width={300} height={100} uri={this.state.content[0][5].uri} />
-                  <PlayWidget width={300} height={100} uri={this.state.content[0][6].uri} />
-                  <PlayWidget width={300} height={100} uri={this.state.content[0][7].uri} />
-                  <PlayWidget width={300} height={100} uri={this.state.content[0][8].uri} />
-                  <PlayWidget width={300} height={100} uri={this.state.content[0][9].uri} />
+                 {populateCards1}
                 </ol>
               </WidgetWrapper>
             )
@@ -219,16 +215,7 @@ class Main extends Component{
                 <WidgetWrapper>
                   <WidgetTitle> Viral 10 Tracks of {this.state.content[3]} </WidgetTitle>
                   <ol >
-                    <PlayWidget width={300} height={100} uri={this.state.content[1][0].uri} />
-                    <PlayWidget width={300} height={100} uri={this.state.content[1][1].uri} />
-                    <PlayWidget width={300} height={100} uri={this.state.content[1][2].uri} />
-                    <PlayWidget width={300} height={100} uri={this.state.content[1][3].uri} />
-                    <PlayWidget width={300} height={100} uri={this.state.content[1][4].uri} />
-                    <PlayWidget width={300} height={100} uri={this.state.content[1][5].uri} />
-                    <PlayWidget width={300} height={100} uri={this.state.content[1][6].uri} />
-                    <PlayWidget width={300} height={100} uri={this.state.content[1][7].uri} />
-                    <PlayWidget width={300} height={100} uri={this.state.content[1][8].uri} />
-                    <PlayWidget width={300} height={100} uri={this.state.content[1][9].uri} />
+                    {populateCards2}
                   </ol>
                 </WidgetWrapper>
               )
@@ -246,26 +233,7 @@ class Main extends Component{
                 <WidgetWrapper>
                   <WidgetTitle> Radar Tracks of {this.state.content[3]} </WidgetTitle>
                   <ol >
-                    <PlayWidget width={300} height={100} uri={this.state.content[2][0].uri} />
-                    <PlayWidget width={300} height={100} uri={this.state.content[2][1].uri} />
-                    <PlayWidget width={300} height={100} uri={this.state.content[2][2].uri} />
-                    <PlayWidget width={300} height={100} uri={this.state.content[2][3].uri} />
-                    <PlayWidget width={300} height={100} uri={this.state.content[2][4].uri} />
-                    <PlayWidget width={300} height={100} uri={this.state.content[2][5].uri} />
-                    <PlayWidget width={300} height={100} uri={this.state.content[2][6].uri} />
-                    <PlayWidget width={300} height={100} uri={this.state.content[2][7].uri} />
-                    <PlayWidget width={300} height={100} uri={this.state.content[2][8].uri} />
-                    <PlayWidget width={300} height={100} uri={this.state.content[2][9].uri} />
-                    <PlayWidget width={300} height={100} uri={this.state.content[2][10].uri} />
-                    <PlayWidget width={300} height={100} uri={this.state.content[2][11].uri} />
-                    <PlayWidget width={300} height={100} uri={this.state.content[2][12].uri} />
-                    <PlayWidget width={300} height={100} uri={this.state.content[2][13].uri} />
-                    <PlayWidget width={300} height={100} uri={this.state.content[2][14].uri} />
-                    <PlayWidget width={300} height={100} uri={this.state.content[2][15].uri} />
-                    <PlayWidget width={300} height={100} uri={this.state.content[2][16].uri} />
-                    <PlayWidget width={300} height={100} uri={this.state.content[2][17].uri} />
-                    <PlayWidget width={300} height={100} uri={this.state.content[2][18].uri} />
-                    <PlayWidget width={300} height={100} uri={this.state.content[2][19].uri} />
+                    {populateCards3}
                   </ol>
                 </WidgetWrapper>
               )

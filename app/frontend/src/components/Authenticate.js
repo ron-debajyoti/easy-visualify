@@ -68,10 +68,10 @@ const refreshAccessToken = async (refresh_token) => {
 const authenticate = async () => {
     // console.log("k")
     if(getRefreshToken() && getAccessToken() && ((Date.now()-getTimestamp())< EXPIRATION_TIME )){
-        console.log('problem in here ')
+        console.log('authentication successful')
       return true
     }
-    redirectToLogin()
+    refreshAccessToken(getRefreshToken())
     return false
   }
   

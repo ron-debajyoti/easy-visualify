@@ -86,7 +86,7 @@ class App extends Component{
         */
         var dataObj1 = []
         var dataObj2 = []
-        var dataObj3 = []
+        dataObj3 = []
 
 
         if (this.state.playlists[0].topPlaylists.length > 0){
@@ -124,37 +124,46 @@ class App extends Component{
   
         var finalData1 = []
         var finalData2 = []
-        var finalData3 = []
+        finalData3 = []
   
         dataObj1.forEach(element => {
-          var obj = {}
-          obj['uri'] = element.track.uri
-          obj['popularity'] = element.track.popularity
-          obj['viewCoverArt'] = true
-          finalData1.push(obj)
-        })
-  
-        dataObj2.forEach(element => {
-          var obj = {}
-          obj['uri'] = element.track.uri
-          obj['popularity'] = element.track.popularity
-          obj['viewCoverArt'] = true
-          finalData2.push(obj)
-        })
-        
-        // console.log(dataObj3)
-        if (dataObj3.length > 0){
-          dataObj3.forEach(element => {
+          if(element.track === null || element.track === undefined){
+            
+          }else{
             var obj = {}
             obj['uri'] = element.track.uri
             obj['popularity'] = element.track.popularity
             obj['viewCoverArt'] = true
-            finalData3.push(obj)
+            finalData1.push(obj)
+          }
+        })
+  
+        dataObj2.forEach(element => {
+          if(element.track === null || element.track === undefined){
+            
+          }else{
+            var obj = {}
+            obj['uri'] = element.track.uri
+            obj['popularity'] = element.track.popularity
+            obj['viewCoverArt'] = true
+            finalData2.push(obj)
+          }
+        })
+
+        if (dataObj3.length > 0){
+          dataObj3.forEach(element => {
+            if(element.track === null || element.track === undefined){
+            }else{
+              var obj = {}
+              obj['uri'] = element.track.uri
+              obj['popularity'] = element.track.popularity
+              obj['viewCoverArt'] = true
+              finalData3.push(obj)
+            }
           })
         }
-
-        // console.log(dataObj3)
-        var finalData = []
+      
+        finalData = []
         finalData.push(finalData1)
         finalData.push(finalData2)
         finalData.push(finalData3)
