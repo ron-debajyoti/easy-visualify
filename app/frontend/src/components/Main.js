@@ -147,7 +147,7 @@ class Main extends Component{
   
     updateGenre = async () => {
         var genre = []
-        this.state.user.topArtists.items.slice(0,10).map(artist => {
+        this.state.user.topArtists.items.slice(0,15).map(artist => {
           var temp = artist.genres
           genre = genre.concat(temp)
           genre = _.uniq(genre)
