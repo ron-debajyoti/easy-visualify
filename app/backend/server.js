@@ -9,7 +9,7 @@ var history = require('connect-history-api-fallback')
 
 var app=express()
 app.set('json spaces',2)
-let port = process.env.PORT || 3001
+const port = process.env.PORT || 3001
 let address = process.env.MONGODB_HOST || "mongodb://localhost:27017/"
 app.use(cors())
     // .use(express.static(path.join(__dirname,"../frontend/build")))
@@ -53,21 +53,35 @@ app.get('/request',(req,res) => {
         var viralPlaylists = db.collection("viralCollections")
         var radarPlaylists = db.collection("radarCollections")
 
-        topPlaylists.find().toArray((err,result) => {
-            if (err) throw err
-            messageData.push({'topPlaylists' : result})
-            viralPlaylists.find().toArray((err,result2) => {
-                if (err) throw err
-                messageData.push({'viralPlaylists' : result2})
-                radarPlaylists.find().toArray((err,result3) => {
-                    if (err) throw err
+        let task1 = new Promise((resolve,reject) => {
+            topPlaylists.find().toArray((err,result) => {
+            if (err) return reject(err);
+            return resolve({'topPlaylists' : result });
+            });
+        });
 
-                    console.log('done till here ')
-                    messageData.push({'radarPlaylists' : result3})
-                    res.send(JSON.stringify(messageData))
-                })
-            })
+        let task2 = new Promise((resolve,reject) => {
+            viralPlaylists.find().toArray((err,result) => {
+            if (err) return reject(err);
+            return resolve({'viralPlaylists' : result });
+            });
         })
+
+        let task3 = new Promise((resolve,reject) => {
+            radarPlaylists.find().toArray((err,result) => {
+            if (err) return reject(err);
+            return resolve({'radarPlaylists' : result });
+            });
+        })
+
+        Promise.all([task1,task2,task3])
+            .then(taskEntries => {
+                taskEntries.forEach(task => {
+                    messageData.push(task);
+                })
+                return messageData;
+            })
+            .then(messageData => res.send(JSON.stringify(messageData)));
     })
 })
 
