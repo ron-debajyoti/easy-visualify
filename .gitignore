@@ -11,6 +11,7 @@ app/backend/node_modules/
 
 # production
 /build
+app/frontend/build/
 
 # misc
 extractor/data.json
