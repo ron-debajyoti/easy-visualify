@@ -3,13 +3,12 @@ import { ZoomableGroup, ComposableMap, Geographies, Geography } from 'react-simp
 import PropTypes from 'prop-types';
 import * as util from '../utils/Utility';
 import countries from '../utils/Countries';
+import mapData from '../data/map.json';
 
 import '../css/styles.css';
 import '../css/App.css';
 
-// const geoUrl ="https://unpkg.com/world-atlas@1.1.4/world/110m.json"
-const geoUrl =
-  'https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json';
+// const geoUrl ="https://unpkg.com/world-atlas@1.1.4/world/110m.json";
 
 // defining props outside the class like Typescript
 const propTypes = {
@@ -161,11 +160,12 @@ class App extends Component {
 
     if (dataFetch) {
       const { setTooltipContent, setTooltip } = this.props;
+      console.log('reached here ');
       return (
         <div>
           <ComposableMap data-tip="" projectionConfig={{ scale: 150 }}>
             <ZoomableGroup zoom={1}>
-              <Geographies geography={geoUrl}>
+              <Geographies geography={mapData}>
                 {({ geographies }) =>
                   geographies.map((geo) => (
                     <Geography
