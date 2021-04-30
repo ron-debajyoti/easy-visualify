@@ -4,12 +4,13 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components/macro';
 import Cookies from 'js-cookie';
 import { Radar } from 'react-chartjs-2';
+import { nanoid } from 'nanoid';
 
 import * as util from '../utils/Utility';
 
 const Button = styled.button`
   font-size: 1em;
-  margin: 1em;
+  margin: 0.5em;
   padding: 0.5em 1em;
   border: 2px solid black;
   border-radius: 3px;
@@ -288,9 +289,7 @@ class UserModal extends Component {
       return Promise.all(pd)
         .then((dataTrack) => dataTrack.filter((item) => item !== undefined))
         .then((dataTrack) => dataTrack.map((item) => item[0]))
-        .then((dataTrack) => {
-          return { topSongsData, playlistData: dataTrack };
-        });
+        .then((dataTrack) => ({ topSongsData, playlistData: dataTrack }));
     });
     // end of visualTrackData
   };
@@ -400,9 +399,9 @@ class UserModal extends Component {
               <h3>Top Listened Artists </h3>
               <div>
                 {userObject.topArtists ? (
-                  <ul>
+                  <ul key={nanoid()}>
                     {userObject.topArtists.items.slice(0, 10).map((artist) => (
-                      <Artist>
+                      <Artist key={nanoid()}>
                         <ArtistArtwork>
                           {artist.images.length && <Img src={artist.images[2].url} alt="Artist" />}
                         </ArtistArtwork>
@@ -424,9 +423,9 @@ class UserModal extends Component {
               <h3>Top Music Genre</h3>
               <div>
                 {userObject.recommendedGenre ? (
-                  <ul>
+                  <ul key={nanoid()}>
                     {userObject.recommendedGenre.slice(0, 10).map((item) => (
-                      <Artist>
+                      <Artist id={nanoid()}>
                         <ArtistName>
                           <span>{item}</span>
                         </ArtistName>

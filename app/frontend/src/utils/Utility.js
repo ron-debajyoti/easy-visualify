@@ -14,7 +14,7 @@ export const getNewAccessToken = (refreshToken) =>
   fetch(url2, {
     method: 'GET',
     headers: {
-      refreshToken,
+      refresh_token: refreshToken,
     },
   }).catch((err) => console.log(err));
 

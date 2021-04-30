@@ -25,7 +25,8 @@ const TriggerButton = styled(Button)`
 `;
 
 const ButtonWrapper = styled.div`
-  display: inline-block;
+  float: right;
+  text-align: right;
   background: white;
 `;
 
@@ -33,17 +34,26 @@ const Wrapper = styled.div`
   background-color: white;
 `;
 
+const Section1 = styled.div`
+  width: 75%;
+  float: left;
+`;
+
+const Section2 = styled.div`
+  float: right;
+  width: 25%;
+`;
+
 const WidgetTitle = styled.div`
-  font-size: 1.5em;
-  float: center;
-  margin: 50px 10px
+  font-size: 1em;
+  margin: 30px 10px
   text-align: left;
   color: palevioletred;
   background-color: white;
 `;
 
 const WidgetWrapper = styled.div`
-  padding: 1em;
+  padding: 0.7em;
   background : aquamarine
   float: right;
 `;
@@ -154,11 +164,11 @@ class Main extends Component {
   };
 
   tooltipRender = (content) => {
-    // console.log("!!!!")
     // console.log(content)
     this.setState(() => ({
       country: content,
     }));
+    ReactTooltip.rebuild();
   };
 
   IsValidData = () => {
@@ -252,27 +262,31 @@ class Main extends Component {
     if (allUpdated) {
       return (
         <Wrapper>
-          {/* {console.log(this.state.user)} */}
           <h1 style={{ textAlign: 'center' }}>Welcome</h1>
-          <UserModal userObject={user} />
-          <Link to="/main">
+          <Section1>
+            <UserModal userObject={user} />
+            {/* <Link to="/main">
+              <App setTooltipContent={(e) => this.onUpdate(e)} setTooltip={this.tooltipRender} />
+            </Link> */}
             <App setTooltipContent={(e) => this.onUpdate(e)} setTooltip={this.tooltipRender} />
-          </Link>
-          <ButtonWrapper>
-            <TriggerButton className="Top10" onClick={() => this.onButtonClick('top')}>
-              {' '}
-              View Top 10 Tracks
-            </TriggerButton>
-            <TriggerButton className="Viral10" onClick={() => this.onButtonClick('viral')}>
-              {' '}
-              View Viral 10 Tracks{' '}
-            </TriggerButton>
-            <TriggerButton className="Radar" onClick={() => this.onButtonClick('radar')}>
-              {' '}
-              View Radar Tracks{' '}
-            </TriggerButton>
-          </ButtonWrapper>
-          <this.IsValidData />
+          </Section1>
+          <Section2>
+            <ButtonWrapper>
+              <TriggerButton className="Top10" onClick={() => this.onButtonClick('top')}>
+                {' '}
+                View Top 10 Tracks
+              </TriggerButton>
+              <TriggerButton className="Viral10" onClick={() => this.onButtonClick('viral')}>
+                {' '}
+                View Viral 10 Tracks{' '}
+              </TriggerButton>
+              <TriggerButton className="Radar" onClick={() => this.onButtonClick('radar')}>
+                {' '}
+                View Radar Tracks{' '}
+              </TriggerButton>
+            </ButtonWrapper>
+            <this.IsValidData />
+          </Section2>
           <ReactTooltip>{country}</ReactTooltip>
         </Wrapper>
       );

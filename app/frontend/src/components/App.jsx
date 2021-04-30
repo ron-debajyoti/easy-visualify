@@ -160,7 +160,6 @@ class App extends Component {
 
     if (dataFetch) {
       const { setTooltipContent, setTooltip } = this.props;
-      console.log('reached here ');
       return (
         <div>
           <ComposableMap data-tip="" projectionConfig={{ scale: 150 }}>
