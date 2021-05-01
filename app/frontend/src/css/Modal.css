@@ -1,0 +1,28 @@
+
+.ReactModal__Overlay {
+    opacity: 0;
+    transition: opacity 2000ms ease-in-out;
+}
+
+.ReactModal__Overlay--after-open{
+    opacity: 1;
+}
+
+.ReactModal__Overlay--before-close{
+    opacity: 0;
+}
+
+.Popup{
+    position: absolute; 
+    inset: 40px; 
+    border: 1px solid rgb(204, 204, 204); 
+    background: #191400 none repeat scroll 0% 0%; 
+    overflow: auto; 
+    border-radius: 4px; 
+    outline: currentcolor none medium; 
+    padding: 20px;
+}
+
+.chartjs-render-monitor{
+    background-color: #2e2500c5;
+}

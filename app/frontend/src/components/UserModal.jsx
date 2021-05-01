@@ -4,12 +4,14 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components/macro';
 import Cookies from 'js-cookie';
 import { Radar } from 'react-chartjs-2';
+import { nanoid } from 'nanoid';
 
 import * as util from '../utils/Utility';
+import '../css/Modal.css';
 
 const Button = styled.button`
   font-size: 1em;
-  margin: 1em;
+  margin: 0.5em;
   padding: 0.5em 1em;
   border: 2px solid black;
   border-radius: 3px;
@@ -26,7 +28,12 @@ const Img = styled.img`
 `;
 
 const Wrapper = styled.div`
+  background-color: transparent;
   display: inline-block;
+`;
+
+const IsDataWrapper = styled.div`
+  text-align: justify;
 `;
 
 const UserTemplate = styled.div`
@@ -40,9 +47,8 @@ const NoUserTemplate = styled.div`
 `;
 
 const UserName = styled.a`
-  &: hover;
-  &:focus {
-    color: red;
+  &:hover &:visited &:active &:focus {
+    color: white;
   }
 `;
 
@@ -58,13 +64,13 @@ const ChartTitle = styled.h3`
 `;
 
 const Number = styled.div`
-  color: black;
+  color: white;
   font-weight: 500;
   font-size: 15px;
 `;
 
 const NumberLabel = styled.div`
-  color: black;
+  color: white;
   font-size: 15px;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -105,15 +111,15 @@ const ArtistArtwork = styled.div`
 const ArtistName = styled.div`
   flex-grow: 1;
   a {
-    color: black;
+    color: white;
     text-decoration: none;
   }
   span {
     border-bottom: 1px solid transparent;
     &:hover,
     &:focus {
-      color: black;
-      border-bottom: 1px solid white;
+      color: white;
+      border-bottom: 1px solid black;
     }
   }
 `;
@@ -288,9 +294,7 @@ class UserModal extends Component {
       return Promise.all(pd)
         .then((dataTrack) => dataTrack.filter((item) => item !== undefined))
         .then((dataTrack) => dataTrack.map((item) => item[0]))
-        .then((dataTrack) => {
-          return { topSongsData, playlistData: dataTrack };
-        });
+        .then((dataTrack) => ({ topSongsData, playlistData: dataTrack }));
     });
     // end of visualTrackData
   };
@@ -343,6 +347,7 @@ class UserModal extends Component {
               label: item.name,
               backgroundColor,
               borderColor,
+              fill: true,
               pointBackgroundColor: borderColor,
               pointBorderColor: '#fff',
               pointHoverBackgroundColor: '#fff',
@@ -372,7 +377,7 @@ class UserModal extends Component {
 
     if (userObject.display_name.length > 0) {
       return (
-        <div>
+        <IsDataWrapper>
           <UserTemplate>
             {userObject.images.length > 0 ? (
               <Img src={userObject.images[0].url} alt="avatar" />
@@ -397,12 +402,12 @@ class UserModal extends Component {
 
           <MinorWrapper>
             <Heading>
-              <h3>Top Listened Artists </h3>
+              <h3 style={{ color: 'white' }}>Top Listened Artists </h3>
               <div>
                 {userObject.topArtists ? (
-                  <ul>
+                  <ul key={nanoid()}>
                     {userObject.topArtists.items.slice(0, 10).map((artist) => (
-                      <Artist>
+                      <Artist key={nanoid()}>
                         <ArtistArtwork>
                           {artist.images.length && <Img src={artist.images[2].url} alt="Artist" />}
                         </ArtistArtwork>
@@ -421,14 +426,14 @@ class UserModal extends Component {
             </Heading>
             <div style={{ margin: '10px' }} />
             <Heading style>
-              <h3>Top Music Genre</h3>
+              <h3 style={{ color: 'white' }}>Top Music Genre</h3>
               <div>
                 {userObject.recommendedGenre ? (
-                  <ul>
+                  <ul key={nanoid()}>
                     {userObject.recommendedGenre.slice(0, 10).map((item) => (
-                      <Artist>
+                      <Artist id={nanoid()}>
                         <ArtistName>
-                          <span>{item}</span>
+                          <span style={{ color: 'white' }}>{item}</span>
                         </ArtistName>
                       </Artist>
                     ))}
@@ -440,11 +445,19 @@ class UserModal extends Component {
             </Heading>
           </MinorWrapper>
           <div>
-            <ChartTitle> Audio Analysis of Tracks and Playlists </ChartTitle>
-            <Radar data={chartData} options={{ legend: { fontsize: 20 } }} />
+            <ChartTitle style={{ color: 'white' }}>
+              {' '}
+              Audio Analysis of Tracks and Playlists{' '}
+            </ChartTitle>
+            <Radar
+              data={chartData}
+              options={{
+                legend: { scale: { pointLabels: { fontSize: 20 } }, labels: { fontSize: 20 } },
+              }}
+            />
           </div>
           <Button onClick={this.handleCloseModal}>Close</Button>
-        </div>
+        </IsDataWrapper>
       );
     }
 
@@ -460,7 +473,7 @@ class UserModal extends Component {
     return (
       <Wrapper>
         <Button onClick={this.handleOpenModal}>View Your Stats! </Button>
-        <ReactModal isOpen={showModal} contentLabel="Modal">
+        <ReactModal isOpen={showModal} contentLabel="Modal" className="Popup">
           <this.checkPropIsNull />
         </ReactModal>
       </Wrapper>

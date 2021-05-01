@@ -2,13 +2,19 @@ import React from 'react';
 import { Route, Switch, Link } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import AuthenticatedRoute from './Authenticate';
-import Background from '../images/map.png';
+import Background from '../images/background.jpeg';
 
 const Title = styled.h1`
-  font-size: 1.5em;
-  margin: 0px 0px 10px;
+  font-size: 2em;
+  margin: 10px 10px 50px;
+  color: white;
   float: center;
 `;
+
+const About = styled.h3`
+  color: white;
+`;
+
 const Wrapper = styled.main`
   height: 100%;
   min-height: 100vh;
@@ -36,6 +42,10 @@ function IndexPage() {
   const mainPage = () => (
     <Wrapper>
       <Title>Easy Visualify</Title>
+      <About>
+        {' '}
+        Find out Spotify&apos;s Top10, Viral10 and Radar charts for countries across the world
+      </About>
       <Link to="/">
         <Button
           onClick={() => {

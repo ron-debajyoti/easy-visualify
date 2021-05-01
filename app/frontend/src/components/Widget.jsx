@@ -5,9 +5,9 @@ const propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
   uri: PropTypes.string.isRequired,
-  lightTheme: PropTypes.bool.isRequired,
-  viewCoverArt: PropTypes.bool.isRequired,
-  title: PropTypes.string.isRequired,
+  lightTheme: PropTypes.bool,
+  viewCoverArt: PropTypes.bool,
+  title: PropTypes.string,
 };
 
 const PlayWidget = (props) => {
@@ -21,5 +21,10 @@ const PlayWidget = (props) => {
 };
 
 PlayWidget.propTypes = propTypes;
+PlayWidget.defaultProps = {
+  lightTheme: true,
+  viewCoverArt: '&view=coverart',
+  title: '',
+};
 
 export default PlayWidget;
