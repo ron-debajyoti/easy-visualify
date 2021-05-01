@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import ReactTooltip from 'react-tooltip';
 import styled from 'styled-components/macro';
 import Cookies from 'js-cookie';
@@ -27,29 +26,33 @@ const TriggerButton = styled(Button)`
 const ButtonWrapper = styled.div`
   float: right;
   text-align: right;
-  background: white;
 `;
 
-const Wrapper = styled.div`
-  background-color: white;
-`;
+const Wrapper = styled.main``;
 
 const Section1 = styled.div`
   width: 75%;
+  height: 100%;
   float: left;
 `;
 
 const Section2 = styled.div`
   float: right;
+  height: 100%;
   width: 25%;
+`;
+
+const MainTitle = styled.h1`
+  color: white;
+  text-align: center;
+  background: black;
 `;
 
 const WidgetTitle = styled.div`
   font-size: 1em;
   margin: 30px 10px
   text-align: left;
-  color: palevioletred;
-  background-color: white;
+  color: white;
 `;
 
 const WidgetWrapper = styled.div`
@@ -197,7 +200,7 @@ class Main extends Component {
         return (
           <WidgetTitle>
             <WidgetTitle style={{ fontSize: '1em' }}>
-              Spotify doesn`&apos`t have the data yet. Try Radar Tracks
+              Spotify doesn`&apos;`t have the data yet. Try Radar Tracks
             </WidgetTitle>
           </WidgetTitle>
         );
@@ -215,7 +218,7 @@ class Main extends Component {
           <WidgetTitle>
             <WidgetTitle style={{ fontSize: '1em' }}>
               {' '}
-              Spotify doesn`&apos`t have the data yet. Try Radar Tracks{' '}
+              Spotify doesn`&apos;`t have the data yet. Try Radar Tracks{' '}
             </WidgetTitle>
           </WidgetTitle>
         );
@@ -232,7 +235,7 @@ class Main extends Component {
         <WidgetTitle>
           <WidgetTitle style={{ fontSize: '1em' }}>
             {' '}
-            Spotify doesn`&apos`t have the data yet. Try other Tracks{' '}
+            Spotify doesn&apos;t have the data yet. Try other Tracks{' '}
           </WidgetTitle>
         </WidgetTitle>
       );
@@ -262,7 +265,7 @@ class Main extends Component {
     if (allUpdated) {
       return (
         <Wrapper>
-          <h1 style={{ textAlign: 'center' }}>Welcome</h1>
+          <MainTitle>Welcome</MainTitle>
           <Section1>
             <UserModal userObject={user} />
             {/* <Link to="/main">
@@ -293,7 +296,7 @@ class Main extends Component {
     }
 
     console.log('okay page is loading');
-    return <h3 style={{ textAlign: 'center' }}>Loading ... </h3>;
+    return <h3 style={{ textAlign: 'center', color: 'white' }}>Loading ... </h3>;
   }
 }
 

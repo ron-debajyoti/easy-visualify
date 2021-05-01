@@ -1,28 +1,18 @@
 html {
     font-family: system-ui, sans-serif;
-    font-size: 1.25rem;
+    font-size: 1.25em;
   }
   
-  svg {
-    display: inline-block;
-    vertical-align: middle;
-  }
+svg {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+body {
+  background-color: #191414;
+}
+
+html, body {
+  height: 100%
+}
   
-  /* .App {
-    font-family: sans-serif;
-    text-align: center;
-    float: left;
-    color: aliceblue;
-  }
-  
-
-  /* #button{
-    display: flex;
-    justify-content: flex-end;
-  }
-
-
-  #playlistWidget{
-    float :right;
-    background-color: aquamarine;
-  } */

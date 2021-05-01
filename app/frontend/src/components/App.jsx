@@ -1,12 +1,19 @@
 import React, { Component, memo } from 'react';
 import { ZoomableGroup, ComposableMap, Geographies, Geography } from 'react-simple-maps';
+import styled from 'styled-components/macro';
 import PropTypes from 'prop-types';
 import * as util from '../utils/Utility';
 import countries from '../utils/Countries';
 import mapData from '../data/map.json';
+import loadingGif from '../images/loading2.gif';
 
 import '../css/styles.css';
 import '../css/App.css';
+
+// setting styled macros
+const Header = styled.div`
+  color: white;
+`;
 
 // const geoUrl ="https://unpkg.com/world-atlas@1.1.4/world/110m.json";
 
@@ -198,7 +205,12 @@ class App extends Component {
         </div>
       );
     }
-    return <div>Map data is loading and rendering. Please wait.</div>;
+    return (
+      <div>
+        <Header>Map data is loading and rendering. Please wait.</Header>
+        <img src={loadingGif} alt="loading..." />
+      </div>
+    );
   }
 }
 
