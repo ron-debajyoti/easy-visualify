@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Cookies from 'js-cookie';
-import PropTypes from 'prop-types';
 import styled from 'styled-components/macro';
 import queryString from 'query-string';
 import Main from './Main';
@@ -24,18 +23,11 @@ const getAccessToken = () => Cookies.get('access_token');
 
 const getRefreshToken = () => Cookies.get('refresh_token');
 
-// const redirectToLogin = () => {
-//   console.log('this is called');
-//   this.props.history.push('/');
-// };
-
 const setTokens = () => {
   const tokens = queryString.parse(window.location.search);
   if (util.isEmpty(tokens)) {
     return false;
   }
-
-  setTimestamp();
   Cookies.set('access_token', tokens.access_token);
   Cookies.set('refresh_token', tokens.refresh_token);
   return true;
@@ -44,7 +36,7 @@ const setTokens = () => {
 const refreshAccessToken = async (refreshToken) => {
   try {
     const accessToken = await util.getNewAccessToken(refreshToken);
-    if (accessToken === undefined || accessToken === null) return false;
+    if (accessToken === undefined || accessToken === null || accessToken.length === 0) return false;
 
     setTimestamp();
     Cookies.set('access_token', accessToken);
@@ -56,29 +48,26 @@ const refreshAccessToken = async (refreshToken) => {
 };
 
 const authenticate = async () => {
-  // console.log("k")
-  if (getRefreshToken() && getAccessToken() && Date.now() - getTimestamp() < EXPIRATION_TIME) {
+  const refreshToken = getRefreshToken();
+  const accessToken = getAccessToken();
+  const timePassed = Date.now() - getTimestamp();
+  if (accessToken.length < 5) {
+    setTimestamp();
+    console.log('!!!!!!!!!11');
+    return setTokens();
+  }
+  if (accessToken && accessToken.length > 5 && timePassed < EXPIRATION_TIME) {
     console.log('authentication successful');
     return true;
   }
-  return refreshAccessToken(getRefreshToken());
-};
-
-const isAuthenticated = () => {
-  const temp = getAccessToken();
-  if (temp === undefined || Date.now() - getTimestamp() > EXPIRATION_TIME) {
-    const reToken = getRefreshToken();
-    if (reToken === undefined) return false;
-
-    return refreshAccessToken(reToken);
+  if (refreshToken && refreshToken.length > 5) {
+    refreshAccessToken(getRefreshToken());
+    return true;
   }
-  return true;
+  return false;
 };
 
-const propTypes = {
-  render: PropTypes.func.isRequired,
-};
-
+/* Authentication Class */
 class Authenticate extends Component {
   constructor(props) {
     super(props);
@@ -97,33 +86,14 @@ class Authenticate extends Component {
 
   render() {
     const { auth } = this.state;
-    const { render } = this.props;
     console.log(auth);
-    return auth ? render() : null;
+    // return auth ? render(auth) : null;
+    if (auth) {
+      return <Main />;
+    }
+    console.log('else block here called');
+    return <WrongPage>You are not authenticated to access this page </WrongPage>;
   }
 }
 
-Authenticate.propTypes = propTypes;
-
-// Final FC
-const AuthenticatedRoute = () => {
-  const temp = isAuthenticated();
-  let temp2 = false;
-  if (!temp) {
-    temp2 = setTokens();
-  }
-  // console.log(temp)
-  // console.log(temp2)
-  if (temp || temp2) {
-    // console.log('yaya')
-    return <Authenticate render={() => <Main />} />;
-  }
-  console.log('else block here called');
-  return <WrongPage>You are not authenticated to access this page </WrongPage>;
-
-  // return (temp ?
-  //             (<Authenticate render={() => <Main />}/>) :
-  //             (<WrongPage>You are not authenticated to access this page </WrongPage>))
-};
-
-export default AuthenticatedRoute;
+export default Authenticate;
