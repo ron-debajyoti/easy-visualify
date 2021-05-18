@@ -18,7 +18,7 @@ const setTimestamp = () => {
   window.localStorage.setItem('token_timestamp', Date.now());
 };
 
-const getTimestamp = () => window.localStorage.getItem('token_timestamp');
+const getTimestamp = () => Number(window.localStorage.getItem('token_timestamp'));
 
 const getAccessToken = () => Cookies.get('access_token');
 
@@ -61,8 +61,7 @@ const authenticate = async () => {
     console.log('authentication successful');
     return true;
   }
-  refreshAccessToken(getRefreshToken());
-  return false;
+  return refreshAccessToken(getRefreshToken());
 };
 
 const isAuthenticated = () => {
@@ -100,7 +99,6 @@ class Authenticate extends Component {
     const { auth } = this.state;
     const { render } = this.props;
     console.log(auth);
-    console.log(this.props);
     return auth ? render() : null;
   }
 }
@@ -110,8 +108,10 @@ Authenticate.propTypes = propTypes;
 // Final FC
 const AuthenticatedRoute = () => {
   const temp = isAuthenticated();
-
-  const temp2 = setTokens();
+  let temp2 = false;
+  if (!temp) {
+    temp2 = setTokens();
+  }
   // console.log(temp)
   // console.log(temp2)
   if (temp || temp2) {

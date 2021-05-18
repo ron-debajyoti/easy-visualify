@@ -172,7 +172,7 @@ class UserModal extends Component {
   }
 
   // function visualTrackData
-  visualTrackData = () => {
+  visualTrackData = async () => {
     const accessToken = Cookies.get('access_token');
     const datatype = {
       danceability: 0,
