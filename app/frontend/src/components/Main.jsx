@@ -24,8 +24,7 @@ const TriggerButton = styled(Button)`
 `;
 
 const ButtonWrapper = styled.div`
-  float: right;
-  text-align: right;
+  display: inline-grid;
 `;
 
 const Wrapper = styled.main``;
@@ -37,7 +36,7 @@ const Section1 = styled.div`
 `;
 
 const Section2 = styled.div`
-  float: right;
+  display: inline-grid;
   height: 100%;
   width: 25%;
 `;
@@ -56,9 +55,8 @@ const WidgetTitle = styled.div`
 `;
 
 const WidgetWrapper = styled.div`
+  display: inline;
   padding: 0.7em;
-  background : aquamarine
-  float: right;
 `;
 
 class Main extends Component {
@@ -203,7 +201,7 @@ class Main extends Component {
             <WidgetWrapper>
               <WidgetTitle> Top 10 Tracks of {content[3]} </WidgetTitle>
 
-              <ol>{populateCards1}</ol>
+              <ol style={{ display: 'inline list-item' }}>{populateCards1}</ol>
             </WidgetWrapper>
           );
         }
@@ -220,7 +218,7 @@ class Main extends Component {
           return (
             <WidgetWrapper>
               <WidgetTitle> Viral 10 Tracks of {content[3]} </WidgetTitle>
-              <ol>{populateCards2}</ol>
+              <ol style={{ display: 'inline list-item' }}>{populateCards2}</ol>
             </WidgetWrapper>
           );
         }
@@ -237,7 +235,7 @@ class Main extends Component {
         return (
           <WidgetWrapper>
             <WidgetTitle> Radar Tracks of {content[3]} </WidgetTitle>
-            <ol>{populateCards3}</ol>
+            <ol style={{ display: 'inline list-item' }}>{populateCards3}</ol>
           </WidgetWrapper>
         );
       }

@@ -6,6 +6,7 @@ import Main from './Main';
 import * as util from '../utils/Utility';
 
 const WrongPage = styled.div`
+  color: white;
   font-size: 1.5em;
   text-align: center;
 `;
@@ -23,16 +24,6 @@ const getAccessToken = () => Cookies.get('access_token');
 
 const getRefreshToken = () => Cookies.get('refresh_token');
 
-const setTokens = () => {
-  const tokens = queryString.parse(window.location.search);
-  if (util.isEmpty(tokens)) {
-    return false;
-  }
-  Cookies.set('access_token', tokens.access_token);
-  Cookies.set('refresh_token', tokens.refresh_token);
-  return true;
-};
-
 const refreshAccessToken = async (refreshToken) => {
   try {
     const accessToken = await util.getNewAccessToken(refreshToken);
@@ -47,22 +38,35 @@ const refreshAccessToken = async (refreshToken) => {
   }
 };
 
+const setTokens = () => {
+  console.log('THIIIIIIIIIIIIIIIIIIIIIIIIIISSSSSSSSSSSSS');
+  const tokens = queryString.parse(window.location.search);
+  const accessToken = tokens.access_token;
+  const refreshToken = tokens.refresh_token;
+  if (util.isInvalid(refreshToken) && util.isInvalid(accessToken)) {
+    return false;
+  }
+  Cookies.set('access_token', tokens.access_token);
+  Cookies.set('refresh_token', tokens.refresh_token);
+  return true;
+};
+
 const authenticate = async () => {
   const refreshToken = getRefreshToken();
   const accessToken = getAccessToken();
   const timePassed = Date.now() - getTimestamp();
-  if (accessToken.length < 5) {
+
+  if (util.isInvalid(accessToken)) {
     setTimestamp();
-    console.log('!!!!!!!!!11');
     return setTokens();
   }
-  if (accessToken && accessToken.length > 5 && timePassed < EXPIRATION_TIME) {
+  if (!util.isInvalid(accessToken) && timePassed < EXPIRATION_TIME) {
     console.log('authentication successful');
     return true;
   }
-  if (refreshToken && refreshToken.length > 5) {
-    refreshAccessToken(getRefreshToken());
-    return true;
+  if (!util.isInvalid(refreshToken)) {
+    console.log('!!!!!!!!!!!!!!!!!!');
+    return refreshAccessToken(getRefreshToken());
   }
   return false;
 };
@@ -92,7 +96,7 @@ class Authenticate extends Component {
       return <Main />;
     }
     console.log('else block here called');
-    return <WrongPage>You are not authenticated to access this page </WrongPage>;
+    return <WrongPage> You are not authenticated to access this page </WrongPage>;
   }
 }
 

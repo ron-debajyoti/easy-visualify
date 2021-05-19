@@ -18,7 +18,10 @@ export const getNewAccessToken = (refreshToken) =>
     },
   }).catch((err) => console.log(err));
 
-export const isEmpty = (obj) => Object.keys(obj).length === 0;
+export const isInvalid = (token) => {
+  if (token === undefined || token === null || token.length < 10) return true;
+  return false;
+};
 
 export const fetchUserData = (accessToken) =>
   fetch('https://api.spotify.com/v1/me', {
