@@ -39,12 +39,15 @@ const refreshAccessToken = async (refreshToken) => {
 };
 
 const setTokens = () => {
-  console.log('THIIIIIIIIIIIIIIIIIIIIIIIIIISSSSSSSSSSSSS');
   const tokens = queryString.parse(window.location.search);
   const accessToken = tokens.access_token;
   const refreshToken = tokens.refresh_token;
   if (util.isInvalid(refreshToken) && util.isInvalid(accessToken)) {
     return false;
+  }
+  if (!util.isInvalid(refreshToken)) {
+    console.log('!!!!!!!!!!!!!!!!!!');
+    return refreshAccessToken(getRefreshToken());
   }
   Cookies.set('access_token', tokens.access_token);
   Cookies.set('refresh_token', tokens.refresh_token);
@@ -52,13 +55,16 @@ const setTokens = () => {
 };
 
 const authenticate = async () => {
-  const refreshToken = getRefreshToken();
   const accessToken = getAccessToken();
+  const refreshToken = getRefreshToken();
   const timePassed = Date.now() - getTimestamp();
 
   if (util.isInvalid(accessToken)) {
-    setTimestamp();
-    return setTokens();
+    const result = setTokens();
+    if (result) {
+      setTimestamp();
+      return true;
+    }
   }
   if (!util.isInvalid(accessToken) && timePassed < EXPIRATION_TIME) {
     console.log('authentication successful');
@@ -90,7 +96,6 @@ class Authenticate extends Component {
 
   render() {
     const { auth } = this.state;
-    console.log(auth);
     // return auth ? render(auth) : null;
     if (auth) {
       return <Main />;

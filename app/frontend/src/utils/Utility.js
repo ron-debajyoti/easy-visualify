@@ -16,7 +16,13 @@ export const getNewAccessToken = (refreshToken) =>
     headers: {
       refresh_token: refreshToken,
     },
-  }).catch((err) => console.log(err));
+  })
+    .then((response) => response.json())
+    .then((resp) => {
+      const accessToken = resp.access_token;
+      return accessToken;
+    })
+    .catch((err) => console.log(err));
 
 export const isInvalid = (token) => {
   if (token === undefined || token === null || token.length < 10) return true;
@@ -28,20 +34,20 @@ export const fetchUserData = (accessToken) =>
     method: 'GET',
     headers: { Authorization: ` Bearer ${accessToken}` },
   })
-    .then((response) => response.json())
+    .then((resp) => resp.json())
     .catch((err) => console.log(err));
 
 export const fetchTopTracks = (accessToken) =>
   fetch('https://api.spotify.com/v1/me/top/tracks?limit=30&time_range=medium_term', {
     headers: { Authorization: ` Bearer ${accessToken}` },
   })
-    .then((response) => response.json())
-    .then((response) => {
-      if (response.items.count < 0) {
+    .then((respo) => respo.json())
+    .then((respon) => {
+      if (respon.items.count < 0) {
         const error = { code: 403, message: 'Empty item' };
         throw error;
       } else {
-        return response;
+        return respon;
       }
     })
     .catch((err) => console.log(err));
@@ -51,7 +57,7 @@ export const fetchUserPlaylists = (accessToken) =>
     method: 'GET',
     headers: { Authorization: ` Bearer ${accessToken}` },
   })
-    .then((response) => response.json())
+    .then((respons) => respons.json())
     .catch((err) => console.log(err));
 
 export const fetchTracksfromPlaylists = (accessToken, href, offset) =>
@@ -59,26 +65,26 @@ export const fetchTracksfromPlaylists = (accessToken, href, offset) =>
     method: 'GET',
     headers: { Authorization: ` Bearer ${accessToken}` },
   })
-    .then((response) => response.json())
+    .then((response1) => response1.json())
     .catch((err) => console.log(err));
 
 export const fetchTopArtists = (accessToken) =>
   fetch('https://api.spotify.com/v1/me/top/artists?limit=12&time_range=medium_term', {
     headers: { Authorization: ` Bearer ${accessToken}` },
   })
-    .then((response) => response.json())
+    .then((response2) => response2.json())
     .catch((err) => console.log(err));
 
 export const fetchAudioFeatures = (accessToken, id) =>
   fetch(`https://api.spotify.com/v1/audio-features/${id}`, {
     headers: { Authorization: ` Bearer ${accessToken}` },
   })
-    .then((response) => response.json())
+    .then((response3) => response3.json())
     .catch((err) => console.log(err));
 
 export const fetchAudioFeaturesForMultipleTracks = (accessToken, arrayIds) =>
   fetch(`https://api.spotify.com/v1/audio-features/?ids=${arrayIds}`, {
     headers: { Authorization: ` Bearer ${accessToken}` },
   })
-    .then((response) => response.json())
+    .then((response4) => response4.json())
     .catch((err) => console.log(err));
