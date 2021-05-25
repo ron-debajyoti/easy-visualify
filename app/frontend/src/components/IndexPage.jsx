@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch, Link } from 'react-router-dom';
 import styled from 'styled-components/macro';
-import AuthenticatedRoute from './Authenticate';
+import Authenticate from './Authenticate';
 import Background from '../images/background.jpeg';
 
 const Title = styled.h1`
@@ -62,7 +62,7 @@ function IndexPage() {
     <Route>
       <Switch>
         <Route exact path="/" component={mainPage} />
-        <Route path="/main" render={() => AuthenticatedRoute()} />
+        <Route path="/main" component={Authenticate} />
       </Switch>
     </Route>
   );

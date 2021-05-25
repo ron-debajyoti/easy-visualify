@@ -80,9 +80,9 @@ class App extends Component {
           This is for the rest of the countries which have the Top10 and
           Viral 10 playlists data available to us.
         */
-      let dataObj1 = [];
-      let dataObj2 = [];
-      let dataObj3 = [];
+      let dataObj1 = []; // top10 playlists array
+      let dataObj2 = []; // viral10 playlists array
+      let dataObj3 = []; // radar playlists array
 
       if (playlists[0].topPlaylists.length > 0) {
         const o = playlists[0].topPlaylists.filter(
@@ -163,8 +163,9 @@ class App extends Component {
   };
 
   render() {
-    const { dataFetch } = this.state;
+    /* The render function of the class App  */
 
+    const { dataFetch } = this.state;
     if (dataFetch) {
       const { setTooltipContent, setTooltip } = this.props;
       return (

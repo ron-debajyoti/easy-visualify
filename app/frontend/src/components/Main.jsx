@@ -24,8 +24,7 @@ const TriggerButton = styled(Button)`
 `;
 
 const ButtonWrapper = styled.div`
-  float: right;
-  text-align: right;
+  display: inline-grid;
 `;
 
 const Wrapper = styled.main``;
@@ -37,7 +36,7 @@ const Section1 = styled.div`
 `;
 
 const Section2 = styled.div`
-  float: right;
+  display: inline-grid;
   height: 100%;
   width: 25%;
 `;
@@ -56,12 +55,22 @@ const WidgetTitle = styled.div`
 `;
 
 const WidgetWrapper = styled.div`
+  display: inline;
   padding: 0.7em;
-  background : aquamarine
-  float: right;
 `;
 
 class Main extends Component {
+  static async updateGenre(user) {
+    let genre = [];
+    user.topArtists.items.slice(0, 15).map((artist) => {
+      const temp = artist.genres;
+      genre = genre.concat(temp);
+      genre = _.uniq(genre);
+      return true;
+    });
+    return genre;
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -89,65 +98,64 @@ class Main extends Component {
     // console.log(queryString.parse(window.location.search))
     // console.log(accessToken)
     const accessToken = Cookies.get('access_token');
+    // const { user, allUpdated } = this.state;
+    let userData = {
+      display_name: null,
+      country: null,
+      followers: null,
+      images: null,
+      external_urls: null,
+      product: null,
+      topTracks: null,
+      topArtists: null,
+      recommendedGenre: null,
+      userPlaylists: null,
+    };
     Promise.all([
       util.fetchUserData(accessToken).then((data) => {
-        this.setState(() => ({
-          ...this.state,
-          user: {
-            ...this.state.user,
-            display_name: data.display_name,
-            country: data.country,
-            followers: data.followers.total,
-            external_urls: data.external_urls,
-            images: data.images,
-            product: data.product,
-          },
-        }));
+        userData = {
+          ...userData,
+          display_name: data.display_name,
+          country: data.country,
+          followers: data.followers.total,
+          external_urls: data.external_urls,
+          images: data.images,
+          product: data.product,
+        };
       }),
       util.fetchTopTracks(accessToken).then((data) => {
-        this.setState(() => ({
-          ...this.state,
-          user: {
-            ...this.state.user,
-            topTracks: data.items,
-          },
-        }));
+        userData = {
+          ...userData,
+          topTracks: data.items,
+        };
       }),
       util.fetchUserPlaylists(accessToken).then((data) => {
-        this.setState(() => ({
-          ...this.state,
-          user: {
-            ...this.state.user,
-            userPlaylists: data.items,
-          },
-        }));
+        userData = {
+          ...userData,
+          userPlaylists: data.items,
+        };
       }),
       util
         .fetchTopArtists(accessToken)
         .then((data) => {
-          this.setState(() => ({
-            ...this.state,
-            user: {
-              ...this.state.user,
-              topArtists: data,
-            },
-          }));
+          userData = {
+            ...userData,
+            topArtists: data,
+          };
         })
-        .then(() => this.updateGenre())
+        .then(() => Main.updateGenre(userData))
         .then((genre) => {
-          this.setState(() => ({
-            ...this.state,
-            user: {
-              ...this.state.user,
-              recommendedGenre: genre,
-            },
-          }));
+          userData = {
+            ...userData,
+            recommendedGenre: genre,
+          };
         }),
     ]).then(() => {
-      this.setState(() => ({
-        ...this.state,
+      console.log('!!!!!!!!!!11');
+      this.setState({
+        user: userData,
         allUpdated: true,
-      }));
+      });
     });
   }
 
@@ -193,7 +201,7 @@ class Main extends Component {
             <WidgetWrapper>
               <WidgetTitle> Top 10 Tracks of {content[3]} </WidgetTitle>
 
-              <ol>{populateCards1}</ol>
+              <ol style={{ display: 'inline list-item' }}>{populateCards1}</ol>
             </WidgetWrapper>
           );
         }
@@ -210,7 +218,7 @@ class Main extends Component {
           return (
             <WidgetWrapper>
               <WidgetTitle> Viral 10 Tracks of {content[3]} </WidgetTitle>
-              <ol>{populateCards2}</ol>
+              <ol style={{ display: 'inline list-item' }}>{populateCards2}</ol>
             </WidgetWrapper>
           );
         }
@@ -227,7 +235,7 @@ class Main extends Component {
         return (
           <WidgetWrapper>
             <WidgetTitle> Radar Tracks of {content[3]} </WidgetTitle>
-            <ol>{populateCards3}</ol>
+            <ol style={{ display: 'inline list-item' }}>{populateCards3}</ol>
           </WidgetWrapper>
         );
       }
@@ -246,18 +254,6 @@ class Main extends Component {
     }
     return <WidgetTitle> Spotify is not supported in {content[0]} !</WidgetTitle>;
   };
-
-  async updateGenre() {
-    let genre = [];
-    const { user } = this.state;
-    user.topArtists.items.slice(0, 15).map((artist) => {
-      const temp = artist.genres;
-      genre = genre.concat(temp);
-      genre = _.uniq(genre);
-      return true;
-    });
-    return genre;
-  }
 
   render() {
     const { allUpdated, user, country } = this.state;

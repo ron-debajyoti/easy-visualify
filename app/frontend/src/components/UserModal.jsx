@@ -21,10 +21,10 @@ const Button = styled.button`
 
 const Img = styled.img`
   float: left;
-  border-radius: 100%;
-  width: 450%;
+  border-radius: 50%;
+  width: 10%;
   height: auto;
-  margin: 5px;
+  margin: 10px;
 `;
 
 const Wrapper = styled.div`
@@ -33,13 +33,15 @@ const Wrapper = styled.div`
 `;
 
 const IsDataWrapper = styled.div`
-  text-align: justify;
+  text-align: -moz-center;
 `;
 
-const UserTemplate = styled.div`
-  width: 20px;
-  height: 5px;
+const HeaderWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 20px;
 `;
+
 const NoUserTemplate = styled.div`
   border: 2px solid currentColor;
   border-radius: 100%;
@@ -47,6 +49,11 @@ const NoUserTemplate = styled.div`
 `;
 
 const UserName = styled.a`
+  margin: 20px;
+  color: white;
+  display: inline-flex;
+  text-align: center;
+
   &:hover &:visited &:active &:focus {
     color: white;
   }
@@ -55,8 +62,7 @@ const UserName = styled.a`
 const Name = styled.h1`
   font-size: 1.5em;
   font-weight: 50;
-  float: left;
-  margin: 20px 0 0;
+  margin: 25px 10px;
 `;
 
 const ChartTitle = styled.h3`
@@ -67,6 +73,8 @@ const Number = styled.div`
   color: white;
   font-weight: 500;
   font-size: 15px;
+  letter-spacing: 1px;
+  margin: 15px 0px 0px;
 `;
 
 const NumberLabel = styled.div`
@@ -74,17 +82,13 @@ const NumberLabel = styled.div`
   font-size: 15px;
   text-transform: uppercase;
   letter-spacing: 1px;
-  margin-top: 15px;
+  margin: 15px 5px 5px;
 `;
 
 const Stat = styled.div`
   text-align: center;
   display: inline-block;
-`;
-
-const Stats = styled.div`
-  display: flex;
-  margin-top: 20px;
+  margin: 20px;
 `;
 
 const Artist = styled.li`
@@ -135,9 +139,8 @@ const Heading = styled.div`
 `;
 const MinorWrapper = styled.section`
   display: flex;
-  width: 70%;
   justify-content: center;
-  margin-top: 100px;
+  margin-top: 15px;
   overflow: auto;
 `;
 
@@ -172,7 +175,7 @@ class UserModal extends Component {
   }
 
   // function visualTrackData
-  visualTrackData = () => {
+  visualTrackData = async () => {
     const accessToken = Cookies.get('access_token');
     const datatype = {
       danceability: 0,
@@ -378,27 +381,25 @@ class UserModal extends Component {
     if (userObject.display_name.length > 0) {
       return (
         <IsDataWrapper>
-          <UserTemplate>
+          <HeaderWrapper>
             {userObject.images.length > 0 ? (
               <Img src={userObject.images[0].url} alt="avatar" />
             ) : (
               <NoUserTemplate />
             )}
-          </UserTemplate>
-          <UserName
-            href={userObject.external_urls.spotify}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Name>{userObject.display_name}</Name>
-          </UserName>
+            <UserName
+              href={userObject.external_urls.spotify}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Name>{userObject.display_name}</Name>
+            </UserName>
 
-          <Stats>
             <Stat>
               <Number>{userObject.followers}</Number>
               <NumberLabel>Followers</NumberLabel>
             </Stat>
-          </Stats>
+          </HeaderWrapper>
 
           <MinorWrapper>
             <Heading>
