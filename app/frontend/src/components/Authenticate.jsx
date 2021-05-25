@@ -45,7 +45,7 @@ const setTokens = () => {
   if (util.isInvalid(refreshToken) && util.isInvalid(accessToken)) {
     return false;
   }
-  if (!util.isInvalid(refreshToken)) {
+  if (util.isInvalid(accessToken) && !util.isInvalid(refreshToken)) {
     console.log('!!!!!!!!!!!!!!!!!!');
     return refreshAccessToken(getRefreshToken());
   }
