@@ -400,7 +400,6 @@ class UserModal extends Component {
               <NumberLabel>Followers</NumberLabel>
             </Stat>
           </HeaderWrapper>
-
           <MinorWrapper>
             <Heading>
               <h3 style={{ color: 'white' }}>Top Listened Artists </h3>
@@ -410,7 +409,7 @@ class UserModal extends Component {
                     {userObject.topArtists.items.slice(0, 10).map((artist) => (
                       <Artist key={nanoid()}>
                         <ArtistArtwork>
-                          {artist.images.length && <Img src={artist.images[2].url} alt="Artist" />}
+                          {artist.images.length && <Img src={artist.images[1].url} alt="Artist" />}
                         </ArtistArtwork>
                         <ArtistName>
                           <a href={artist.external_urls.spotify}>
@@ -427,12 +426,38 @@ class UserModal extends Component {
             </Heading>
             <div style={{ margin: '10px' }} />
             <Heading style>
+              <h3 style={{ color: 'white' }}>Top Listened Songs</h3>
+              <div>
+                {userObject.topTracks ? (
+                  <ul key={nanoid()}>
+                    {userObject.topTracks.slice(0, 10).map((item) => (
+                      <Artist key={nanoid()}>
+                        <ArtistArtwork>
+                          {item.album.images.length && (
+                            <Img src={item.album.images[2].url} alt="AlbumArt" />
+                          )}
+                        </ArtistArtwork>
+                        <ArtistName>
+                          <a href={item.external_urls.spotify}>
+                            <span>{item.name}</span>
+                          </a>
+                        </ArtistName>
+                      </Artist>
+                    ))}
+                  </ul>
+                ) : (
+                  <div />
+                )}
+              </div>
+            </Heading>
+            <div style={{ margin: '10px' }} />
+            <Heading style>
               <h3 style={{ color: 'white' }}>Top Music Genre</h3>
               <div>
                 {userObject.recommendedGenre ? (
                   <ul key={nanoid()}>
-                    {userObject.recommendedGenre.slice(0, 10).map((item) => (
-                      <Artist id={nanoid()}>
+                    {userObject.recommendedGenre.slice(0, 15).map((item) => (
+                      <Artist key={nanoid()}>
                         <ArtistName>
                           <span style={{ color: 'white' }}>{item}</span>
                         </ArtistName>
@@ -453,7 +478,13 @@ class UserModal extends Component {
             <Radar
               data={chartData}
               options={{
-                legend: { scale: { pointLabels: { fontSize: 20 } }, labels: { fontSize: 20 } },
+                legend: {
+                  scale: { pointLabels: { fontSize: 20 } },
+                  labels: {
+                    font: 20,
+                    fontSize: window.innerWidth > 350 ? 20 : 10,
+                  },
+                },
               }}
             />
           </div>
