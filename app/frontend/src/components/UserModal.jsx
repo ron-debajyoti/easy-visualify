@@ -32,6 +32,10 @@ const Wrapper = styled.div`
   display: inline-block;
 `;
 
+const Space = styled.div`
+  margin: 10px;
+`;
+
 const IsDataWrapper = styled.div`
   text-align: -moz-center;
 `;
@@ -144,8 +148,21 @@ const MinorWrapper = styled.section`
   overflow: auto;
 `;
 
+const user = {
+  display_name: PropTypes.string.isRequired,
+  country: PropTypes.string.isRequired,
+  followers: PropTypes.number.isRequired,
+  images: PropTypes.any,
+  external_urls: PropTypes.string,
+  product: PropTypes.any,
+  topTracks: PropTypes.array.isRequired,
+  topArtists: PropTypes.array.isRequired,
+  recommendedGenre: PropTypes.array.isRequired,
+  userPlaylists: PropTypes.array.isRequired,
+};
+
 const propTypes = {
-  userObject: PropTypes.object.isRequired,
+  userObject: PropTypes.instanceOf(user).isRequired,
 };
 
 class UserModal extends Component {
@@ -200,9 +217,9 @@ class UserModal extends Component {
       userObject.topTracks
         .map((track) =>
           util.fetchAudioFeatures(accessToken, track.id).then((response) => {
-            for (const [key, value] of Object.entries(response)) {
-              datatype[key] = datatype[key] + value / 30;
-            }
+            Object.keys(response).forEach((key) => {
+              datatype[key] += response[key] / 30;
+            });
             return datatype;
           })
         )
@@ -264,9 +281,9 @@ class UserModal extends Component {
             util.fetchAudioFeaturesForMultipleTracks(accessToken, arrayTracks).then((response) =>
               response.audio_features.map((r) => {
                 if (r !== undefined && r !== null) {
-                  for (const [key, value] of Object.entries(r)) {
-                    datatype2[key] = datatype2[key] + value / playlist.count;
-                  }
+                  Object.keys(r).forEach((key) => {
+                    datatype2[key] += r[key] / playlist.count;
+                  });
                 }
                 return datatype2;
               })
@@ -313,10 +330,11 @@ class UserModal extends Component {
         // modeling data for Top 30 songs
         if (topSongsData !== null || topSongsData !== undefined) {
           let temp = [];
-          for (const item in topSongsData) {
-            labelData = labelData.concat(item);
-            temp = temp.concat(topSongsData[item]);
-          }
+
+          Object.keys(topSongsData).forEach((key) => {
+            labelData = labelData.concat(key);
+            temp = temp.concat(topSongsData[key]);
+          });
 
           datasets = datasets.concat({
             label: 'Top 30 songs analysis',
@@ -334,9 +352,9 @@ class UserModal extends Component {
         playlistData.forEach((item) => {
           if (item.trackData !== null || item.trackData !== undefined) {
             let temp = [];
-            for (const i in item.trackData) {
-              temp = temp.concat(item.trackData[i]);
-            }
+            Object.keys(item.trackData).forEach((e) => {
+              temp = temp.concat(item.trackData[e]);
+            });
 
             temp = temp.slice(0, 7);
             const backgroundColor = `#33${(0x1000000 + Math.random() * 0xffffff)
@@ -367,10 +385,9 @@ class UserModal extends Component {
         return data;
       })
       .then((data) => {
-        this.setState(() => ({
-          ...this.state,
+        this.setState({
           chartData: data,
-        }));
+        });
       });
   };
 
@@ -424,7 +441,7 @@ class UserModal extends Component {
                 )}
               </div>
             </Heading>
-            <div style={{ margin: '10px' }} />
+            <Space />
             <Heading style>
               <h3 style={{ color: 'white' }}>Top Listened Songs</h3>
               <div>
@@ -450,7 +467,7 @@ class UserModal extends Component {
                 )}
               </div>
             </Heading>
-            <div style={{ margin: '10px' }} />
+            <Space />
             <Heading style>
               <h3 style={{ color: 'white' }}>Top Music Genre</h3>
               <div>
@@ -502,9 +519,10 @@ class UserModal extends Component {
 
   render() {
     const { showModal } = this.state;
+    const { userObject } = this.props;
     return (
       <Wrapper>
-        <Button onClick={this.handleOpenModal}>View Your Stats! </Button>
+        <Button onClick={this.handleOpenModal}>{userObject.display_name}&apos;s Stats! </Button>
         <ReactModal isOpen={showModal} contentLabel="Modal" className="Popup">
           <this.checkPropIsNull />
         </ReactModal>
