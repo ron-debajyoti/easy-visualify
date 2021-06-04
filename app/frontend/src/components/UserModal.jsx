@@ -19,14 +19,6 @@ const Button = styled.button`
   bottom: 0;
 `;
 
-const Img = styled.img`
-  float: left;
-  border-radius: 50%;
-  width: 10%;
-  height: auto;
-  margin: 10px;
-`;
-
 const Wrapper = styled.div`
   background-color: transparent;
   display: inline-block;
@@ -96,23 +88,31 @@ const Stat = styled.div`
 `;
 
 const Artist = styled.li`
-  display: flex;
+  display: inline;
   align-items: center;
-  margin-bottom: 15px;
+  margin: 15px 10px;
   &: hover;
 `;
 const ArtistArtwork = styled.div`
   display: inline-block;
   position: relative;
   width: 30px;
-  min-width: 30px;
-  margin-right: 15px;
+  margin: 5px;
   img {
     width: 30px;
-    min-width: 30px;
     height: 30px;
-    margin-right: 15px;
+    margin: 10px;
     border-radius: 100%;
+  }
+`;
+
+const SongArtwork = styled.div`
+  display: inline-block;
+  img {
+    width: 60px;
+    height: 60px;
+    margin: 5px;
+    border-radius: 50%;
   }
 `;
 
@@ -132,18 +132,39 @@ const ArtistName = styled.div`
   }
 `;
 
-const Heading = styled.div`
-  display: inline-block;
-  float: left;
-  justify-content: space-between;
-  margin: 40px 50px h3 {
-    display: inline-block;
-    margin: 10;
+const SongName = styled.div`
+  flex-grow: 1;
+  a {
+    color: white;
+    text-decoration: none;
+  }
+  span {
+    font-size: medium;
+    border-bottom: 1px solid transparent;
+    &:hover,
+    &:focus {
+      color: white;
+      border-bottom: 1px solid black;
+    }+-+
   }
 `;
+
+const Heading = styled.div`
+  display: inline-block;
+  justify-content: space-between;
+  margin: 20px;
+`;
+
+const HeadHeader = styled.h3`
+  display: inline-block;
+  color: white;
+  margin: 10px;
+`;
+
 const MinorWrapper = styled.section`
   display: flex;
   justify-content: center;
+  align-items: flex-start;
   margin-top: 15px;
   overflow: auto;
 `;
@@ -225,33 +246,30 @@ class UserModal extends Component {
         )
         .concat(
           userObject.userPlaylists.map((playlist) => {
-            if (playlist.owner.display_name === userObject.display_name) {
-              const offset = 0;
-              const playlistTemp = JSON.parse(JSON.stringify(template));
-              playlistTemp.name = playlist.name;
-              playlistTemp.description = playlist.description;
+            const offset = 0;
+            const playlistTemp = JSON.parse(JSON.stringify(template));
+            playlistTemp.name = playlist.name;
+            playlistTemp.description = playlist.description;
 
-              let offsetPassedAgain;
-              const checker = async (token, playlistPassed, offsetPassed) => {
-                if (offsetPassed < playlistPassed.tracks.total) {
-                  return util
-                    .fetchTracksfromPlaylists(token, playlistPassed.href, offsetPassed)
-                    .then((response) => {
-                      playlistTemp.tracks = playlistTemp.tracks.concat(response.items);
-                      // console.log(playlistTemp.tracks)
-                      offsetPassedAgain = offsetPassed + 100;
-                    })
-                    .then(() => checker(token, playlistPassed, offsetPassedAgain));
-                }
-                return playlistTemp;
-              };
-              return checker(accessToken, playlist, offset).then(() => {
-                playlistTemp.count = playlistTemp.tracks.length;
-                // console.log(playlistTemp)
-                return playlistTemp;
-              });
-            }
-            return null;
+            let offsetPassedAgain;
+            const checker = async (token, playlistPassed, offsetPassed) => {
+              if (offsetPassed < playlistPassed.tracks.total) {
+                return util
+                  .fetchTracksfromPlaylists(token, playlistPassed.href, offsetPassed)
+                  .then((response) => {
+                    playlistTemp.tracks = playlistTemp.tracks.concat(response.items);
+                    // console.log(playlistTemp.tracks)
+                    offsetPassedAgain = offsetPassed + 100;
+                  })
+                  .then(() => checker(token, playlistPassed, offsetPassedAgain));
+              }
+              return playlistTemp;
+            };
+            return checker(accessToken, playlist, offset).then(() => {
+              playlistTemp.count = playlistTemp.tracks.length;
+              // console.log(playlistTemp)
+              return playlistTemp;
+            });
           })
         )
     ).then((data) => {
@@ -309,6 +327,7 @@ class UserModal extends Component {
           }
           return Promise.all(promises);
         }
+        return null;
       });
 
       return Promise.all(pd)
@@ -400,7 +419,7 @@ class UserModal extends Component {
         <IsDataWrapper>
           <HeaderWrapper>
             {userObject.images.length > 0 ? (
-              <Img src={userObject.images[0].url} alt="avatar" />
+              <img src={userObject.images[0].url} alt="avatar" />
             ) : (
               <NoUserTemplate />
             )}
@@ -419,14 +438,14 @@ class UserModal extends Component {
           </HeaderWrapper>
           <MinorWrapper>
             <Heading>
-              <h3 style={{ color: 'white' }}>Top Listened Artists </h3>
+              <HeadHeader>Top Listened Artists </HeadHeader>
               <div>
                 {userObject.topArtists ? (
-                  <ul key={nanoid()}>
+                  <ul key={nanoid()} style={{ padding: '20px' }}>
                     {userObject.topArtists.items.slice(0, 10).map((artist) => (
                       <Artist key={nanoid()}>
                         <ArtistArtwork>
-                          {artist.images.length && <Img src={artist.images[1].url} alt="Artist" />}
+                          {artist.images.length && <img src={artist.images[1].url} alt="Artist" />}
                         </ArtistArtwork>
                         <ArtistName>
                           <a href={artist.external_urls.spotify}>
@@ -443,22 +462,29 @@ class UserModal extends Component {
             </Heading>
             <Space />
             <Heading style>
-              <h3 style={{ color: 'white' }}>Top Listened Songs</h3>
+              <HeadHeader>Top Listened Songs</HeadHeader>
               <div>
                 {userObject.topTracks ? (
-                  <ul key={nanoid()}>
+                  <ul key={nanoid()} style={{ padding: '20px' }}>
                     {userObject.topTracks.slice(0, 10).map((item) => (
                       <Artist key={nanoid()}>
-                        <ArtistArtwork>
+                        <SongArtwork>
                           {item.album.images.length && (
-                            <Img src={item.album.images[2].url} alt="AlbumArt" />
+                            <img src={item.album.images[0].url} alt="AlbumArt" />
                           )}
-                        </ArtistArtwork>
+                        </SongArtwork>
                         <ArtistName>
                           <a href={item.external_urls.spotify}>
                             <span>{item.name}</span>
                           </a>
                         </ArtistName>
+                        {item.artists.map((artist) => (
+                          <SongName>
+                            <a href={artist.external_urls.spotify}>
+                              <span>{artist.name}</span>
+                            </a>
+                          </SongName>
+                        ))}
                       </Artist>
                     ))}
                   </ul>
@@ -469,10 +495,10 @@ class UserModal extends Component {
             </Heading>
             <Space />
             <Heading style>
-              <h3 style={{ color: 'white' }}>Top Music Genre</h3>
+              <HeadHeader>Top Music Genre</HeadHeader>
               <div>
                 {userObject.recommendedGenre ? (
-                  <ul key={nanoid()}>
+                  <ul key={nanoid()} style={{ padding: '20px' }}>
                     {userObject.recommendedGenre.slice(0, 15).map((item) => (
                       <Artist key={nanoid()}>
                         <ArtistName>
@@ -490,7 +516,7 @@ class UserModal extends Component {
           <div>
             <ChartTitle style={{ color: 'white' }}>
               {' '}
-              Audio Analysis of Tracks and Playlists{' '}
+              Audio Analysis of Tracks and Saved Playlists{' '}
             </ChartTitle>
             <Radar
               data={chartData}

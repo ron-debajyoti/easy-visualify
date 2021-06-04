@@ -41,9 +41,9 @@ const Section2 = styled.div`
   width: 25%;
 `;
 
-const MainTitle = styled.h1`
+const MainTitle = styled.h2`
   color: white;
-  text-align: center;
+  text-align: start;
   background: black;
 `;
 
@@ -208,7 +208,7 @@ class Main extends Component {
         return (
           <WidgetTitle>
             <WidgetTitle style={{ fontSize: '1em' }}>
-              Spotify doesn`&apos;`t have the data yet. Try Radar Tracks
+              Spotify doesn&apos;t have the data yet. Try Radar Tracks
             </WidgetTitle>
           </WidgetTitle>
         );
@@ -226,7 +226,7 @@ class Main extends Component {
           <WidgetTitle>
             <WidgetTitle style={{ fontSize: '1em' }}>
               {' '}
-              Spotify doesn`&apos;`t have the data yet. Try Radar Tracks{' '}
+              Spotify doesn&apos;t have the data yet. Try Radar Tracks{' '}
             </WidgetTitle>
           </WidgetTitle>
         );
@@ -261,7 +261,7 @@ class Main extends Component {
     if (allUpdated) {
       return (
         <Wrapper>
-          <MainTitle>Welcome</MainTitle>
+          <MainTitle> Main Page </MainTitle>
           <Section1>
             <UserModal userObject={user} />
             {/* <Link to="/main">
