@@ -127,7 +127,7 @@ const RadarChart = (props) => {
         Audio Analysis of Tracks and Saved Playlists{' '}
       </ChartTitle>
       <Wrapper>
-        <Message>User owned playlists</Message>
+        <Message>User created playlists</Message>
         <CheckBoxWrapper>
           <CheckBox id="checkbox" type="checkbox" onChange={() => handleOnChange()} />
           <CheckBoxLabel htmlFor="checkbox" />

@@ -8,6 +8,7 @@ import { nanoid } from 'nanoid';
 import * as util from '../utils/Utility';
 import RadarChart from './RadarChart';
 import '../css/Modal.css';
+import Loading from '../images/loading3.gif';
 
 const Button = styled.button`
   font-size: 1em;
@@ -35,6 +36,8 @@ const IsDataWrapper = styled.div`
 const HeaderWrapper = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-direction: row;
   margin: 20px;
 `;
 
@@ -42,6 +45,12 @@ const NoUserTemplate = styled.div`
   border: 2px solid currentColor;
   border-radius: 100%;
   padding: 20px;
+`;
+
+const UserImage = styled.img`
+  height: 150px;
+  width: 125px;
+  border-radius: 50%;
 `;
 
 const UserName = styled.a`
@@ -84,7 +93,7 @@ const Stat = styled.div`
 `;
 
 const Artist = styled.li`
-  display: inline;
+  display: -webkit-box;
   align-items: center;
   margin: 15px 10px;
   &: hover;
@@ -104,21 +113,23 @@ const ArtistArtwork = styled.div`
 
 const SongArtwork = styled.div`
   display: inline-block;
+  margin: 5px;
   img {
     width: 60px;
     height: 60px;
     margin: 5px;
-    border-radius: 50%;
   }
 `;
 
 const ArtistName = styled.div`
   flex-grow: 1;
+  margin: 5px;
   a {
     color: white;
     text-decoration: none;
   }
   span {
+    font-size: medium;
     border-bottom: 1px solid transparent;
     &:hover,
     &:focus {
@@ -130,12 +141,13 @@ const ArtistName = styled.div`
 
 const SongName = styled.div`
   flex-grow: 1;
+  margin: 5px;
   a {
     color: white;
     text-decoration: none;
   }
   span {
-    font-size: medium;
+    font-size: small;
     border-bottom: 1px solid transparent;
     &:hover,
     &:focus {
@@ -423,23 +435,25 @@ class UserModal extends Component {
       return (
         <IsDataWrapper>
           <HeaderWrapper>
-            {userObject.images.length > 0 ? (
-              <img src={userObject.images[0].url} alt="avatar" />
-            ) : (
-              <NoUserTemplate />
-            )}
-            <UserName
-              href={userObject.external_urls.spotify}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Name>{userObject.display_name}</Name>
-            </UserName>
+            <div style={{}}>
+              {userObject.images.length > 0 ? (
+                <UserImage src={userObject.images[0].url} alt="avatar" />
+              ) : (
+                <NoUserTemplate />
+              )}
+              <UserName
+                href={userObject.external_urls.spotify}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Name>{userObject.display_name}</Name>
+              </UserName>
 
-            <Stat>
-              <Number>{userObject.followers}</Number>
-              <NumberLabel>Followers</NumberLabel>
-            </Stat>
+              <Stat>
+                <Number>{userObject.followers}</Number>
+                <NumberLabel>Followers</NumberLabel>
+              </Stat>
+            </div>
           </HeaderWrapper>
           <MinorWrapper>
             <Heading>
@@ -470,7 +484,10 @@ class UserModal extends Component {
               <HeadHeader>Top Listened Songs</HeadHeader>
               <div>
                 {userObject.topTracks ? (
-                  <ul key={nanoid()} style={{ padding: '20px' }}>
+                  <ul
+                    key={nanoid()}
+                    style={{ padding: '20px', display: 'table-row', textAlign: 'initial' }}
+                  >
                     {userObject.topTracks.slice(0, 10).map((item) => (
                       <Artist key={nanoid()}>
                         <SongArtwork>
@@ -478,18 +495,20 @@ class UserModal extends Component {
                             <img src={item.album.images[0].url} alt="AlbumArt" />
                           )}
                         </SongArtwork>
-                        <ArtistName>
-                          <a href={item.external_urls.spotify}>
-                            <span>{item.name}</span>
-                          </a>
-                        </ArtistName>
-                        {item.artists.map((artist) => (
-                          <SongName key={nanoid()}>
-                            <a href={artist.external_urls.spotify}>
-                              <span>{artist.name}</span>
+                        <div>
+                          <ArtistName>
+                            <a href={item.external_urls.spotify}>
+                              <span>{item.name}</span>
                             </a>
-                          </SongName>
-                        ))}
+                          </ArtistName>
+                          {item.artists.map((artist) => (
+                            <SongName key={nanoid()}>
+                              <a href={artist.external_urls.spotify}>
+                                <span>{artist.name}</span>
+                              </a>
+                            </SongName>
+                          ))}
+                        </div>
                       </Artist>
                     ))}
                   </ul>
@@ -521,7 +540,10 @@ class UserModal extends Component {
           {chartData ? (
             <RadarChart chartData={chartData} username={userObject.display_name} />
           ) : (
-            <HeadHeader>Audio Data is still loading....</HeadHeader>
+            <div>
+              <HeadHeader>Audio Data is still loading....</HeadHeader>
+              <img src={Loading} alt='loading..' />
+            </div>
           )}
           <Button onClick={this.handleCloseModal}>Close</Button>
         </IsDataWrapper>
