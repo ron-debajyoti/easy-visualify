@@ -3,10 +3,10 @@ import ReactModal from 'react-modal';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/macro';
 import Cookies from 'js-cookie';
-import { Radar } from 'react-chartjs-2';
 import { nanoid } from 'nanoid';
 
 import * as util from '../utils/Utility';
+import RadarChart from './RadarChart';
 import '../css/Modal.css';
 
 const Button = styled.button`
@@ -59,10 +59,6 @@ const Name = styled.h1`
   font-size: 1.5em;
   font-weight: 50;
   margin: 25px 10px;
-`;
-
-const ChartTitle = styled.h3`
-  text-align: center;
 `;
 
 const Number = styled.div`
@@ -228,6 +224,7 @@ class UserModal extends Component {
     const template = {
       name: null,
       description: null,
+      owner: null,
       tracks: [],
       trackAnalysis: null,
       count: 0,
@@ -250,6 +247,7 @@ class UserModal extends Component {
             const playlistTemp = JSON.parse(JSON.stringify(template));
             playlistTemp.name = playlist.name;
             playlistTemp.description = playlist.description;
+            playlistTemp.owner = playlist.owner.display_name;
 
             let offsetPassedAgain;
             const checker = async (token, playlistPassed, offsetPassed) => {
@@ -290,6 +288,7 @@ class UserModal extends Component {
           };
           const template2 = {
             name: playlist.name,
+            owner: playlist.owner,
             description: playlist.description,
             trackData: null,
           };
@@ -368,6 +367,11 @@ class UserModal extends Component {
         }
 
         // modeling data for Playlists
+        /* Creating two datasets , one with saved playlists and other with owner's playlist only
+          is kinda better. Might take some extra time preprocessing it but rendering the chart is 
+          going to be easy wrt to the toggle button.
+        */
+
         playlistData.forEach((item) => {
           if (item.trackData !== null || item.trackData !== undefined) {
             let temp = [];
@@ -384,6 +388,7 @@ class UserModal extends Component {
               .substr(1, 6)}`;
 
             datasets = datasets.concat({
+              owner: item.owner,
               label: item.name,
               backgroundColor,
               borderColor,
@@ -479,7 +484,7 @@ class UserModal extends Component {
                           </a>
                         </ArtistName>
                         {item.artists.map((artist) => (
-                          <SongName>
+                          <SongName key={nanoid()}>
                             <a href={artist.external_urls.spotify}>
                               <span>{artist.name}</span>
                             </a>
@@ -513,24 +518,11 @@ class UserModal extends Component {
               </div>
             </Heading>
           </MinorWrapper>
-          <div>
-            <ChartTitle style={{ color: 'white' }}>
-              {' '}
-              Audio Analysis of Tracks and Saved Playlists{' '}
-            </ChartTitle>
-            <Radar
-              data={chartData}
-              options={{
-                legend: {
-                  scale: { pointLabels: { fontSize: 20 } },
-                  labels: {
-                    font: 20,
-                    fontSize: window.innerWidth > 350 ? 20 : 10,
-                  },
-                },
-              }}
-            />
-          </div>
+          {chartData ? (
+            <RadarChart chartData={chartData} username={userObject.display_name} />
+          ) : (
+            <HeadHeader>Audio Data is still loading....</HeadHeader>
+          )}
           <Button onClick={this.handleCloseModal}>Close</Button>
         </IsDataWrapper>
       );
