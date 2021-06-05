@@ -20,6 +20,11 @@ const Button = styled.button`
   bottom: 0;
 `;
 
+const UserWrapper = styled.div`
+  display: flex;
+  margin: 10px 10px 10px auto;
+`;
+
 const Wrapper = styled.div`
   background-color: transparent;
   display: inline-block;
@@ -54,9 +59,9 @@ const UserImage = styled.img`
 `;
 
 const UserName = styled.a`
-  margin: 20px;
+  margin: 5px;
   color: white;
-  display: inline-flex;
+  display: initial;
   text-align: center;
 
   &:hover &:visited &:active &:focus {
@@ -73,23 +78,23 @@ const Name = styled.h1`
 const Number = styled.div`
   color: white;
   font-weight: 500;
-  font-size: 15px;
+  font-size: small;
   letter-spacing: 1px;
-  margin: 15px 0px 0px;
+  margin: 5px 0px 0px;
 `;
 
 const NumberLabel = styled.div`
   color: white;
-  font-size: 15px;
+  font-size: small;
   text-transform: uppercase;
   letter-spacing: 1px;
-  margin: 15px 5px 5px;
+  margin: 5px 5px 5px;
 `;
 
 const Stat = styled.div`
   text-align: center;
   display: inline-block;
-  margin: 20px;
+  margin: 10px;
 `;
 
 const Artist = styled.li`
@@ -435,25 +440,28 @@ class UserModal extends Component {
       return (
         <IsDataWrapper>
           <HeaderWrapper>
-            <div style={{}}>
+            <h2 style={{ color: 'white' }}>Statistics</h2>
+            <UserWrapper>
               {userObject.images.length > 0 ? (
                 <UserImage src={userObject.images[0].url} alt="avatar" />
               ) : (
                 <NoUserTemplate />
               )}
-              <UserName
-                href={userObject.external_urls.spotify}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Name>{userObject.display_name}</Name>
-              </UserName>
+              <div style={{ display: 'inline-grid' }}>
+                <UserName
+                  href={userObject.external_urls.spotify}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Name>{userObject.display_name}</Name>
+                </UserName>
 
-              <Stat>
-                <Number>{userObject.followers}</Number>
-                <NumberLabel>Followers</NumberLabel>
-              </Stat>
-            </div>
+                <Stat>
+                  <Number>{userObject.followers}</Number>
+                  <NumberLabel>Followers</NumberLabel>
+                </Stat>
+              </div>
+            </UserWrapper>
           </HeaderWrapper>
           <MinorWrapper>
             <Heading>
@@ -542,7 +550,7 @@ class UserModal extends Component {
           ) : (
             <div>
               <HeadHeader>Audio Data is still loading....</HeadHeader>
-              <img src={Loading} alt='loading..' />
+              <img src={Loading} alt="loading.." />
             </div>
           )}
           <Button onClick={this.handleCloseModal}>Close</Button>
