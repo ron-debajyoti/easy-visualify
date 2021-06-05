@@ -3,11 +3,12 @@ import ReactModal from 'react-modal';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/macro';
 import Cookies from 'js-cookie';
-import { Radar } from 'react-chartjs-2';
 import { nanoid } from 'nanoid';
 
 import * as util from '../utils/Utility';
+import RadarChart from './RadarChart';
 import '../css/Modal.css';
+import Loading from '../images/loading3.gif';
 
 const Button = styled.button`
   font-size: 1em;
@@ -19,17 +20,18 @@ const Button = styled.button`
   bottom: 0;
 `;
 
-const Img = styled.img`
-  float: left;
-  border-radius: 50%;
-  width: 10%;
-  height: auto;
-  margin: 10px;
+const UserWrapper = styled.div`
+  display: flex;
+  margin: 10px 10px 10px auto;
 `;
 
 const Wrapper = styled.div`
   background-color: transparent;
   display: inline-block;
+`;
+
+const Space = styled.div`
+  margin: 10px;
 `;
 
 const IsDataWrapper = styled.div`
@@ -39,6 +41,8 @@ const IsDataWrapper = styled.div`
 const HeaderWrapper = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-direction: row;
   margin: 20px;
 `;
 
@@ -48,10 +52,16 @@ const NoUserTemplate = styled.div`
   padding: 20px;
 `;
 
+const UserImage = styled.img`
+  height: 150px;
+  width: 125px;
+  border-radius: 50%;
+`;
+
 const UserName = styled.a`
-  margin: 20px;
+  margin: 5px;
   color: white;
-  display: inline-flex;
+  display: initial;
   text-align: center;
 
   &:hover &:visited &:active &:focus {
@@ -65,60 +75,66 @@ const Name = styled.h1`
   margin: 25px 10px;
 `;
 
-const ChartTitle = styled.h3`
-  text-align: center;
-`;
-
 const Number = styled.div`
   color: white;
   font-weight: 500;
-  font-size: 15px;
+  font-size: small;
   letter-spacing: 1px;
-  margin: 15px 0px 0px;
+  margin: 5px 0px 0px;
 `;
 
 const NumberLabel = styled.div`
   color: white;
-  font-size: 15px;
+  font-size: small;
   text-transform: uppercase;
   letter-spacing: 1px;
-  margin: 15px 5px 5px;
+  margin: 5px 5px 5px;
 `;
 
 const Stat = styled.div`
   text-align: center;
   display: inline-block;
-  margin: 20px;
+  margin: 10px;
 `;
 
 const Artist = styled.li`
-  display: flex;
+  display: -webkit-box;
   align-items: center;
-  margin-bottom: 15px;
+  margin: 15px 10px;
   &: hover;
 `;
 const ArtistArtwork = styled.div`
   display: inline-block;
   position: relative;
   width: 30px;
-  min-width: 30px;
-  margin-right: 15px;
+  margin: 5px;
   img {
     width: 30px;
-    min-width: 30px;
     height: 30px;
-    margin-right: 15px;
+    margin: 10px;
     border-radius: 100%;
+  }
+`;
+
+const SongArtwork = styled.div`
+  display: inline-block;
+  margin: 5px;
+  img {
+    width: 60px;
+    height: 60px;
+    margin: 5px;
   }
 `;
 
 const ArtistName = styled.div`
   flex-grow: 1;
+  margin: 5px;
   a {
     color: white;
     text-decoration: none;
   }
   span {
+    font-size: medium;
     border-bottom: 1px solid transparent;
     &:hover,
     &:focus {
@@ -128,24 +144,59 @@ const ArtistName = styled.div`
   }
 `;
 
-const Heading = styled.div`
-  display: inline-block;
-  float: left;
-  justify-content: space-between;
-  margin: 40px 50px h3 {
-    display: inline-block;
-    margin: 10;
+const SongName = styled.div`
+  flex-grow: 1;
+  margin: 5px;
+  a {
+    color: white;
+    text-decoration: none;
+  }
+  span {
+    font-size: small;
+    border-bottom: 1px solid transparent;
+    &:hover,
+    &:focus {
+      color: white;
+      border-bottom: 1px solid black;
+    }+-+
   }
 `;
+
+const Heading = styled.div`
+  display: inline-block;
+  justify-content: space-between;
+  margin: 20px;
+`;
+
+const HeadHeader = styled.h3`
+  display: inline-block;
+  color: white;
+  margin: 10px;
+`;
+
 const MinorWrapper = styled.section`
   display: flex;
   justify-content: center;
+  align-items: flex-start;
   margin-top: 15px;
   overflow: auto;
 `;
 
+const user = {
+  display_name: PropTypes.string.isRequired,
+  country: PropTypes.string.isRequired,
+  followers: PropTypes.number.isRequired,
+  images: PropTypes.any,
+  external_urls: PropTypes.string,
+  product: PropTypes.any,
+  topTracks: PropTypes.array.isRequired,
+  topArtists: PropTypes.array.isRequired,
+  recommendedGenre: PropTypes.array.isRequired,
+  userPlaylists: PropTypes.array.isRequired,
+};
+
 const propTypes = {
-  userObject: PropTypes.object.isRequired,
+  userObject: PropTypes.instanceOf(user).isRequired,
 };
 
 class UserModal extends Component {
@@ -190,6 +241,7 @@ class UserModal extends Component {
     const template = {
       name: null,
       description: null,
+      owner: null,
       tracks: [],
       trackAnalysis: null,
       count: 0,
@@ -200,41 +252,39 @@ class UserModal extends Component {
       userObject.topTracks
         .map((track) =>
           util.fetchAudioFeatures(accessToken, track.id).then((response) => {
-            for (const [key, value] of Object.entries(response)) {
-              datatype[key] = datatype[key] + value / 30;
-            }
+            Object.keys(response).forEach((key) => {
+              datatype[key] += response[key] / 30;
+            });
             return datatype;
           })
         )
         .concat(
           userObject.userPlaylists.map((playlist) => {
-            if (playlist.owner.display_name === userObject.display_name) {
-              const offset = 0;
-              const playlistTemp = JSON.parse(JSON.stringify(template));
-              playlistTemp.name = playlist.name;
-              playlistTemp.description = playlist.description;
+            const offset = 0;
+            const playlistTemp = JSON.parse(JSON.stringify(template));
+            playlistTemp.name = playlist.name;
+            playlistTemp.description = playlist.description;
+            playlistTemp.owner = playlist.owner.display_name;
 
-              let offsetPassedAgain;
-              const checker = async (token, playlistPassed, offsetPassed) => {
-                if (offsetPassed < playlistPassed.tracks.total) {
-                  return util
-                    .fetchTracksfromPlaylists(token, playlistPassed.href, offsetPassed)
-                    .then((response) => {
-                      playlistTemp.tracks = playlistTemp.tracks.concat(response.items);
-                      // console.log(playlistTemp.tracks)
-                      offsetPassedAgain = offsetPassed + 100;
-                    })
-                    .then(() => checker(token, playlistPassed, offsetPassedAgain));
-                }
-                return playlistTemp;
-              };
-              return checker(accessToken, playlist, offset).then(() => {
-                playlistTemp.count = playlistTemp.tracks.length;
-                // console.log(playlistTemp)
-                return playlistTemp;
-              });
-            }
-            return null;
+            let offsetPassedAgain;
+            const checker = async (token, playlistPassed, offsetPassed) => {
+              if (offsetPassed < playlistPassed.tracks.total) {
+                return util
+                  .fetchTracksfromPlaylists(token, playlistPassed.href, offsetPassed)
+                  .then((response) => {
+                    playlistTemp.tracks = playlistTemp.tracks.concat(response.items);
+                    // console.log(playlistTemp.tracks)
+                    offsetPassedAgain = offsetPassed + 100;
+                  })
+                  .then(() => checker(token, playlistPassed, offsetPassedAgain));
+              }
+              return playlistTemp;
+            };
+            return checker(accessToken, playlist, offset).then(() => {
+              playlistTemp.count = playlistTemp.tracks.length;
+              // console.log(playlistTemp)
+              return playlistTemp;
+            });
           })
         )
     ).then((data) => {
@@ -255,6 +305,7 @@ class UserModal extends Component {
           };
           const template2 = {
             name: playlist.name,
+            owner: playlist.owner,
             description: playlist.description,
             trackData: null,
           };
@@ -264,9 +315,9 @@ class UserModal extends Component {
             util.fetchAudioFeaturesForMultipleTracks(accessToken, arrayTracks).then((response) =>
               response.audio_features.map((r) => {
                 if (r !== undefined && r !== null) {
-                  for (const [key, value] of Object.entries(r)) {
-                    datatype2[key] = datatype2[key] + value / playlist.count;
-                  }
+                  Object.keys(r).forEach((key) => {
+                    datatype2[key] += r[key] / playlist.count;
+                  });
                 }
                 return datatype2;
               })
@@ -292,6 +343,7 @@ class UserModal extends Component {
           }
           return Promise.all(promises);
         }
+        return null;
       });
 
       return Promise.all(pd)
@@ -313,10 +365,11 @@ class UserModal extends Component {
         // modeling data for Top 30 songs
         if (topSongsData !== null || topSongsData !== undefined) {
           let temp = [];
-          for (const item in topSongsData) {
-            labelData = labelData.concat(item);
-            temp = temp.concat(topSongsData[item]);
-          }
+
+          Object.keys(topSongsData).forEach((key) => {
+            labelData = labelData.concat(key);
+            temp = temp.concat(topSongsData[key]);
+          });
 
           datasets = datasets.concat({
             label: 'Top 30 songs analysis',
@@ -331,12 +384,17 @@ class UserModal extends Component {
         }
 
         // modeling data for Playlists
+        /* Creating two datasets , one with saved playlists and other with owner's playlist only
+          is kinda better. Might take some extra time preprocessing it but rendering the chart is 
+          going to be easy wrt to the toggle button.
+        */
+
         playlistData.forEach((item) => {
           if (item.trackData !== null || item.trackData !== undefined) {
             let temp = [];
-            for (const i in item.trackData) {
-              temp = temp.concat(item.trackData[i]);
-            }
+            Object.keys(item.trackData).forEach((e) => {
+              temp = temp.concat(item.trackData[e]);
+            });
 
             temp = temp.slice(0, 7);
             const backgroundColor = `#33${(0x1000000 + Math.random() * 0xffffff)
@@ -347,6 +405,7 @@ class UserModal extends Component {
               .substr(1, 6)}`;
 
             datasets = datasets.concat({
+              owner: item.owner,
               label: item.name,
               backgroundColor,
               borderColor,
@@ -367,10 +426,9 @@ class UserModal extends Component {
         return data;
       })
       .then((data) => {
-        this.setState(() => ({
-          ...this.state,
+        this.setState({
           chartData: data,
-        }));
+        });
       });
   };
 
@@ -382,35 +440,39 @@ class UserModal extends Component {
       return (
         <IsDataWrapper>
           <HeaderWrapper>
-            {userObject.images.length > 0 ? (
-              <Img src={userObject.images[0].url} alt="avatar" />
-            ) : (
-              <NoUserTemplate />
-            )}
-            <UserName
-              href={userObject.external_urls.spotify}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Name>{userObject.display_name}</Name>
-            </UserName>
+            <h2 style={{ color: 'white' }}>Statistics</h2>
+            <UserWrapper>
+              {userObject.images.length > 0 ? (
+                <UserImage src={userObject.images[0].url} alt="avatar" />
+              ) : (
+                <NoUserTemplate />
+              )}
+              <div style={{ display: 'inline-grid' }}>
+                <UserName
+                  href={userObject.external_urls.spotify}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Name>{userObject.display_name}</Name>
+                </UserName>
 
-            <Stat>
-              <Number>{userObject.followers}</Number>
-              <NumberLabel>Followers</NumberLabel>
-            </Stat>
+                <Stat>
+                  <Number>{userObject.followers}</Number>
+                  <NumberLabel>Followers</NumberLabel>
+                </Stat>
+              </div>
+            </UserWrapper>
           </HeaderWrapper>
-
           <MinorWrapper>
             <Heading>
-              <h3 style={{ color: 'white' }}>Top Listened Artists </h3>
+              <HeadHeader>Top Listened Artists </HeadHeader>
               <div>
                 {userObject.topArtists ? (
-                  <ul key={nanoid()}>
+                  <ul key={nanoid()} style={{ padding: '20px' }}>
                     {userObject.topArtists.items.slice(0, 10).map((artist) => (
                       <Artist key={nanoid()}>
                         <ArtistArtwork>
-                          {artist.images.length && <Img src={artist.images[2].url} alt="Artist" />}
+                          {artist.images.length && <img src={artist.images[1].url} alt="Artist" />}
                         </ArtistArtwork>
                         <ArtistName>
                           <a href={artist.external_urls.spotify}>
@@ -425,14 +487,52 @@ class UserModal extends Component {
                 )}
               </div>
             </Heading>
-            <div style={{ margin: '10px' }} />
+            <Space />
             <Heading style>
-              <h3 style={{ color: 'white' }}>Top Music Genre</h3>
+              <HeadHeader>Top Listened Songs</HeadHeader>
+              <div>
+                {userObject.topTracks ? (
+                  <ul
+                    key={nanoid()}
+                    style={{ padding: '20px', display: 'table-row', textAlign: 'initial' }}
+                  >
+                    {userObject.topTracks.slice(0, 10).map((item) => (
+                      <Artist key={nanoid()}>
+                        <SongArtwork>
+                          {item.album.images.length && (
+                            <img src={item.album.images[0].url} alt="AlbumArt" />
+                          )}
+                        </SongArtwork>
+                        <div>
+                          <ArtistName>
+                            <a href={item.external_urls.spotify}>
+                              <span>{item.name}</span>
+                            </a>
+                          </ArtistName>
+                          {item.artists.map((artist) => (
+                            <SongName key={nanoid()}>
+                              <a href={artist.external_urls.spotify}>
+                                <span>{artist.name}</span>
+                              </a>
+                            </SongName>
+                          ))}
+                        </div>
+                      </Artist>
+                    ))}
+                  </ul>
+                ) : (
+                  <div />
+                )}
+              </div>
+            </Heading>
+            <Space />
+            <Heading style>
+              <HeadHeader>Top Music Genre</HeadHeader>
               <div>
                 {userObject.recommendedGenre ? (
-                  <ul key={nanoid()}>
-                    {userObject.recommendedGenre.slice(0, 10).map((item) => (
-                      <Artist id={nanoid()}>
+                  <ul key={nanoid()} style={{ padding: '20px' }}>
+                    {userObject.recommendedGenre.slice(0, 15).map((item) => (
+                      <Artist key={nanoid()}>
                         <ArtistName>
                           <span style={{ color: 'white' }}>{item}</span>
                         </ArtistName>
@@ -445,18 +545,14 @@ class UserModal extends Component {
               </div>
             </Heading>
           </MinorWrapper>
-          <div>
-            <ChartTitle style={{ color: 'white' }}>
-              {' '}
-              Audio Analysis of Tracks and Playlists{' '}
-            </ChartTitle>
-            <Radar
-              data={chartData}
-              options={{
-                legend: { scale: { pointLabels: { fontSize: 20 } }, labels: { fontSize: 20 } },
-              }}
-            />
-          </div>
+          {chartData ? (
+            <RadarChart chartData={chartData} username={userObject.display_name} />
+          ) : (
+            <div>
+              <HeadHeader>Audio Data is still loading....</HeadHeader>
+              <img src={Loading} alt="loading.." />
+            </div>
+          )}
           <Button onClick={this.handleCloseModal}>Close</Button>
         </IsDataWrapper>
       );
@@ -471,9 +567,10 @@ class UserModal extends Component {
 
   render() {
     const { showModal } = this.state;
+    const { userObject } = this.props;
     return (
       <Wrapper>
-        <Button onClick={this.handleOpenModal}>View Your Stats! </Button>
+        <Button onClick={this.handleOpenModal}>{userObject.display_name}&apos;s Stats! </Button>
         <ReactModal isOpen={showModal} contentLabel="Modal" className="Popup">
           <this.checkPropIsNull />
         </ReactModal>
