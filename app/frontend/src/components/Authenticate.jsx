@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Cookies from 'js-cookie';
 import styled from 'styled-components/macro';
 import queryString from 'query-string';
-import Main from './Main';
+import render from './Main';
 import * as util from '../utils/Utility';
 
 const WrongPage = styled.div`
@@ -98,7 +98,7 @@ class Authenticate extends Component {
     const { auth } = this.state;
     // return auth ? render(auth) : null;
     if (auth) {
-      return <Main />;
+      render();
     }
     console.log('else block here called');
     return <WrongPage> You are not authenticated to access this page </WrongPage>;

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactTooltip from 'react-tooltip';
 import styled from 'styled-components/macro';
 import Cookies from 'js-cookie';
@@ -59,41 +59,39 @@ const WidgetWrapper = styled.div`
   padding: 0.7em;
 `;
 
-class Main extends Component {
-  static async updateGenre(user) {
+const Main = () => {
+  /* setting various hooks here  */
+  const [content, setContent] = useState('s');
+  const [country, setCountry] = useState('None');
+  const [contentType, setContentType] = useState('top');
+  const [user, setUser] = useState({
+    user: {
+      display_name: null,
+      country: null,
+      followers: null,
+      images: null,
+      external_urls: null,
+      product: null,
+      topTracks: null,
+      topArtists: null,
+      recommendedGenre: null,
+      userPlaylists: null,
+    },
+  });
+  const [allUpdated, setAllUpdated] = useState(false);
+
+  const updateGenre = async (data) => {
     let genre = [];
-    user.topArtists.items.slice(0, 15).map((artist) => {
+    data.topArtists.items.slice(0, 15).map((artist) => {
       const temp = artist.genres;
       genre = genre.concat(temp);
       genre = _.uniq(genre);
       return true;
     });
     return genre;
-  }
+  };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      content: 's',
-      country: 'None',
-      contentType: 'top',
-      user: {
-        display_name: null,
-        country: null,
-        followers: null,
-        images: null,
-        external_urls: null,
-        product: null,
-        topTracks: null,
-        topArtists: null,
-        recommendedGenre: null,
-        userPlaylists: null,
-      },
-      allUpdated: false,
-    };
-  }
-
-  componentDidMount() {
+  useEffect(() => {
     // let accessToken = queryString.parse(window.location.search)['?access_token']
     // console.log(queryString.parse(window.location.search))
     // console.log(accessToken)
@@ -143,7 +141,7 @@ class Main extends Component {
             topArtists: data,
           };
         })
-        .then(() => Main.updateGenre(userData))
+        .then(() => updateGenre(userData))
         .then((genre) => {
           userData = {
             ...userData,
@@ -152,38 +150,29 @@ class Main extends Component {
         }),
     ]).then(() => {
       console.log('!!!!!!!!!!11');
-      this.setState({
-        user: userData,
-        allUpdated: true,
-      });
+      setUser(user);
+      setAllUpdated(true);
     });
-  }
+  }, [user]);
 
-  onUpdate = (content) => {
-    this.setState(() => ({
-      content,
-    }));
+  const onUpdate = (receivedContent) => {
+    setContent(receivedContent);
     console.log('updated state !');
     // console.log(this.state.contentType)
     // console.log(this.state.content)
   };
 
-  onButtonClick = (type) => {
-    this.setState(() => ({
-      contentType: type,
-    }));
+  const onButtonClick = (type) => {
+    setContentType(type);
   };
 
-  tooltipRender = (content) => {
+  const tooltipRender = (receivedcountry) => {
     // console.log(content)
-    this.setState(() => ({
-      country: content,
-    }));
+    setCountry(receivedcountry);
     ReactTooltip.rebuild();
   };
 
-  IsValidData = () => {
-    const { content, contentType } = this.state;
+  const IsValidData = () => {
     if (content.length >= 2) {
       const populateCards1 = content[0].map((element) => (
         <PlayWidget key={element.uri} width={300} height={100} uri={element.uri} />
@@ -255,9 +244,7 @@ class Main extends Component {
     return <WidgetTitle> Spotify is not supported in {content[0]} !</WidgetTitle>;
   };
 
-  render() {
-    const { allUpdated, user, country } = this.state;
-
+  const render = () => {
     if (allUpdated) {
       return (
         <Wrapper>
@@ -267,33 +254,34 @@ class Main extends Component {
             {/* <Link to="/main">
               <App setTooltipContent={(e) => this.onUpdate(e)} setTooltip={this.tooltipRender} />
             </Link> */}
-            <App setTooltipContent={(e) => this.onUpdate(e)} setTooltip={this.tooltipRender} />
+            <App setTooltipContent={(e) => onUpdate(e)} setTooltip={tooltipRender} />
           </Section1>
           <Section2>
             <ButtonWrapper>
-              <TriggerButton className="Top10" onClick={() => this.onButtonClick('top')}>
+              <TriggerButton className="Top10" onClick={() => onButtonClick('top')}>
                 {' '}
                 View Top 10 Tracks
               </TriggerButton>
-              <TriggerButton className="Viral10" onClick={() => this.onButtonClick('viral')}>
+              <TriggerButton className="Viral10" onClick={() => onButtonClick('viral')}>
                 {' '}
                 View Viral 10 Tracks{' '}
               </TriggerButton>
-              <TriggerButton className="Radar" onClick={() => this.onButtonClick('radar')}>
+              <TriggerButton className="Radar" onClick={() => onButtonClick('radar')}>
                 {' '}
                 View Radar Tracks{' '}
               </TriggerButton>
             </ButtonWrapper>
-            <this.IsValidData />
+            <IsValidData />
           </Section2>
           <ReactTooltip>{country}</ReactTooltip>
         </Wrapper>
       );
     }
-
     console.log('okay page is loading');
     return <h3 style={{ textAlign: 'center', color: 'white' }}>Loading ... </h3>;
-  }
-}
+  };
+
+  return render;
+};
 
 export default Main;
