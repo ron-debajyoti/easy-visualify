@@ -150,10 +150,10 @@ const Main = () => {
         }),
     ]).then(() => {
       console.log('!!!!!!!!!!11');
-      setUser(user);
+      setUser(userData);
       setAllUpdated(true);
     });
-  }, [user]);
+  });
 
   const onUpdate = (receivedContent) => {
     setContent(receivedContent);
@@ -244,16 +244,13 @@ const Main = () => {
     return <WidgetTitle> Spotify is not supported in {content[0]} !</WidgetTitle>;
   };
 
-  const render = () => {
-    if (allUpdated) {
-      return (
+  return (
+    <div>
+      {allUpdated ? (
         <Wrapper>
           <MainTitle> Main Page </MainTitle>
           <Section1>
             <UserModal userObject={user} />
-            {/* <Link to="/main">
-              <App setTooltipContent={(e) => this.onUpdate(e)} setTooltip={this.tooltipRender} />
-            </Link> */}
             <App setTooltipContent={(e) => onUpdate(e)} setTooltip={tooltipRender} />
           </Section1>
           <Section2>
@@ -275,13 +272,11 @@ const Main = () => {
           </Section2>
           <ReactTooltip>{country}</ReactTooltip>
         </Wrapper>
-      );
-    }
-    console.log('okay page is loading');
-    return <h3 style={{ textAlign: 'center', color: 'white' }}>Loading ... </h3>;
-  };
-
-  return render;
+      ) : (
+        <h3 style={{ textAlign: 'center', color: 'white' }}>Loading ... </h3>
+      )}
+    </div>
+  );
 };
 
 export default Main;
