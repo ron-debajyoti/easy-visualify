@@ -49,7 +49,7 @@ const MainTitle = styled.h2`
 
 const Main = () => {
   /* setting various hooks here  */
-  const [content, setContent] = useState('s');
+  const [content, setContent] = useState([]);
   const [country, setCountry] = useState('None');
   const [contentType, setContentType] = useState('top');
   const [user, setUser] = useState({

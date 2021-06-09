@@ -15,9 +15,14 @@ const WidgetWrapper = styled.div`
   padding: 0.7em;
 `;
 
+const songObject = {
+  uri: PropTypes.string.isRequired,
+  popularity: PropTypes.number,
+  viewCoverArt: PropTypes.bool.isRequired,
+};
+
 const propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  content: PropTypes.array.isRequired,
+  content: PropTypes.arrayOf(PropTypes.arrayOf(songObject)).isRequired,
   contentType: PropTypes.string.isRequired,
 };
 
@@ -88,7 +93,7 @@ const SongRenderer = (props) => {
     );
   }
 
-  if (content[0] === 's') {
+  if (content.length === 0) {
     return <WidgetTitle> Click on a country to begin! </WidgetTitle>;
   }
   return <WidgetTitle> Spotify is not supported in {content[0]} !</WidgetTitle>;
