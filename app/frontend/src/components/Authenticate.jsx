@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import styled from 'styled-components/macro';
 import queryString from 'query-string';
@@ -78,31 +78,19 @@ const authenticate = async () => {
 };
 
 /* Authentication Class */
-class Authenticate extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      auth: false,
-    };
-  }
 
-  componentDidMount() {
-    authenticate().then((isAuthenticatedState) => {
-      this.setState(() => ({
-        auth: isAuthenticatedState,
-      }));
-    });
-  }
+const Authenticate = () => {
+  const [auth, setAuth] = useState(false);
 
-  render() {
-    const { auth } = this.state;
-    // return auth ? render(auth) : null;
-    if (auth) {
-      return <Main />;
-    }
-    console.log('else block here called');
-    return <WrongPage> You are not authenticated to access this page </WrongPage>;
-  }
-}
+  useEffect(() => {
+    authenticate().then((isAuthenticatedState) => setAuth(isAuthenticatedState));
+  });
+
+  return (
+    <div>
+      {auth ? <Main /> : <WrongPage> You are not authenticated to access this page </WrongPage>}
+    </div>
+  );
+};
 
 export default Authenticate;

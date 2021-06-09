@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactTooltip from 'react-tooltip';
 import styled from 'styled-components/macro';
 import Cookies from 'js-cookie';
 import App from './App';
-import PlayWidget from './Widget';
 import UserModal from './UserModal';
+import SongRenderer from './SongRenderer';
 import * as util from '../utils/Utility';
 
 const _ = require('lodash');
@@ -47,58 +47,43 @@ const MainTitle = styled.h2`
   background: black;
 `;
 
-const WidgetTitle = styled.div`
-  font-size: 1em;
-  margin: 30px 10px
-  text-align: left;
-  color: white;
-`;
+const Main = () => {
+  /* setting various hooks here  */
+  const [content, setContent] = useState([]);
+  const [country, setCountry] = useState('None');
+  const [contentType, setContentType] = useState('top');
+  const [user, setUser] = useState({
+    user: {
+      display_name: null,
+      country: null,
+      followers: null,
+      images: null,
+      external_urls: null,
+      product: null,
+      topTracks: null,
+      topArtists: null,
+      recommendedGenre: null,
+      userPlaylists: null,
+    },
+  });
+  const [allUpdated, setAllUpdated] = useState(false);
 
-const WidgetWrapper = styled.div`
-  display: inline;
-  padding: 0.7em;
-`;
-
-class Main extends Component {
-  static async updateGenre(user) {
+  const updateGenre = async (data) => {
     let genre = [];
-    user.topArtists.items.slice(0, 15).map((artist) => {
+    data.topArtists.items.slice(0, 15).map((artist) => {
       const temp = artist.genres;
       genre = genre.concat(temp);
       genre = _.uniq(genre);
       return true;
     });
     return genre;
-  }
+  };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      content: 's',
-      country: 'None',
-      contentType: 'top',
-      user: {
-        display_name: null,
-        country: null,
-        followers: null,
-        images: null,
-        external_urls: null,
-        product: null,
-        topTracks: null,
-        topArtists: null,
-        recommendedGenre: null,
-        userPlaylists: null,
-      },
-      allUpdated: false,
-    };
-  }
-
-  componentDidMount() {
+  useEffect(() => {
     // let accessToken = queryString.parse(window.location.search)['?access_token']
     // console.log(queryString.parse(window.location.search))
     // console.log(accessToken)
     const accessToken = Cookies.get('access_token');
-    // const { user, allUpdated } = this.state;
     let userData = {
       display_name: null,
       country: null,
@@ -143,7 +128,7 @@ class Main extends Component {
             topArtists: data,
           };
         })
-        .then(() => Main.updateGenre(userData))
+        .then(() => updateGenre(userData))
         .then((genre) => {
           userData = {
             ...userData,
@@ -152,148 +137,62 @@ class Main extends Component {
         }),
     ]).then(() => {
       console.log('!!!!!!!!!!11');
-      this.setState({
-        user: userData,
-        allUpdated: true,
-      });
+      setUser(userData);
+      setAllUpdated(true);
     });
-  }
+  }, []);
 
-  onUpdate = (content) => {
-    this.setState(() => ({
-      content,
-    }));
+  const onUpdate = (receivedContent) => {
+    setContent(receivedContent);
     console.log('updated state !');
-    // console.log(this.state.contentType)
-    // console.log(this.state.content)
   };
 
-  onButtonClick = (type) => {
-    this.setState(() => ({
-      contentType: type,
-    }));
+  const onButtonClick = (type) => {
+    setContentType(type);
   };
 
-  tooltipRender = (content) => {
-    // console.log(content)
-    this.setState(() => ({
-      country: content,
-    }));
+  const tooltipRender = (receivedcountry) => {
+    setCountry(receivedcountry);
     ReactTooltip.rebuild();
   };
 
-  IsValidData = () => {
-    const { content, contentType } = this.state;
-    if (content.length >= 2) {
-      const populateCards1 = content[0].map((element) => (
-        <PlayWidget key={element.uri} width={300} height={100} uri={element.uri} />
-      ));
-      const populateCards2 = content[1].map((element) => (
-        <PlayWidget key={element.uri} width={300} height={100} uri={element.uri} />
-      ));
-      const populateCards3 = content[2].map((element) => (
-        <PlayWidget key={element.uri} width={300} height={100} uri={element.uri} />
-      ));
+  // useEffect(() => {
 
-      if (contentType === 'top') {
-        if (content[0].length > 0) {
-          return (
-            <WidgetWrapper>
-              <WidgetTitle> Top 10 Tracks of {content[3]} </WidgetTitle>
+  // }, [contentType])
 
-              <ol style={{ display: 'inline list-item' }}>{populateCards1}</ol>
-            </WidgetWrapper>
-          );
-        }
-        return (
-          <WidgetTitle>
-            <WidgetTitle style={{ fontSize: '1em' }}>
-              Spotify doesn&apos;t have the data yet. Try Radar Tracks
-            </WidgetTitle>
-          </WidgetTitle>
-        );
-      }
-      if (contentType === 'viral') {
-        if (content[1].length > 0) {
-          return (
-            <WidgetWrapper>
-              <WidgetTitle> Viral 10 Tracks of {content[3]} </WidgetTitle>
-              <ol style={{ display: 'inline list-item' }}>{populateCards2}</ol>
-            </WidgetWrapper>
-          );
-        }
-        return (
-          <WidgetTitle>
-            <WidgetTitle style={{ fontSize: '1em' }}>
-              {' '}
-              Spotify doesn&apos;t have the data yet. Try Radar Tracks{' '}
-            </WidgetTitle>
-          </WidgetTitle>
-        );
-      }
-      if (content[2].length > 0) {
-        return (
-          <WidgetWrapper>
-            <WidgetTitle> Radar Tracks of {content[3]} </WidgetTitle>
-            <ol style={{ display: 'inline list-item' }}>{populateCards3}</ol>
-          </WidgetWrapper>
-        );
-      }
-      return (
-        <WidgetTitle>
-          <WidgetTitle style={{ fontSize: '1em' }}>
-            {' '}
-            Spotify doesn&apos;t have the data yet. Try other Tracks{' '}
-          </WidgetTitle>
-        </WidgetTitle>
-      );
-    }
-
-    if (content[0] === 's') {
-      return <WidgetTitle> Click on a country to begin! </WidgetTitle>;
-    }
-    return <WidgetTitle> Spotify is not supported in {content[0]} !</WidgetTitle>;
-  };
-
-  render() {
-    const { allUpdated, user, country } = this.state;
-
-    if (allUpdated) {
-      return (
+  return (
+    <div>
+      {allUpdated ? (
         <Wrapper>
           <MainTitle> Main Page </MainTitle>
           <Section1>
             <UserModal userObject={user} />
-            {/* <Link to="/main">
-              <App setTooltipContent={(e) => this.onUpdate(e)} setTooltip={this.tooltipRender} />
-            </Link> */}
-            <App setTooltipContent={(e) => this.onUpdate(e)} setTooltip={this.tooltipRender} />
+            <App setTooltipContent={(e) => onUpdate(e)} setTooltip={tooltipRender} />
           </Section1>
           <Section2>
             <ButtonWrapper>
-              <TriggerButton className="Top10" onClick={() => this.onButtonClick('top')}>
+              <TriggerButton className="Top10" onClick={() => onButtonClick('top')}>
                 {' '}
                 View Top 10 Tracks
               </TriggerButton>
-              <TriggerButton className="Viral10" onClick={() => this.onButtonClick('viral')}>
+              <TriggerButton className="Viral10" onClick={() => onButtonClick('viral')}>
                 {' '}
                 View Viral 10 Tracks{' '}
               </TriggerButton>
-              <TriggerButton className="Radar" onClick={() => this.onButtonClick('radar')}>
+              <TriggerButton className="Radar" onClick={() => onButtonClick('radar')}>
                 {' '}
                 View Radar Tracks{' '}
               </TriggerButton>
             </ButtonWrapper>
-            <this.IsValidData />
+            <SongRenderer content={content} contentType={contentType} />
           </Section2>
           <ReactTooltip>{country}</ReactTooltip>
         </Wrapper>
-      );
-    }
-
-    console.log('okay page is loading');
-    return <h3 style={{ textAlign: 'center', color: 'white' }}>Loading ... </h3>;
-  }
-}
+      ) : (
+        <h3 style={{ textAlign: 'center', color: 'white' }}>Loading ... </h3>
+      )}
+    </div>
+  );
+};
 
 export default Main;
