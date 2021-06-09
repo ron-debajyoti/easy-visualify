@@ -248,7 +248,6 @@ class UserModal extends Component {
     };
 
     const { userObject } = this.props;
-    console.log(userObject);
     return Promise.all(
       userObject.topTracks
         .map((track) =>

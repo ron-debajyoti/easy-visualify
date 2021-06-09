@@ -3,8 +3,8 @@ import ReactTooltip from 'react-tooltip';
 import styled from 'styled-components/macro';
 import Cookies from 'js-cookie';
 import App from './App';
-import PlayWidget from './Widget';
 import UserModal from './UserModal';
+import SongRenderer from './SongRenderer';
 import * as util from '../utils/Utility';
 
 const _ = require('lodash');
@@ -47,18 +47,6 @@ const MainTitle = styled.h2`
   background: black;
 `;
 
-const WidgetTitle = styled.div`
-  font-size: 1em;
-  margin: 30px 10px
-  text-align: left;
-  color: white;
-`;
-
-const WidgetWrapper = styled.div`
-  display: inline;
-  padding: 0.7em;
-`;
-
 const Main = () => {
   /* setting various hooks here  */
   const [content, setContent] = useState('s');
@@ -96,7 +84,6 @@ const Main = () => {
     // console.log(queryString.parse(window.location.search))
     // console.log(accessToken)
     const accessToken = Cookies.get('access_token');
-    // const { user, allUpdated } = this.state;
     let userData = {
       display_name: null,
       country: null,
@@ -153,13 +140,11 @@ const Main = () => {
       setUser(userData);
       setAllUpdated(true);
     });
-  });
+  }, []);
 
   const onUpdate = (receivedContent) => {
     setContent(receivedContent);
     console.log('updated state !');
-    // console.log(this.state.contentType)
-    // console.log(this.state.content)
   };
 
   const onButtonClick = (type) => {
@@ -167,82 +152,13 @@ const Main = () => {
   };
 
   const tooltipRender = (receivedcountry) => {
-    // console.log(content)
     setCountry(receivedcountry);
     ReactTooltip.rebuild();
   };
 
-  const IsValidData = () => {
-    if (content.length >= 2) {
-      const populateCards1 = content[0].map((element) => (
-        <PlayWidget key={element.uri} width={300} height={100} uri={element.uri} />
-      ));
-      const populateCards2 = content[1].map((element) => (
-        <PlayWidget key={element.uri} width={300} height={100} uri={element.uri} />
-      ));
-      const populateCards3 = content[2].map((element) => (
-        <PlayWidget key={element.uri} width={300} height={100} uri={element.uri} />
-      ));
+  // useEffect(() => {
 
-      if (contentType === 'top') {
-        if (content[0].length > 0) {
-          return (
-            <WidgetWrapper>
-              <WidgetTitle> Top 10 Tracks of {content[3]} </WidgetTitle>
-
-              <ol style={{ display: 'inline list-item' }}>{populateCards1}</ol>
-            </WidgetWrapper>
-          );
-        }
-        return (
-          <WidgetTitle>
-            <WidgetTitle style={{ fontSize: '1em' }}>
-              Spotify doesn&apos;t have the data yet. Try Radar Tracks
-            </WidgetTitle>
-          </WidgetTitle>
-        );
-      }
-      if (contentType === 'viral') {
-        if (content[1].length > 0) {
-          return (
-            <WidgetWrapper>
-              <WidgetTitle> Viral 10 Tracks of {content[3]} </WidgetTitle>
-              <ol style={{ display: 'inline list-item' }}>{populateCards2}</ol>
-            </WidgetWrapper>
-          );
-        }
-        return (
-          <WidgetTitle>
-            <WidgetTitle style={{ fontSize: '1em' }}>
-              {' '}
-              Spotify doesn&apos;t have the data yet. Try Radar Tracks{' '}
-            </WidgetTitle>
-          </WidgetTitle>
-        );
-      }
-      if (content[2].length > 0) {
-        return (
-          <WidgetWrapper>
-            <WidgetTitle> Radar Tracks of {content[3]} </WidgetTitle>
-            <ol style={{ display: 'inline list-item' }}>{populateCards3}</ol>
-          </WidgetWrapper>
-        );
-      }
-      return (
-        <WidgetTitle>
-          <WidgetTitle style={{ fontSize: '1em' }}>
-            {' '}
-            Spotify doesn&apos;t have the data yet. Try other Tracks{' '}
-          </WidgetTitle>
-        </WidgetTitle>
-      );
-    }
-
-    if (content[0] === 's') {
-      return <WidgetTitle> Click on a country to begin! </WidgetTitle>;
-    }
-    return <WidgetTitle> Spotify is not supported in {content[0]} !</WidgetTitle>;
-  };
+  // }, [contentType])
 
   return (
     <div>
@@ -268,7 +184,7 @@ const Main = () => {
                 View Radar Tracks{' '}
               </TriggerButton>
             </ButtonWrapper>
-            <IsValidData />
+            <SongRenderer content={content} contentType={contentType} />
           </Section2>
           <ReactTooltip>{country}</ReactTooltip>
         </Wrapper>
