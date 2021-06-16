@@ -3,6 +3,7 @@ import { Route, Switch, Link } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import Authenticate from './Authenticate';
 import Background from '../images/background.jpeg';
+import IndexFile from '../images/indexPage.gif';
 
 const Title = styled.h1`
   font-size: 2em;
@@ -13,6 +14,17 @@ const Title = styled.h1`
 
 const About = styled.h3`
   color: white;
+  margin: 10px;
+`;
+
+const Base = styled.div`
+  display: flex;
+`;
+
+const Gif = styled.img`
+  width: 70%%;
+  height: auto;
+  margin: 10px;
 `;
 
 const Wrapper = styled.main`
@@ -25,7 +37,7 @@ const Wrapper = styled.main`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background-image: url(${Background});
+  // background-image: url(${Background});
 `;
 const Button = styled.button`
   font-size: 1em;
@@ -40,22 +52,25 @@ const Button = styled.button`
 
 function IndexPage() {
   const mainPage = () => (
-    <Wrapper>
-      <Title>Easy Visualify</Title>
-      <About>
-        {' '}
-        Find out Spotify&apos;s Top10, Viral10 and Radar charts for countries across the world
-      </About>
-      <Link to="/">
-        <Button
-          onClick={() => {
-            window.location.href = process.env.REACT_APP_AUTH_URL;
-          }}
-        >
-          Log In
-        </Button>
-      </Link>
-    </Wrapper>
+    <Base>
+      <Wrapper>
+        <Title>Easy Visualify</Title>
+        <About>
+          {' '}
+          Find out Spotify&apos;s Top10, Viral10 and Radar charts for countries across the world
+        </About>
+        <Link to="/">
+          <Button
+            onClick={() => {
+              window.location.href = process.env.REACT_APP_AUTH_URL;
+            }}
+          >
+            Log In
+          </Button>
+        </Link>
+        <Gif src={IndexFile} alt="indexImage" />
+      </Wrapper>
+    </Base>
   );
 
   return (
