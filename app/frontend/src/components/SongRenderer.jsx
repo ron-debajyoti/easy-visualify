@@ -1,11 +1,18 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/macro';
+import media from 'styled-media-query';
 import PlayWidget from './Widget';
 
 const WidgetTitle = styled.div`
-  font-size: 1em;
-  margin: 30px 10px
+  ${media.lessThan('medium')`
+    font-size: small;
+  `}
+
+  ${media.greaterThan('medium')`
+    font-size: medium;
+  `}
+  margin: 30px 20px
   text-align: left;
   color: white;
 `;

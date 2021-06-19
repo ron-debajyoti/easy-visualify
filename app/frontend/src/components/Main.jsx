@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactTooltip from 'react-tooltip';
 import styled from 'styled-components/macro';
+import media from 'styled-media-query';
 import Cookies from 'js-cookie';
 import App from './App';
 import UserModal from './UserModal';
@@ -12,9 +13,16 @@ const _ = require('lodash');
 const Button = styled.button`
   background: palevioletred;
   color: white;
-  font-size: 0.75em;
-  margin: 1em;
-  padding: 0.5em 1em;
+  ${media.lessThan('medium')`
+    font-size: 0.75vm;
+    margin: 2vm;
+    padding: 0.5vm 1vm;
+  `}
+  ${media.greaterThan('medium')`
+    font-size: 0.75em;
+    margin: 1em;
+    padding: 0.5em 1em;
+  `}
   border: 2px solid black;
   border-radius: 3px;
 `;
@@ -42,6 +50,10 @@ const Section2 = styled.div`
 `;
 
 const MainTitle = styled.h2`
+  ${media.lessThan('medium')`
+    font-size: large;
+  `}
+
   color: white;
   text-align: start;
   background: black;

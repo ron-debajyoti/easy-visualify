@@ -1,6 +1,7 @@
 import React, { Component, memo } from 'react';
 import { ZoomableGroup, ComposableMap, Geographies, Geography } from 'react-simple-maps';
 import styled from 'styled-components/macro';
+import media from 'styled-media-query';
 import PropTypes from 'prop-types';
 import * as util from '../utils/Utility';
 import countries from '../utils/Countries';
@@ -12,10 +13,21 @@ import '../css/App.css';
 
 // setting styled macros
 const Header = styled.div`
+  ${media.lessThan('medium')`
+    font-size: small;
+  `}
+
+  ${media.lessThan('medium')`
+    font-size: medium;
+  `}
+
   color: white;
 `;
 
-// const geoUrl ="https://unpkg.com/world-atlas@1.1.4/world/110m.json";
+const Gif = styled.img`
+  max-width: 100%;
+  margin: 10vm;
+`;
 
 // defining props outside the class like Typescript
 const propTypes = {
@@ -209,7 +221,7 @@ class App extends Component {
     return (
       <div>
         <Header>Map data is loading and rendering. Please wait.</Header>
-        <img src={loadingGif} alt="loading..." />
+        <Gif src={loadingGif} alt="loading..." />
       </div>
     );
   }

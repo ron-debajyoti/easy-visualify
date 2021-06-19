@@ -6,13 +6,14 @@ import Background from '../images/background.jpeg';
 import IndexFile from '../images/indexPage.gif';
 
 const Title = styled.h1`
-  font-size: 2em;
+  font-size: 2vm;
   margin: 10px 10px 50px;
   color: white;
   float: center;
 `;
 
 const About = styled.h3`
+  font-size: 0.5vm;
   color: white;
   margin: 10px;
 `;
@@ -22,22 +23,20 @@ const Base = styled.div`
 `;
 
 const Gif = styled.img`
-  width: 70%%;
+  max-width: 100%;
   height: auto;
-  margin: 10px;
+  margin: 10vm;
 `;
 
 const Wrapper = styled.main`
-  height: 100%;
   min-height: 100vh;
-  box-sizing: inherit;
   width: 100%;
   margin: 0 auto;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  // background-image: url(${Background});
+  background-image: url(${Background});
 `;
 const Button = styled.button`
   font-size: 1em;

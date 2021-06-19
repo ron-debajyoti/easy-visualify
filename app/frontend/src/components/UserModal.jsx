@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactModal from 'react-modal';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/macro';
+import media from 'styled-media-query';
 import Cookies from 'js-cookie';
 import { nanoid } from 'nanoid';
 
@@ -11,9 +12,18 @@ import '../css/Modal.css';
 import Loading from '../images/loading3.gif';
 
 const Button = styled.button`
-  font-size: 1em;
-  margin: 0.5em;
-  padding: 0.5em 1em;
+  ${media.lessThan('medium')`
+    font-size: 1vm;
+    margin: 0.5vm;
+    padding: 0.5vm 1vm;
+  `}
+
+  ${media.greaterThan('medium')`
+    font-size: 1em;
+    margin: 0.5em;
+    padding: 0.5em 1em;
+  `}
+
   border: 2px solid black;
   border-radius: 3px;
   float: right;
@@ -28,6 +38,7 @@ const UserWrapper = styled.div`
 const Wrapper = styled.div`
   background-color: transparent;
   display: inline-block;
+  margin: 10px;
 `;
 
 const Space = styled.div`
