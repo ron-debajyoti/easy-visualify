@@ -37,13 +37,13 @@ const SongRenderer = (props) => {
   const { content, contentType } = props;
   if (content.length >= 2) {
     const populateCards1 = content[0].map((element) => (
-      <PlayWidget key={element.uri} width={300} height={100} uri={element.uri} />
+      <PlayWidget key={element.uri} uri={element.uri} />
     ));
     const populateCards2 = content[1].map((element) => (
-      <PlayWidget key={element.uri} width={300} height={100} uri={element.uri} />
+      <PlayWidget key={element.uri} uri={element.uri} />
     ));
     const populateCards3 = content[2].map((element) => (
-      <PlayWidget key={element.uri} width={300} height={100} uri={element.uri} />
+      <PlayWidget key={element.uri} uri={element.uri} />
     ));
 
     if (contentType === 'top') {

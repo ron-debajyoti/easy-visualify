@@ -38,7 +38,7 @@ const ButtonWrapper = styled.div`
 const Wrapper = styled.main``;
 
 const Section1 = styled.div`
-  width: 75%;
+  width: 70%;
   height: 100%;
   float: left;
 `;
@@ -46,7 +46,7 @@ const Section1 = styled.div`
 const Section2 = styled.div`
   display: inline-grid;
   height: 100%;
-  width: 25%;
+  width: 30%;
 `;
 
 const MainTitle = styled.h2`

@@ -13,9 +13,9 @@ import Loading from '../images/loading3.gif';
 
 const Button = styled.button`
   ${media.lessThan('medium')`
-    font-size: 1vm;
-    margin: 0.5vm;
-    padding: 0.5vm 1vm;
+    font-size: medium;
+    margin: 0.5vh;
+    padding: 1vh;
   `}
 
   ${media.greaterThan('medium')`
@@ -30,6 +30,60 @@ const Button = styled.button`
   bottom: 0;
 `;
 
+const UnorderedList = styled.ul`
+  ${media.lessThan('medium')`
+    margin: 0px 2px;
+    padding: 0px 5px;
+  `}
+
+  ${media.greaterThan('medium')`
+  padding: 20px;
+  `}
+`;
+
+const Heading = styled.div`
+  ${media.lessThan('medium')`
+    margin: 10px;
+  `}
+
+  ${media.greaterThan('medium')`
+    margin: 20px;
+  `}
+
+  display: inline-block;
+  justify-content: space-between;
+  margin: 20px;
+`;
+
+const HeaderHeading = styled.h2`
+  ${media.lessThan('medium')`
+    font-size: medium;
+  `}
+
+  ${media.greaterThan('medium')`
+    font-size: x-large;
+  `}
+  color: white;
+  margin: 10px;
+`;
+
+const HeadHeader = styled.h3`
+  ${media.lessThan('medium')`
+    font-size: small;
+    margin: 5px;
+  `}
+
+  ${media.greaterThan('medium')`
+    font-size: large;
+    margin: 10px;
+  `}
+
+  display: inline-block;
+  color: white;
+  margin: 10px;
+`;
+
+/* styled wrappers  */
 const UserWrapper = styled.div`
   display: flex;
   margin: 10px 10px 10px auto;
@@ -57,6 +111,22 @@ const HeaderWrapper = styled.div`
   margin: 20px;
 `;
 
+const MinorWrapper = styled.section`
+  ${media.lessThan('medium')`
+    display: inline;
+  `}
+
+  ${media.greaterThan('medium')`
+    display: flex;
+  `}
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 15px;
+  overflow: auto;
+`;
+
+/* styled user template */
+
 const NoUserTemplate = styled.div`
   border: 2px solid currentColor;
   border-radius: 100%;
@@ -64,8 +134,16 @@ const NoUserTemplate = styled.div`
 `;
 
 const UserImage = styled.img`
-  height: 150px;
-  width: 125px;
+  ${media.lessThan('medium')`
+    height: 60px;
+    width: 50px;
+  `}
+
+  ${media.greaterThan('medium')`
+    height: 150px;
+    width: 125px;
+  `}
+
   border-radius: 50%;
 `;
 
@@ -81,9 +159,17 @@ const UserName = styled.a`
 `;
 
 const Name = styled.h1`
-  font-size: 1.5em;
-  font-weight: 50;
-  margin: 25px 10px;
+  ${media.lessThan('medium')`
+    font-size: medium;
+    font-weight: 25;
+    margin: 1px;
+  `}
+
+  ${media.greaterThan('medium')`
+    font-size: 1.5em;
+    font-weight: 50;
+    margin: 25px 10px;
+  `}
 `;
 
 const Number = styled.div`
@@ -95,46 +181,96 @@ const Number = styled.div`
 `;
 
 const NumberLabel = styled.div`
+  ${media.lessThan('medium')`
+    margin: 2px 2px 2px;
+  `}
+
+  ${media.greaterThan('medium')`
+    margin: 5px 5px 5px;
+  `}
+
   color: white;
   font-size: small;
   text-transform: uppercase;
   letter-spacing: 1px;
+
   margin: 5px 5px 5px;
 `;
 
 const Stat = styled.div`
+  ${media.lessThan('medium')`
+    margin: 5px;
+  `}
+
+  ${media.greaterThan('medium')`
+    margin: 10px
+  `}
   text-align: center;
   display: inline-block;
-  margin: 10px;
 `;
 
+/* styled artist and song entries */
+
 const Artist = styled.li`
-  display: -webkit-box;
+  ${media.lessThan('medium')`
+    margin: 5px 3px;
+    display: inline flow-root;
+  `}
+
+  ${media.greaterThan('medium')`
+    margin: 15px 10px;
+    display: -webkit-box;
+  `}
   align-items: center;
-  margin: 15px 10px;
   &: hover;
 `;
 const ArtistArtwork = styled.div`
+  ${media.lessThan('medium')`
+    width: 15px;
+    margin: 3px;
+    img {
+      width: 25px;
+      height: 25px;
+      margin: 5px;
+      border-radius: 100%;
+    }
+  `}
+
+  ${media.greaterThan('medium')`
+    width: 30px;
+    margin: 5px;
+    img {
+      width: 35px;
+      height: 35px;
+      margin: 10px;
+      border-radius: 100%;
+    }
+  `}
+
   display: inline-block;
   position: relative;
-  width: 30px;
-  margin: 5px;
-  img {
-    width: 30px;
-    height: 30px;
-    margin: 10px;
-    border-radius: 100%;
-  }
 `;
 
 const SongArtwork = styled.div`
-  display: inline-block;
+  ${media.lessThan('medium')`
+  margin: 3px;
+  img {
+    width: 30px;
+    height: 30px;
+    margin: 5px;
+  }
+  `}
+
+  ${media.greaterThan('medium')`
   margin: 5px;
   img {
     width: 60px;
     height: 60px;
     margin: 5px;
   }
+  `}
+
+  display: inline-block;
 `;
 
 const ArtistName = styled.div`
@@ -171,26 +307,6 @@ const SongName = styled.div`
       border-bottom: 1px solid black;
     }+-+
   }
-`;
-
-const Heading = styled.div`
-  display: inline-block;
-  justify-content: space-between;
-  margin: 20px;
-`;
-
-const HeadHeader = styled.h3`
-  display: inline-block;
-  color: white;
-  margin: 10px;
-`;
-
-const MinorWrapper = styled.section`
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  margin-top: 15px;
-  overflow: auto;
 `;
 
 const user = {
@@ -451,7 +567,7 @@ class UserModal extends Component {
       return (
         <IsDataWrapper>
           <HeaderWrapper>
-            <h2 style={{ color: 'white' }}>Statistics</h2>
+            <HeaderHeading> Statistics </HeaderHeading>
             <UserWrapper>
               {userObject.images.length > 0 ? (
                 <UserImage src={userObject.images[0].url} alt="avatar" />
@@ -479,7 +595,7 @@ class UserModal extends Component {
               <HeadHeader>Top Listened Artists </HeadHeader>
               <div>
                 {userObject.topArtists ? (
-                  <ul key={nanoid()} style={{ padding: '20px' }}>
+                  <UnorderedList key={nanoid()}>
                     {userObject.topArtists.items.slice(0, 10).map((artist) => (
                       <Artist key={nanoid()}>
                         <ArtistArtwork>
@@ -492,7 +608,7 @@ class UserModal extends Component {
                         </ArtistName>
                       </Artist>
                     ))}
-                  </ul>
+                  </UnorderedList>
                 ) : (
                   <div />
                 )}
@@ -503,10 +619,7 @@ class UserModal extends Component {
               <HeadHeader>Top Listened Songs</HeadHeader>
               <div>
                 {userObject.topTracks ? (
-                  <ul
-                    key={nanoid()}
-                    style={{ padding: '20px', display: 'table-row', textAlign: 'initial' }}
-                  >
+                  <UnorderedList key={nanoid()}>
                     {userObject.topTracks.slice(0, 10).map((item) => (
                       <Artist key={nanoid()}>
                         <SongArtwork>
@@ -530,7 +643,7 @@ class UserModal extends Component {
                         </div>
                       </Artist>
                     ))}
-                  </ul>
+                  </UnorderedList>
                 ) : (
                   <div />
                 )}
@@ -541,7 +654,7 @@ class UserModal extends Component {
               <HeadHeader>Top Music Genre</HeadHeader>
               <div>
                 {userObject.recommendedGenre ? (
-                  <ul key={nanoid()} style={{ padding: '20px' }}>
+                  <UnorderedList key={nanoid()}>
                     {userObject.recommendedGenre.slice(0, 15).map((item) => (
                       <Artist key={nanoid()}>
                         <ArtistName>
@@ -549,7 +662,7 @@ class UserModal extends Component {
                         </ArtistName>
                       </Artist>
                     ))}
-                  </ul>
+                  </UnorderedList>
                 ) : (
                   <div />
                 )}
