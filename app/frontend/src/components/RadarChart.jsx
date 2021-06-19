@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components/macro';
+import media from 'styled-media-query';
 import PropTypes from 'prop-types';
 import { Radar } from 'react-chartjs-2';
 
@@ -13,6 +14,17 @@ const CheckBoxWrapper = styled.div`
 const Wrapper = styled.div`
   float: right;
   margin-right: auto;
+`;
+
+const ChartWrapper = styled.div`
+  ${media.lessThan('medium')`
+  min-height: 60vh;
+  min-width: 40vh;
+  `}
+
+  ${media.greaterThan('medium')`
+  min-height: 85vh;
+  `}
 `;
 
 const Message = styled.h5`
@@ -90,9 +102,31 @@ const RadarChart = (props) => {
     const { type } = click;
     if (type) {
       return (
+        <ChartWrapper>
+          <Radar
+            data={userChartData}
+            options={{
+              responsive: true,
+              maintainAspectRatio: false,
+              legend: {
+                scale: { pointLabels: { fontSize: 20 } },
+                labels: {
+                  font: 20,
+                  fontSize: window.innerWidth > 350 ? 20 : 10,
+                },
+              },
+            }}
+          />
+        </ChartWrapper>
+      );
+    }
+    return (
+      <ChartWrapper>
         <Radar
-          data={userChartData}
+          data={chartData}
           options={{
+            responsive: true,
+            maintainAspectRatio: false,
             legend: {
               scale: { pointLabels: { fontSize: 20 } },
               labels: {
@@ -102,21 +136,7 @@ const RadarChart = (props) => {
             },
           }}
         />
-      );
-    }
-    return (
-      <Radar
-        data={chartData}
-        options={{
-          legend: {
-            scale: { pointLabels: { fontSize: 20 } },
-            labels: {
-              font: 20,
-              fontSize: window.innerWidth > 350 ? 20 : 10,
-            },
-          },
-        }}
-      />
+      </ChartWrapper>
     );
   };
 

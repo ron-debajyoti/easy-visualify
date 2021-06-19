@@ -69,12 +69,12 @@ const HeaderHeading = styled.h2`
 
 const HeadHeader = styled.h3`
   ${media.lessThan('medium')`
-    font-size: small;
+    font-size: large;
     margin: 5px;
   `}
 
   ${media.greaterThan('medium')`
-    font-size: large;
+    font-size: x-large;
     margin: 10px;
   `}
 
@@ -101,6 +101,10 @@ const Space = styled.div`
 
 const IsDataWrapper = styled.div`
   text-align: -moz-center;
+`;
+
+const ListWrapper = styled.div`
+  text-align: center;
 `;
 
 const HeaderWrapper = styled.div`
@@ -131,6 +135,10 @@ const NoUserTemplate = styled.div`
   border: 2px solid currentColor;
   border-radius: 100%;
   padding: 20px;
+`;
+
+const LoadingGif = styled.img`
+  object-fit: cover;
 `;
 
 const UserImage = styled.img`
@@ -617,7 +625,7 @@ class UserModal extends Component {
             <Space />
             <Heading style>
               <HeadHeader>Top Listened Songs</HeadHeader>
-              <div>
+              <ListWrapper>
                 {userObject.topTracks ? (
                   <UnorderedList key={nanoid()}>
                     {userObject.topTracks.slice(0, 10).map((item) => (
@@ -647,7 +655,7 @@ class UserModal extends Component {
                 ) : (
                   <div />
                 )}
-              </div>
+              </ListWrapper>
             </Heading>
             <Space />
             <Heading style>
@@ -674,7 +682,7 @@ class UserModal extends Component {
           ) : (
             <div>
               <HeadHeader>Audio Data is still loading....</HeadHeader>
-              <img src={Loading} alt="loading.." />
+              <LoadingGif src={Loading} alt="loading.." />
             </div>
           )}
           <Button onClick={this.handleCloseModal}>Close</Button>

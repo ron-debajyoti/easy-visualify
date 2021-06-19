@@ -6,14 +6,14 @@ import Background from '../images/background.jpeg';
 import IndexFile from '../images/indexPage.gif';
 
 const Title = styled.h1`
-  font-size: 2vm;
+  font-size: 2vh;
   margin: 10px 10px 50px;
   color: white;
   float: center;
 `;
 
 const About = styled.h3`
-  font-size: 0.5vm;
+  font-size: 0.5vh;
   color: white;
   margin: 10px;
 `;
@@ -25,7 +25,7 @@ const Base = styled.div`
 const Gif = styled.img`
   max-width: 100%;
   height: auto;
-  margin: 10vm;
+  margin: 10vh;
 `;
 
 const Wrapper = styled.main`

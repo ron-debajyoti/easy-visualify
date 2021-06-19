@@ -14,9 +14,9 @@ const Button = styled.button`
   background: palevioletred;
   color: white;
   ${media.lessThan('medium')`
-    font-size: 0.75vm;
-    margin: 2vm;
-    padding: 0.5vm 1vm;
+    font-size: 0.75h;
+    margin: 2vh;
+    padding: 0.5vh 1vh;
   `}
   ${media.greaterThan('medium')`
     font-size: 0.75em;
@@ -38,15 +38,29 @@ const ButtonWrapper = styled.div`
 const Wrapper = styled.main``;
 
 const Section1 = styled.div`
-  width: 70%;
-  height: 100%;
+  ${media.lessThan('medium')`
+    width: 100%;
+    height: 100%;
+  `}
+
+  ${media.greaterThan('medium')`
+    width: 70%;
+    height: 100%;
+  `}
   float: left;
 `;
 
 const Section2 = styled.div`
-  display: inline-grid;
-  height: 100%;
-  width: 30%;
+  ${media.lessThan('medium')`
+    width: 100%;
+    height: 100%;
+  `}
+
+  ${media.greaterThan('medium')`
+    display: inline-grid;
+    height: 100%;
+    width: 30%;
+  `}
 `;
 
 const MainTitle = styled.h2`

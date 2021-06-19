@@ -5,8 +5,8 @@ import media from 'styled-media-query';
 
 const Embed = styled.embed`
   ${media.lessThan('medium')`
-    width: 150px;
-    height: 50px;
+    width: 250px;
+    height: 70px;
   `}
   ${media.greaterThan('medium')`
     width: 250px;
@@ -22,7 +22,7 @@ const propTypes = {
 
 const PlayWidget = (props) => {
   const { title, uri, lightTheme } = props;
-  const src = 'https://open.spotify.com/embed?uri=' + `${uri}${lightTheme ? '&theme=white' : ''}`;
+  const src = `https://open.spotify.com/embed?uri=${uri}${lightTheme ? `&theme=white` : ''}`;
 
   return <Embed title={title} src={src} />;
 };

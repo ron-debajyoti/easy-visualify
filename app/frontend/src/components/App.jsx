@@ -26,7 +26,7 @@ const Header = styled.div`
 
 const Gif = styled.img`
   max-width: 100%;
-  margin: 10vm;
+  margin: 10px;
 `;
 
 // defining props outside the class like Typescript

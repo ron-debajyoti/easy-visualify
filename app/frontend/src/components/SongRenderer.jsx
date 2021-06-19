@@ -10,7 +10,7 @@ const WidgetTitle = styled.div`
   `}
 
   ${media.greaterThan('medium')`
-    font-size: medium;
+    font-size: large;
   `}
   margin: 30px 20px
   text-align: left;
@@ -20,6 +20,16 @@ const WidgetTitle = styled.div`
 const WidgetWrapper = styled.div`
   display: inline;
   padding: 0.7em;
+`;
+
+const OrderedList = styled.ol`
+  ${media.lessThan('medium')`
+    display: inline flow-root list-item;
+  `}
+
+  ${media.greaterThan('medium')`
+    display: 'inline list-item'
+  `}
 `;
 
 const songObject = {
@@ -52,7 +62,7 @@ const SongRenderer = (props) => {
           <WidgetWrapper>
             <WidgetTitle> Top 10 Tracks of {content[3]} </WidgetTitle>
 
-            <ol style={{ display: 'inline list-item' }}>{populateCards1}</ol>
+            <OrderedList>{populateCards1}</OrderedList>
           </WidgetWrapper>
         );
       }
@@ -69,7 +79,7 @@ const SongRenderer = (props) => {
         return (
           <WidgetWrapper>
             <WidgetTitle> Viral 10 Tracks of {content[3]} </WidgetTitle>
-            <ol style={{ display: 'inline list-item' }}>{populateCards2}</ol>
+            <OrderedList>{populateCards2}</OrderedList>
           </WidgetWrapper>
         );
       }
@@ -86,7 +96,7 @@ const SongRenderer = (props) => {
       return (
         <WidgetWrapper>
           <WidgetTitle> Radar Tracks of {content[3]} </WidgetTitle>
-          <ol style={{ display: 'inline list-item' }}>{populateCards3}</ol>
+          <OrderedList>{populateCards3}</OrderedList>
         </WidgetWrapper>
       );
     }
