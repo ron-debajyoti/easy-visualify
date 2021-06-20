@@ -1,6 +1,7 @@
 
 dailyPlaylists = [
     {'country_code':'AR','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbMMy2roB9myp'},
+    {'country_code':'AE','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbM4UZuIrvHvA'},
     {'country_code':'AU','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbJPcfkRz0wJ0'},
     {'country_code':'AT','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbKNHh6NIXu36'},
     {'country_code':'BE','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbJNSeeHswcKB'},
@@ -15,6 +16,7 @@ dailyPlaylists = [
     {'country_code':'DK','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbL3J0k32lWnN'},
     {'country_code':'DO','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbKAbrMR8uuf7'},
     {'country_code':'EC','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbJlM6nvL1nD1'},
+    {'country_code':'EG','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbLn7RQmT5Xv2'},
     {'country_code':'SV','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbLxoIml4MYkT'},
     {'country_code':'EE','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbLesry2Qw2xS'},
     {'country_code':'FI','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbMxcczTSoGwZ'},
@@ -32,11 +34,13 @@ dailyPlaylists = [
     {'country_code':'IS','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbJ6IpvItkve3'},
     {'country_code':'IT','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbIQnj7RRhdSX'},
     {'country_code':'JP','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbKXQ4mDTEBXq'},
+    {'country_code':'KR','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbNxXF4SkHj9F'},
+    {'country_code':'LU','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbKGcyg6TFGx6'},
     {'country_code':'LV','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbJWuzDrTxbKS'},
     {'country_code':'LT','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbMx56Rdq5lwc'},
     {'country_code':'LI','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbKGcyg6TFGx6'},
     {'country_code':'MY','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbJlfUljuZExa'},
-    # {'country_code':'MT','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbMD2H5HJqmx9'},
+    {'country_code':'MA','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbJU9eQpX8gPT'},
     {'country_code':'MX','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbO3qyFxbkOE1'},
     
     {'country_code':'NL','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbKCF6dqVpDkS'},
@@ -51,6 +55,7 @@ dailyPlaylists = [
     {'country_code':'PT','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbKyJS56d1pgi'},
     {'country_code':'RO','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbNZbJ6TZelCq'},
     {'country_code':'RU','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbL8l7ra5vVdB'},
+    {'country_code':'SA','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbLrQBcXqUtaC'},
     {'country_code':'SG','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbK4gjvS1FjPY'},
     {'country_code':'SK','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbKIVTPX9a2Sb'},
     {'country_code':'ZA','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbMH2jvi6jvjk'},

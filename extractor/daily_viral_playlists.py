@@ -1,6 +1,7 @@
 
 viralPlaylists = [
     {'country_code':'AD','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbMxjQJh4Um8T'},
+    {'country_code':'AE','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbN6kflPvZZn0'},
     {'country_code':'AR','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbJajpaXyaKll'},
     {'country_code':'AU','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbO5MSE9RdfN2'},
     {'country_code':'AT','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbKxYYIUIgn7V'},
@@ -21,6 +22,7 @@ viralPlaylists = [
     {'country_code':'EC','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbJpRQ294oZ9N'},
     {'country_code':'SV','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbLxoIml4MYkT'},
     {'country_code':'EE','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbK4KA2JSuft7'},
+    {'country_code':'EG','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbJSvmuZN9Jja'},
     {'country_code':'FI','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbMBNcyQCfU4w'},
     {'country_code':'FR','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbJmRv5TqJW16'},
 
@@ -60,6 +62,8 @@ viralPlaylists = [
     {'country_code':'RO','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbNwDVyEEfWV3'},
     {'country_code':'RU','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbNwDVyEEfWV3'},
     {'country_code':'SG','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbJVi45MafAu0'},
+    {'country_code':'SA','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbMq8xkWZE6se'},
+
     {'country_code':'SK','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbK3Iy2zvpfp4'},
     {'country_code':'ZA','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbNaCk6h5bujZ'},
     {'country_code':'ES','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbMfVLvbaC3bj'},
