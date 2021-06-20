@@ -11,8 +11,6 @@ weeklyPlaylists = [
   {'country_code':'TH','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbJ7qiJCES5cj'},
   {'country_code':'MY','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbKcS4rq3mEhp'},
   {'country_code':'SG','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbN66FupT0MuX'},
-  {'country_code':'US','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbLp5XoPON0wI'},
-  {'country_code':'US','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbLp5XoPON0wI'},
   
   #Middle East/Africa
   {'country_code':'TR','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbJARRcHjHcAr'},
@@ -44,15 +42,11 @@ weeklyPlaylists = [
   {'country_code':'SK','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbMwW10JmAnzE'},
   {'country_code':'CZ','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbLKI6MPixefZ'},
   {'country_code':'HU','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbMYsavqzfk6k'},
-  {'country_code':'US','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbLp5XoPON0wI'},
-    {'country_code':'US','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbLp5XoPON0wI'},
-  {'country_code':'US','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbLp5XoPON0wI'},
 
   #North America
   {'country_code':'US','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbLp5XoPON0wI'},
   {'country_code':'MX','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbKUoIkUXteF6'},
   {'country_code':'CA','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbMda2apknTqH'},
-  {'country_code':'US','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbLp5XoPON0wI'},
 
   #South America
   {'country_code':'CO','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbL1Fl8vdBUba'},

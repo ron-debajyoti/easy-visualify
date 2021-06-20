@@ -47,20 +47,22 @@ const SongRenderer = (props) => {
   const { content, contentType } = props;
   if (content.length >= 2) {
     const populateCards1 = content[0].map((element) => (
-      <PlayWidget key={element.uri} uri={element.uri} />
+      <PlayWidget type="song" key={element.uri} uri={element.uri} />
     ));
     const populateCards2 = content[1].map((element) => (
-      <PlayWidget key={element.uri} uri={element.uri} />
+      <PlayWidget type="song" key={element.uri} uri={element.uri} />
     ));
     const populateCards3 = content[2].map((element) => (
-      <PlayWidget key={element.uri} uri={element.uri} />
+      <PlayWidget type="song" key={element.uri} uri={element.uri} />
     ));
+
+    const populateCards4 = <PlayWidget type="album" key={content[3]} uri={content[3]} />;
 
     if (contentType === 'top') {
       if (content[0].length > 0) {
         return (
           <WidgetWrapper>
-            <WidgetTitle> Top 10 Tracks of {content[3]} </WidgetTitle>
+            <WidgetTitle> Top 10 Tracks of {content[4]} </WidgetTitle>
 
             <OrderedList>{populateCards1}</OrderedList>
           </WidgetWrapper>
@@ -78,7 +80,7 @@ const SongRenderer = (props) => {
       if (content[1].length > 0) {
         return (
           <WidgetWrapper>
-            <WidgetTitle> Viral 10 Tracks of {content[3]} </WidgetTitle>
+            <WidgetTitle> Viral 10 Tracks of {content[4]} </WidgetTitle>
             <OrderedList>{populateCards2}</OrderedList>
           </WidgetWrapper>
         );
@@ -92,11 +94,19 @@ const SongRenderer = (props) => {
         </WidgetTitle>
       );
     }
+    if (contentType === 'weekly') {
+      return (
+        <WidgetWrapper>
+          <WidgetTitle> Weekly Top Tracks of {content[4]} </WidgetTitle>
+          <OrderedList>{populateCards4}</OrderedList>
+        </WidgetWrapper>
+      );
+    }
     if (content[2].length > 0) {
       return (
         <WidgetWrapper>
-          <WidgetTitle> Radar Tracks of {content[3]} </WidgetTitle>
-          <OrderedList>{populateCards3}</OrderedList>
+          <WidgetTitle> Radar Tracks of {content[4]} </WidgetTitle>
+          <div>{populateCards3}</div>
         </WidgetWrapper>
       );
     }

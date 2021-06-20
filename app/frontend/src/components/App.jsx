@@ -4,6 +4,7 @@ import styled from 'styled-components/macro';
 import media from 'styled-media-query';
 import PropTypes from 'prop-types';
 import * as util from '../utils/Utility';
+import weeklyPlaylists from '../utils/Playlists';
 import countries from '../utils/Countries';
 import mapData from '../data/map.json';
 import loadingGif from '../images/loading2.gif';
@@ -83,7 +84,7 @@ class App extends Component {
         obj.viewCoverArt = true;
         finalData3.push(obj);
       });
-      const finalData = [[], []];
+      const finalData = [[], [], []];
       finalData.push(finalData3);
       finalData.push([NAME]);
       setTooltipContent(finalData);
@@ -114,6 +115,9 @@ class App extends Component {
         }
       }
 
+      const weeklyPlaylist = weeklyPlaylists.filter(
+        (c) => c.country_code === countryObj.country_code
+      );
       /*
           Many countries still do not have the Radar playlists data available yet
         */
@@ -169,6 +173,7 @@ class App extends Component {
       finalData.push(finalData1);
       finalData.push(finalData2);
       finalData.push(finalData3);
+      finalData.push([weeklyPlaylist[0].uri]);
       finalData.push([NAME]);
       setTooltipContent(finalData);
     }

@@ -32,7 +32,12 @@ const TriggerButton = styled(Button)`
 `;
 
 const ButtonWrapper = styled.div`
-  display: inline-grid;
+  ${media.lessThan('medium')`
+    display: inline-flex;
+  `}
+  ${media.greaterThan('medium')`
+    display: inline-grid;
+  `}
 `;
 
 const Wrapper = styled.main``;
@@ -197,17 +202,21 @@ const Main = () => {
           </Section1>
           <Section2>
             <ButtonWrapper>
-              <TriggerButton className="Top10" onClick={() => onButtonClick('top')}>
+              <TriggerButton className="Daily Top 10" onClick={() => onButtonClick('top')}>
                 {' '}
-                View Top 10 Tracks
+                Daily Top 10 Tracks
               </TriggerButton>
-              <TriggerButton className="Viral10" onClick={() => onButtonClick('viral')}>
+              <TriggerButton className="Daily Viral 10" onClick={() => onButtonClick('viral')}>
                 {' '}
-                View Viral 10 Tracks{' '}
+                Daily Viral 10 Tracks{' '}
               </TriggerButton>
               <TriggerButton className="Radar" onClick={() => onButtonClick('radar')}>
                 {' '}
-                View Radar Tracks{' '}
+                Radar Tracks{' '}
+              </TriggerButton>
+              <TriggerButton className="Weekly Top" onClick={() => onButtonClick('weekly')}>
+                {' '}
+                Weekly Top 10 Tracks
               </TriggerButton>
             </ButtonWrapper>
             <SongRenderer content={content} contentType={contentType} />

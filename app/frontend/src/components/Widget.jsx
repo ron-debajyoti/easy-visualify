@@ -14,17 +14,29 @@ const Embed = styled.embed`
   `}
 `;
 
+const Album = styled.iframe`
+  min-width: 35vh;
+  min-height: 100vh;
+`;
+
 const propTypes = {
   uri: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
   lightTheme: PropTypes.bool,
   title: PropTypes.string,
 };
 
 const PlayWidget = (props) => {
-  const { title, uri, lightTheme } = props;
-  const src = `https://open.spotify.com/embed?uri=${uri}${lightTheme ? `&theme=white` : ''}`;
+  const { title, type, uri, lightTheme } = props;
+  const src =
+    type === 'song'
+      ? `https://open.spotify.com/embed?uri=${uri}${lightTheme ? `&theme=white` : ''}`
+      : `https://open.spotify.com/embed/playlist/${uri}`;
 
-  return <Embed title={title} src={src} />;
+  if (type === 'song') {
+    return <Embed title={title} src={src} />;
+  }
+  return <Album title={title} src={src} />;
 };
 
 PlayWidget.propTypes = propTypes;
