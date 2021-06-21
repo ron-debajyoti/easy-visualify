@@ -1,5 +1,6 @@
 const countries = [
   { country_code: 'AR', country: 'Argentina' },
+  { country_code: 'AE', country: 'United Arab Emirates' },
   { country_code: 'AU', country: 'Australia' },
   { country_code: 'AT', country: 'Austria' },
   { country_code: 'BE', country: 'Belgium' },
@@ -53,6 +54,7 @@ const countries = [
   { country_code: 'RO', country: 'Romania' },
   { country_code: 'RU', country: 'Russia' },
   { country_code: 'SG', country: 'Singapore' },
+  { country_code: 'SA', country: 'Saudi Arabia' },
   { country_code: 'SK', country: 'Slovakia' },
   { country_code: 'ZA', country: 'South Africa' },
   { country_code: 'ES', country: 'Spain' },

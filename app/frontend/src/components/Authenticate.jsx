@@ -4,12 +4,24 @@ import styled from 'styled-components/macro';
 import queryString from 'query-string';
 import Main from './Main';
 import * as util from '../utils/Utility';
+import authGif from '../images/auth.gif';
 
 const WrongPage = styled.div`
   color: white;
   font-size: 1.5em;
   text-align: center;
 `;
+
+const Wrap = styled.div`
+  text-align: center;
+`;
+
+const Gif = styled.img`
+  max-width: 100%;
+  margin: 10px;
+  object-fit: contain'
+`;
+
 const EXPIRATION_TIME = 60 * 60 * 1000;
 
 // functions required for auth
@@ -88,7 +100,14 @@ const Authenticate = () => {
 
   return (
     <div>
-      {auth ? <Main /> : <WrongPage> You are not authenticated to access this page </WrongPage>}
+      {auth ? (
+        <Main />
+      ) : (
+        <Wrap>
+          <WrongPage> Authenticating </WrongPage>
+          <Gif src={authGif} alt="loading..." />
+        </Wrap>
+      )}
     </div>
   );
 };

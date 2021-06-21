@@ -1,8 +1,10 @@
 import React, { Component, memo } from 'react';
 import { ZoomableGroup, ComposableMap, Geographies, Geography } from 'react-simple-maps';
 import styled from 'styled-components/macro';
+import media from 'styled-media-query';
 import PropTypes from 'prop-types';
 import * as util from '../utils/Utility';
+import weeklyPlaylists from '../utils/Playlists';
 import countries from '../utils/Countries';
 import mapData from '../data/map.json';
 import loadingGif from '../images/loading2.gif';
@@ -12,10 +14,21 @@ import '../css/App.css';
 
 // setting styled macros
 const Header = styled.div`
+  ${media.lessThan('medium')`
+    font-size: small;
+  `}
+
+  ${media.lessThan('medium')`
+    font-size: medium;
+  `}
+
   color: white;
 `;
 
-// const geoUrl ="https://unpkg.com/world-atlas@1.1.4/world/110m.json";
+const Gif = styled.img`
+  max-width: 100%;
+  margin: 10px;
+`;
 
 // defining props outside the class like Typescript
 const propTypes = {
@@ -73,6 +86,7 @@ class App extends Component {
       });
       const finalData = [[], []];
       finalData.push(finalData3);
+      finalData.push([]);
       finalData.push([NAME]);
       setTooltipContent(finalData);
     } else {
@@ -102,6 +116,9 @@ class App extends Component {
         }
       }
 
+      const weeklyPlaylist = weeklyPlaylists.filter(
+        (c) => c.country_code === countryObj.country_code
+      );
       /*
           Many countries still do not have the Radar playlists data available yet
         */
@@ -157,6 +174,7 @@ class App extends Component {
       finalData.push(finalData1);
       finalData.push(finalData2);
       finalData.push(finalData3);
+      finalData.push([weeklyPlaylist[0].uri]);
       finalData.push([NAME]);
       setTooltipContent(finalData);
     }
@@ -209,7 +227,7 @@ class App extends Component {
     return (
       <div>
         <Header>Map data is loading and rendering. Please wait.</Header>
-        <img src={loadingGif} alt="loading..." />
+        <Gif src={loadingGif} alt="loading..." />
       </div>
     );
   }

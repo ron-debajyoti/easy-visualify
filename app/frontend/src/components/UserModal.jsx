@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactModal from 'react-modal';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/macro';
+import media from 'styled-media-query';
 import Cookies from 'js-cookie';
 import { nanoid } from 'nanoid';
 
@@ -11,15 +12,102 @@ import '../css/Modal.css';
 import Loading from '../images/loading3.gif';
 
 const Button = styled.button`
-  font-size: 1em;
-  margin: 0.5em;
-  padding: 0.5em 1em;
+  ${media.lessThan('medium')`
+    font-size: medium;
+    margin: 0.5vh;
+    padding: 1vh;
+  `}
+
+  ${media.greaterThan('medium')`
+    font-size: 1em;
+    margin: 0.5em;
+    padding: 0.5em 1em;
+  `}
+
   border: 2px solid black;
   border-radius: 3px;
   float: right;
   bottom: 0;
 `;
 
+const FormInput = styled.input``;
+
+const FormLabel = styled.label`
+  ${media.lessThan('medium')`
+  font-size: small;
+  `}
+
+  ${media.greaterThan('medium')`
+  font-size: medium;
+  `}
+  color: white;
+`;
+
+const UnorderedList = styled.ul`
+  ${media.lessThan('medium')`
+    margin: 0px 2px;
+    padding: 0px 5px;
+  `}
+
+  ${media.greaterThan('medium')`
+  padding: 20px;
+  `}
+`;
+
+const Heading = styled.div`
+  ${media.lessThan('medium')`
+    margin: 10px;
+  `}
+
+  ${media.greaterThan('medium')`
+    margin: 20px;
+  `}
+
+  display: inline-block;
+  justify-content: space-between;
+  margin: 20px;
+`;
+
+const HeaderHeading = styled.h2`
+  ${media.lessThan('medium')`
+    font-size: medium;
+  `}
+
+  ${media.greaterThan('medium')`
+    font-size: xx-large;
+  `}
+  color: white;
+  margin: 10px;
+`;
+
+const TimeSelectorHeading = styled.h3`
+  ${media.lessThan('medium')`
+  font-size: small;
+  `}
+
+  ${media.greaterThan('medium')`
+  font-size: medium;
+  `}
+  color: white;
+`;
+
+const HeadHeader = styled.h3`
+  ${media.lessThan('medium')`
+    font-size: large;
+    margin: 5px;
+  `}
+
+  ${media.greaterThan('medium')`
+    font-size: x-large;
+    margin: 10px;
+  `}
+
+  display: inline-block;
+  color: white;
+  margin: 10px;
+`;
+
+/* styled wrappers  */
 const UserWrapper = styled.div`
   display: flex;
   margin: 10px 10px 10px auto;
@@ -28,6 +116,7 @@ const UserWrapper = styled.div`
 const Wrapper = styled.div`
   background-color: transparent;
   display: inline-block;
+  margin: 10px;
 `;
 
 const Space = styled.div`
@@ -38,6 +127,10 @@ const IsDataWrapper = styled.div`
   text-align: -moz-center;
 `;
 
+const ListWrapper = styled.div`
+  text-align: center;
+`;
+
 const HeaderWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -46,15 +139,50 @@ const HeaderWrapper = styled.div`
   margin: 20px;
 `;
 
+const MinorWrapper = styled.section`
+  ${media.lessThan('medium')`
+    display: inline;
+  `}
+
+  ${media.greaterThan('medium')`
+    display: flex;
+  `}
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 15px;
+  overflow: auto;
+`;
+
+const ToggleButtonWrapper = styled.div`
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-start;
+  margin: 5px;
+`;
+
+/* styled user template */
+
 const NoUserTemplate = styled.div`
   border: 2px solid currentColor;
   border-radius: 100%;
   padding: 20px;
 `;
 
+const LoadingGif = styled.img`
+  object-fit: cover;
+`;
+
 const UserImage = styled.img`
-  height: 150px;
-  width: 125px;
+  ${media.lessThan('medium')`
+    height: 60px;
+    width: 50px;
+  `}
+
+  ${media.greaterThan('medium')`
+    height: 150px;
+    width: 125px;
+  `}
+
   border-radius: 50%;
 `;
 
@@ -70,9 +198,17 @@ const UserName = styled.a`
 `;
 
 const Name = styled.h1`
-  font-size: 1.5em;
-  font-weight: 50;
-  margin: 25px 10px;
+  ${media.lessThan('medium')`
+    font-size: medium;
+    font-weight: 25;
+    margin: 1px;
+  `}
+
+  ${media.greaterThan('medium')`
+    font-size: 1.5em;
+    font-weight: 50;
+    margin: 25px 10px;
+  `}
 `;
 
 const Number = styled.div`
@@ -84,46 +220,96 @@ const Number = styled.div`
 `;
 
 const NumberLabel = styled.div`
+  ${media.lessThan('medium')`
+    margin: 2px 2px 2px;
+  `}
+
+  ${media.greaterThan('medium')`
+    margin: 5px 5px 5px;
+  `}
+
   color: white;
   font-size: small;
   text-transform: uppercase;
   letter-spacing: 1px;
+
   margin: 5px 5px 5px;
 `;
 
 const Stat = styled.div`
+  ${media.lessThan('medium')`
+    margin: 5px;
+  `}
+
+  ${media.greaterThan('medium')`
+    margin: 10px
+  `}
   text-align: center;
   display: inline-block;
-  margin: 10px;
 `;
 
+/* styled artist and song entries */
+
 const Artist = styled.li`
-  display: -webkit-box;
+  ${media.lessThan('medium')`
+    margin: 5px 3px;
+    display: inline flow-root;
+  `}
+
+  ${media.greaterThan('medium')`
+    margin: 15px 10px;
+    display: -webkit-box;
+  `}
   align-items: center;
-  margin: 15px 10px;
   &: hover;
 `;
 const ArtistArtwork = styled.div`
+  ${media.lessThan('medium')`
+    width: 15px;
+    margin: 3px;
+    img {
+      width: 25px;
+      height: 25px;
+      margin: 5px;
+      border-radius: 100%;
+    }
+  `}
+
+  ${media.greaterThan('medium')`
+    width: 30px;
+    margin: 5px;
+    img {
+      width: 35px;
+      height: 35px;
+      margin: 10px;
+      border-radius: 100%;
+    }
+  `}
+
   display: inline-block;
   position: relative;
-  width: 30px;
-  margin: 5px;
-  img {
-    width: 30px;
-    height: 30px;
-    margin: 10px;
-    border-radius: 100%;
-  }
 `;
 
 const SongArtwork = styled.div`
-  display: inline-block;
+  ${media.lessThan('medium')`
+  margin: 3px;
+  img {
+    width: 30px;
+    height: 30px;
+    margin: 5px;
+  }
+  `}
+
+  ${media.greaterThan('medium')`
   margin: 5px;
   img {
     width: 60px;
     height: 60px;
     margin: 5px;
   }
+  `}
+
+  display: inline-block;
 `;
 
 const ArtistName = styled.div`
@@ -162,26 +348,6 @@ const SongName = styled.div`
   }
 `;
 
-const Heading = styled.div`
-  display: inline-block;
-  justify-content: space-between;
-  margin: 20px;
-`;
-
-const HeadHeader = styled.h3`
-  display: inline-block;
-  color: white;
-  margin: 10px;
-`;
-
-const MinorWrapper = styled.section`
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  margin-top: 15px;
-  overflow: auto;
-`;
-
 const user = {
   display_name: PropTypes.string.isRequired,
   country: PropTypes.string.isRequired,
@@ -189,8 +355,12 @@ const user = {
   images: PropTypes.any,
   external_urls: PropTypes.string,
   product: PropTypes.any,
-  topTracks: PropTypes.array.isRequired,
-  topArtists: PropTypes.array.isRequired,
+  topTracksRecent: PropTypes.array.isRequired,
+  topTracksMedium: PropTypes.array.isRequired,
+  topTracksLong: PropTypes.array.isRequired,
+  topArtistsRecent: PropTypes.array.isRequired,
+  topArtistsMedium: PropTypes.array.isRequired,
+  topArtistsLong: PropTypes.array.isRequired,
   recommendedGenre: PropTypes.array.isRequired,
   userPlaylists: PropTypes.array.isRequired,
 };
@@ -205,9 +375,13 @@ class UserModal extends Component {
     this.state = {
       showModal: false,
       chartData: null,
+      timeType: 'long', // recent | medium | long
     };
     this.handleOpenModal = this.handleOpenModal.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
+    this.handleRecentClick = this.handleRecentClick.bind(this);
+    this.handleMediumClick = this.handleMediumClick.bind(this);
+    this.handleLongClick = this.handleLongClick.bind(this);
     this.visualTrackData = this.visualTrackData.bind(this);
     this.renderChart = this.renderChart.bind(this);
   }
@@ -215,6 +389,18 @@ class UserModal extends Component {
   componentDidMount() {
     this.renderChart();
     ReactModal.setAppElement('body');
+  }
+
+  handleRecentClick() {
+    this.setState({ timeType: 'recent' });
+  }
+
+  handleMediumClick() {
+    this.setState({ timeType: 'medium' });
+  }
+
+  handleLongClick() {
+    this.setState({ timeType: 'long' });
   }
 
   handleOpenModal() {
@@ -249,7 +435,7 @@ class UserModal extends Component {
 
     const { userObject } = this.props;
     return Promise.all(
-      userObject.topTracks
+      userObject.topTracksLong
         .map((track) =>
           util.fetchAudioFeatures(accessToken, track.id).then((response) => {
             Object.keys(response).forEach((key) => {
@@ -434,13 +620,24 @@ class UserModal extends Component {
 
   checkPropIsNull = () => {
     const { userObject } = this.props;
-    const { chartData } = this.state;
+    const { chartData, timeType } = this.state;
+
+    let topArtists = userObject.topArtistsLong;
+    let topTracks = userObject.topTracksLong;
+
+    if (timeType === 'recent') {
+      topArtists = userObject.topArtistsRecent;
+      topTracks = userObject.topTracksRecent;
+    } else if (timeType === 'medium') {
+      topArtists = userObject.topArtistsMedium;
+      topTracks = userObject.topTracksMedium;
+    }
 
     if (userObject.display_name.length > 0) {
       return (
         <IsDataWrapper>
           <HeaderWrapper>
-            <h2 style={{ color: 'white' }}>Statistics</h2>
+            <HeaderHeading> Statistics </HeaderHeading>
             <UserWrapper>
               {userObject.images.length > 0 ? (
                 <UserImage src={userObject.images[0].url} alt="avatar" />
@@ -463,13 +660,45 @@ class UserModal extends Component {
               </div>
             </UserWrapper>
           </HeaderWrapper>
+          <ToggleButtonWrapper>
+            <TimeSelectorHeading> Select time :</TimeSelectorHeading>
+            <form className="time-selector">
+              <FormInput
+                type="radio"
+                id="switch_recent"
+                name="switchToggle"
+                value="recent"
+                onChange={this.handleRecentClick}
+                checked={timeType === 'recent'}
+              />
+              <FormLabel htmlFor="switch_recent"> Recently Played </FormLabel>
+              <FormInput
+                type="radio"
+                id="switch_medium"
+                name="switchToggle"
+                value="medium"
+                onChange={this.handleMediumClick}
+                checked={timeType === 'medium'}
+              />
+              <FormLabel htmlFor="switch_medium"> Yearly </FormLabel>
+              <FormInput
+                type="radio"
+                id="switch_long"
+                name="switchToggle"
+                value="long"
+                onChange={this.handleLongClick}
+                checked={timeType === 'long'}
+              />
+              <FormLabel htmlFor="switch_long"> All Time </FormLabel>
+            </form>
+          </ToggleButtonWrapper>
           <MinorWrapper>
             <Heading>
               <HeadHeader>Top Listened Artists </HeadHeader>
               <div>
-                {userObject.topArtists ? (
-                  <ul key={nanoid()} style={{ padding: '20px' }}>
-                    {userObject.topArtists.items.slice(0, 10).map((artist) => (
+                {topArtists ? (
+                  <UnorderedList key={nanoid()}>
+                    {topArtists.items.slice(0, 10).map((artist) => (
                       <Artist key={nanoid()}>
                         <ArtistArtwork>
                           {artist.images.length && <img src={artist.images[1].url} alt="Artist" />}
@@ -481,29 +710,26 @@ class UserModal extends Component {
                         </ArtistName>
                       </Artist>
                     ))}
-                  </ul>
+                  </UnorderedList>
                 ) : (
                   <div />
                 )}
               </div>
             </Heading>
             <Space />
-            <Heading style>
+            <Heading>
               <HeadHeader>Top Listened Songs</HeadHeader>
-              <div>
-                {userObject.topTracks ? (
-                  <ul
-                    key={nanoid()}
-                    style={{ padding: '20px', display: 'table-row', textAlign: 'initial' }}
-                  >
-                    {userObject.topTracks.slice(0, 10).map((item) => (
+              <ListWrapper>
+                {topTracks ? (
+                  <UnorderedList key={nanoid()}>
+                    {topTracks.slice(0, 10).map((item) => (
                       <Artist key={nanoid()}>
                         <SongArtwork>
                           {item.album.images.length && (
                             <img src={item.album.images[0].url} alt="AlbumArt" />
                           )}
                         </SongArtwork>
-                        <div>
+                        <div style={{ textAlign: 'start' }}>
                           <ArtistName>
                             <a href={item.external_urls.spotify}>
                               <span>{item.name}</span>
@@ -519,18 +745,18 @@ class UserModal extends Component {
                         </div>
                       </Artist>
                     ))}
-                  </ul>
+                  </UnorderedList>
                 ) : (
                   <div />
                 )}
-              </div>
+              </ListWrapper>
             </Heading>
             <Space />
-            <Heading style>
+            <Heading>
               <HeadHeader>Top Music Genre</HeadHeader>
               <div>
                 {userObject.recommendedGenre ? (
-                  <ul key={nanoid()} style={{ padding: '20px' }}>
+                  <UnorderedList key={nanoid()}>
                     {userObject.recommendedGenre.slice(0, 15).map((item) => (
                       <Artist key={nanoid()}>
                         <ArtistName>
@@ -538,7 +764,7 @@ class UserModal extends Component {
                         </ArtistName>
                       </Artist>
                     ))}
-                  </ul>
+                  </UnorderedList>
                 ) : (
                   <div />
                 )}
@@ -550,7 +776,7 @@ class UserModal extends Component {
           ) : (
             <div>
               <HeadHeader>Audio Data is still loading....</HeadHeader>
-              <img src={Loading} alt="loading.." />
+              <LoadingGif src={Loading} alt="loading.." />
             </div>
           )}
           <Button onClick={this.handleCloseModal}>Close</Button>

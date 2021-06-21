@@ -3,29 +3,40 @@ import { Route, Switch, Link } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import Authenticate from './Authenticate';
 import Background from '../images/background.jpeg';
+import IndexFile from '../images/indexPage.gif';
 
 const Title = styled.h1`
-  font-size: 2em;
-  margin: 10px 10px 50px;
+  font-size: xx-large;
+  margin: 20px;
   color: white;
   float: center;
 `;
 
 const About = styled.h3`
+  font-size: large;
   color: white;
+  margin: 10px;
+`;
+
+const Base = styled.div`
+  display: flex;
+`;
+
+const Gif = styled.img`
+  max-width: 100%;
+  height: auto;
+  margin: 10px;
 `;
 
 const Wrapper = styled.main`
-  height: 100%;
   min-height: 100vh;
-  box-sizing: inherit;
   width: 100%;
   margin: 0 auto;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background-image: url(${Background});
+  // background-image: url(${Background});
 `;
 const Button = styled.button`
   font-size: 1em;
@@ -40,22 +51,25 @@ const Button = styled.button`
 
 function IndexPage() {
   const mainPage = () => (
-    <Wrapper>
-      <Title>Easy Visualify</Title>
-      <About>
-        {' '}
-        Find out Spotify&apos;s Top10, Viral10 and Radar charts for countries across the world
-      </About>
-      <Link to="/">
-        <Button
-          onClick={() => {
-            window.location.href = process.env.REACT_APP_AUTH_URL;
-          }}
-        >
-          Log In
-        </Button>
-      </Link>
-    </Wrapper>
+    <Base>
+      <Wrapper>
+        <Title>Easy Visualify</Title>
+        <About>
+          {' '}
+          Find out Spotify&apos;s Top10, Viral10 and Radar charts for countries across the world
+        </About>
+        <Link to="/">
+          <Button
+            onClick={() => {
+              window.location.href = process.env.REACT_APP_AUTH_URL;
+            }}
+          >
+            Log In
+          </Button>
+        </Link>
+        <Gif src={IndexFile} alt="indexImage" />
+      </Wrapper>
+    </Base>
   );
 
   return (

@@ -1,5 +1,5 @@
 import spotipy, pymongo, pprint 
-import settings,daily_viral_playlists
+import settings,weekly_top_playlists
 from spotipy.oauth2 import SpotifyClientCredentials
 import json
 
@@ -8,9 +8,9 @@ clientCredentialsManager = SpotifyClientCredentials(settings.SPOTIFY_CLIENT_ID,s
 sp = spotipy.Spotify(client_credentials_manager=clientCredentialsManager)
 db_client = pymongo.MongoClient(settings.MONGODB_HOST)
 db = db_client["visualify"]
-col = db["viralCollections"]
+col = db["weeklyCollections"]
 
-playlists = daily_viral_playlists.viralPlaylists
+playlists = weekly_top_playlists.weeklyPlaylists
 username = 'spotifycharts'
 
 for item in playlists:
@@ -20,6 +20,7 @@ for item in playlists:
         uri = item['uri']
         playlist_id = uri.split(':')[4]
         result = sp.user_playlist(user=username,playlist_id=playlist_id,fields=uri)
+        print(result)
         #string = result['tracks']['items'][0:5]
         data ={
             'playlist_id' : result['id'],
@@ -38,6 +39,3 @@ for item in playlists:
     except Error:
         print(Error)
         continue
-
-
-

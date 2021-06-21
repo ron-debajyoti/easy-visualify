@@ -37,8 +37,8 @@ export const fetchUserData = (accessToken) =>
     .then((resp) => resp.json())
     .catch((err) => console.log(err));
 
-export const fetchTopTracks = (accessToken) =>
-  fetch('https://api.spotify.com/v1/me/top/tracks?limit=30&time_range=medium_term', {
+export const fetchTopTracks = (accessToken, timeRange) =>
+  fetch(`https://api.spotify.com/v1/me/top/tracks?limit=30&time_range=${timeRange}`, {
     headers: { Authorization: ` Bearer ${accessToken}` },
   })
     .then((respo) => respo.json())
@@ -68,8 +68,8 @@ export const fetchTracksfromPlaylists = (accessToken, href, offset) =>
     .then((response1) => response1.json())
     .catch((err) => console.log(err));
 
-export const fetchTopArtists = (accessToken) =>
-  fetch('https://api.spotify.com/v1/me/top/artists?limit=12&time_range=medium_term', {
+export const fetchTopArtists = (accessToken, timeRange) =>
+  fetch(`https://api.spotify.com/v1/me/top/artists?limit=12&time_range=${timeRange}`, {
     headers: { Authorization: ` Bearer ${accessToken}` },
   })
     .then((response2) => response2.json())

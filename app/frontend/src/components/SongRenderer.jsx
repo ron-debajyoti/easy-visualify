@@ -1,11 +1,18 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/macro';
+import media from 'styled-media-query';
 import PlayWidget from './Widget';
 
 const WidgetTitle = styled.div`
-  font-size: 1em;
-  margin: 30px 10px
+  ${media.lessThan('medium')`
+    font-size: small;
+  `}
+
+  ${media.greaterThan('medium')`
+    font-size: large;
+  `}
+  margin: 30px 20px
   text-align: left;
   color: white;
 `;
@@ -13,6 +20,16 @@ const WidgetTitle = styled.div`
 const WidgetWrapper = styled.div`
   display: inline;
   padding: 0.7em;
+`;
+
+const OrderedList = styled.ol`
+  ${media.lessThan('medium')`
+    display: inline flow-root list-item;
+  `}
+
+  ${media.greaterThan('medium')`
+    display: 'inline list-item'
+  `}
 `;
 
 const songObject = {
@@ -30,22 +47,23 @@ const SongRenderer = (props) => {
   const { content, contentType } = props;
   if (content.length >= 2) {
     const populateCards1 = content[0].map((element) => (
-      <PlayWidget key={element.uri} width={300} height={100} uri={element.uri} />
+      <PlayWidget type="song" key={element.uri} uri={element.uri} />
     ));
     const populateCards2 = content[1].map((element) => (
-      <PlayWidget key={element.uri} width={300} height={100} uri={element.uri} />
+      <PlayWidget type="song" key={element.uri} uri={element.uri} />
     ));
     const populateCards3 = content[2].map((element) => (
-      <PlayWidget key={element.uri} width={300} height={100} uri={element.uri} />
+      <PlayWidget type="song" key={element.uri} uri={element.uri} />
     ));
+    const populateCards4 = <PlayWidget type="playlist" key={content[3]} uri={content[3]} />;
 
     if (contentType === 'top') {
       if (content[0].length > 0) {
         return (
           <WidgetWrapper>
-            <WidgetTitle> Top 10 Tracks of {content[3]} </WidgetTitle>
+            <WidgetTitle> Daily Top Tracks of {content[4]} </WidgetTitle>
 
-            <ol style={{ display: 'inline list-item' }}>{populateCards1}</ol>
+            <OrderedList>{populateCards1}</OrderedList>
           </WidgetWrapper>
         );
       }
@@ -61,8 +79,26 @@ const SongRenderer = (props) => {
       if (content[1].length > 0) {
         return (
           <WidgetWrapper>
-            <WidgetTitle> Viral 10 Tracks of {content[3]} </WidgetTitle>
-            <ol style={{ display: 'inline list-item' }}>{populateCards2}</ol>
+            <WidgetTitle> Daily Viral Tracks of {content[4]} </WidgetTitle>
+            <OrderedList>{populateCards2}</OrderedList>
+          </WidgetWrapper>
+        );
+      }
+      return (
+        <WidgetTitle>
+          <WidgetTitle style={{ fontSize: '1em' }}>
+            {' '}
+            Spotify doesn&apos;t have the data yet. Try Radar Tracks{' '}
+          </WidgetTitle>
+        </WidgetTitle>
+      );
+    }
+    if (contentType === 'weekly') {
+      if (content[4].length > 0) {
+        return (
+          <WidgetWrapper>
+            <WidgetTitle> Weekly Top Tracks of {content[4]} </WidgetTitle>
+            <OrderedList>{populateCards4}</OrderedList>
           </WidgetWrapper>
         );
       }
@@ -78,8 +114,8 @@ const SongRenderer = (props) => {
     if (content[2].length > 0) {
       return (
         <WidgetWrapper>
-          <WidgetTitle> Radar Tracks of {content[3]} </WidgetTitle>
-          <ol style={{ display: 'inline list-item' }}>{populateCards3}</ol>
+          <WidgetTitle> Radar Tracks of {content[4]} </WidgetTitle>
+          <div>{populateCards3}</div>
         </WidgetWrapper>
       );
     }

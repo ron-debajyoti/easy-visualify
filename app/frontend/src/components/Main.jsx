@@ -1,20 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import ReactTooltip from 'react-tooltip';
 import styled from 'styled-components/macro';
+import media from 'styled-media-query';
 import Cookies from 'js-cookie';
 import App from './App';
 import UserModal from './UserModal';
 import SongRenderer from './SongRenderer';
 import * as util from '../utils/Utility';
+import authGif from '../images/auth.gif';
 
 const _ = require('lodash');
 
 const Button = styled.button`
   background: palevioletred;
   color: white;
-  font-size: 0.75em;
-  margin: 1em;
-  padding: 0.5em 1em;
+  ${media.lessThan('medium')`
+    font-size: 0.75h;
+    margin: 2vh;
+    padding: 0.5vh 1vh;
+  `}
+  ${media.greaterThan('medium')`
+    font-size: 0.75em;
+    margin: 1em;
+    padding: 0.5em 1em;
+  `}
   border: 2px solid black;
   border-radius: 3px;
 `;
@@ -24,27 +33,66 @@ const TriggerButton = styled(Button)`
 `;
 
 const ButtonWrapper = styled.div`
-  display: inline-grid;
+  ${media.lessThan('medium')`
+    display: inline-flex;
+  `}
+  ${media.greaterThan('medium')`
+    display: inline-grid;
+  `}
 `;
 
 const Wrapper = styled.main``;
 
 const Section1 = styled.div`
-  width: 75%;
-  height: 100%;
+  ${media.lessThan('medium')`
+    width: 100%;
+    height: 100%;
+  `}
+
+  ${media.greaterThan('medium')`
+    width: 70%;
+    height: 100%;
+  `}
   float: left;
 `;
 
 const Section2 = styled.div`
-  display: inline-grid;
-  height: 100%;
-  width: 25%;
+  ${media.lessThan('medium')`
+    width: 100%;
+    height: 100%;
+  `}
+
+  ${media.greaterThan('medium')`
+    display: inline-grid;
+    height: 100%;
+    width: 30%;
+  `}
 `;
 
 const MainTitle = styled.h2`
+  ${media.lessThan('medium')`
+    font-size: large;
+  `}
+
   color: white;
   text-align: start;
   background: black;
+`;
+
+const WrongPage = styled.div`
+  color: white;
+  font-size: 1.5em;
+  text-align: center;
+`;
+
+const Wrap = styled.div`
+  text-align: center;
+`;
+
+const Gif = styled.img`
+  max-width: 100%;
+  margin: 10px;
+  object-fit: contain'
 `;
 
 const Main = () => {
@@ -60,8 +108,12 @@ const Main = () => {
       images: null,
       external_urls: null,
       product: null,
-      topTracks: null,
-      topArtists: null,
+      topTracksRecent: null,
+      topTracksMedium: null,
+      topTracksLong: null,
+      topArtistsRecent: null,
+      topArtistsMedium: null,
+      topArtistsLong: null,
       recommendedGenre: null,
       userPlaylists: null,
     },
@@ -70,7 +122,7 @@ const Main = () => {
 
   const updateGenre = async (data) => {
     let genre = [];
-    data.topArtists.items.slice(0, 15).map((artist) => {
+    data.topArtistsLong.items.slice(0, 15).map((artist) => {
       const temp = artist.genres;
       genre = genre.concat(temp);
       genre = _.uniq(genre);
@@ -91,8 +143,12 @@ const Main = () => {
       images: null,
       external_urls: null,
       product: null,
-      topTracks: null,
-      topArtists: null,
+      topTracksRecent: null,
+      topTracksMedium: null,
+      topTracksLong: null,
+      topArtistsRecent: null,
+      topArtistsMedium: null,
+      topArtistsLong: null,
       recommendedGenre: null,
       userPlaylists: null,
     };
@@ -108,10 +164,22 @@ const Main = () => {
           product: data.product,
         };
       }),
-      util.fetchTopTracks(accessToken).then((data) => {
+      util.fetchTopTracks(accessToken, 'short_term').then((data) => {
         userData = {
           ...userData,
-          topTracks: data.items,
+          topTracksRecent: data.items,
+        };
+      }),
+      util.fetchTopTracks(accessToken, 'medium_term').then((data) => {
+        userData = {
+          ...userData,
+          topTracksMedium: data.items,
+        };
+      }),
+      util.fetchTopTracks(accessToken, 'long_term').then((data) => {
+        userData = {
+          ...userData,
+          topTracksLong: data.items,
         };
       }),
       util.fetchUserPlaylists(accessToken).then((data) => {
@@ -120,12 +188,24 @@ const Main = () => {
           userPlaylists: data.items,
         };
       }),
+      util.fetchTopArtists(accessToken, 'short_term').then((data) => {
+        userData = {
+          ...userData,
+          topArtistsRecent: data,
+        };
+      }),
+      util.fetchTopArtists(accessToken, 'medium_term').then((data) => {
+        userData = {
+          ...userData,
+          topArtistsMedium: data,
+        };
+      }),
       util
-        .fetchTopArtists(accessToken)
+        .fetchTopArtists(accessToken, 'long_term')
         .then((data) => {
           userData = {
             ...userData,
-            topArtists: data,
+            topArtistsLong: data,
           };
         })
         .then(() => updateGenre(userData))
@@ -171,17 +251,21 @@ const Main = () => {
           </Section1>
           <Section2>
             <ButtonWrapper>
-              <TriggerButton className="Top10" onClick={() => onButtonClick('top')}>
+              <TriggerButton className="daily-top" onClick={() => onButtonClick('top')}>
                 {' '}
-                View Top 10 Tracks
+                Daily Top Tracks
               </TriggerButton>
-              <TriggerButton className="Viral10" onClick={() => onButtonClick('viral')}>
+              <TriggerButton className="daily-viral" onClick={() => onButtonClick('viral')}>
                 {' '}
-                View Viral 10 Tracks{' '}
+                Daily Viral Tracks{' '}
               </TriggerButton>
-              <TriggerButton className="Radar" onClick={() => onButtonClick('radar')}>
+              <TriggerButton className="radar" onClick={() => onButtonClick('radar')}>
                 {' '}
-                View Radar Tracks{' '}
+                Radar Tracks{' '}
+              </TriggerButton>
+              <TriggerButton className="weekly-top" onClick={() => onButtonClick('weekly')}>
+                {' '}
+                Weekly Top Tracks
               </TriggerButton>
             </ButtonWrapper>
             <SongRenderer content={content} contentType={contentType} />
@@ -189,7 +273,10 @@ const Main = () => {
           <ReactTooltip>{country}</ReactTooltip>
         </Wrapper>
       ) : (
-        <h3 style={{ textAlign: 'center', color: 'white' }}>Loading ... </h3>
+        <Wrap>
+          <WrongPage> Authenticating </WrongPage>
+          <Gif src={authGif} alt="loading..." />
+        </Wrap>
       )}
     </div>
   );
