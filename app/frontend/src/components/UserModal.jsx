@@ -30,6 +30,13 @@ const Button = styled.button`
   bottom: 0;
 `;
 
+const FormInput = styled.input``;
+
+const FormLabel = styled.label`
+  font-size: medium;
+  color: white;
+`;
+
 const UnorderedList = styled.ul`
   ${media.lessThan('medium')`
     margin: 0px 2px;
@@ -61,10 +68,15 @@ const HeaderHeading = styled.h2`
   `}
 
   ${media.greaterThan('medium')`
-    font-size: x-large;
+    font-size: xx-large;
   `}
   color: white;
   margin: 10px;
+`;
+
+const TimeSelectorHeading = styled.h3`
+  font-size: medium;
+  color: white;
 `;
 
 const HeadHeader = styled.h3`
@@ -127,6 +139,13 @@ const MinorWrapper = styled.section`
   align-items: flex-start;
   margin-top: 15px;
   overflow: auto;
+`;
+
+const ToggleButtonWrapper = styled.div`
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-start;
+  margin: 5px;
 `;
 
 /* styled user template */
@@ -324,8 +343,12 @@ const user = {
   images: PropTypes.any,
   external_urls: PropTypes.string,
   product: PropTypes.any,
-  topTracks: PropTypes.array.isRequired,
-  topArtists: PropTypes.array.isRequired,
+  topTracksRecent: PropTypes.array.isRequired,
+  topTracksMedium: PropTypes.array.isRequired,
+  topTracksLong: PropTypes.array.isRequired,
+  topArtistsRecent: PropTypes.array.isRequired,
+  topArtistsMedium: PropTypes.array.isRequired,
+  topArtistsLong: PropTypes.array.isRequired,
   recommendedGenre: PropTypes.array.isRequired,
   userPlaylists: PropTypes.array.isRequired,
 };
@@ -340,9 +363,13 @@ class UserModal extends Component {
     this.state = {
       showModal: false,
       chartData: null,
+      timeType: 'long', // recent | medium | long
     };
     this.handleOpenModal = this.handleOpenModal.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
+    this.handleRecentClick = this.handleRecentClick.bind(this);
+    this.handleMediumClick = this.handleMediumClick.bind(this);
+    this.handleLongClick = this.handleLongClick.bind(this);
     this.visualTrackData = this.visualTrackData.bind(this);
     this.renderChart = this.renderChart.bind(this);
   }
@@ -350,6 +377,18 @@ class UserModal extends Component {
   componentDidMount() {
     this.renderChart();
     ReactModal.setAppElement('body');
+  }
+
+  handleRecentClick() {
+    this.setState({ timeType: 'recent' });
+  }
+
+  handleMediumClick() {
+    this.setState({ timeType: 'medium' });
+  }
+
+  handleLongClick() {
+    this.setState({ timeType: 'long' });
   }
 
   handleOpenModal() {
@@ -384,7 +423,7 @@ class UserModal extends Component {
 
     const { userObject } = this.props;
     return Promise.all(
-      userObject.topTracks
+      userObject.topTracksLong
         .map((track) =>
           util.fetchAudioFeatures(accessToken, track.id).then((response) => {
             Object.keys(response).forEach((key) => {
@@ -569,7 +608,18 @@ class UserModal extends Component {
 
   checkPropIsNull = () => {
     const { userObject } = this.props;
-    const { chartData } = this.state;
+    const { chartData, timeType } = this.state;
+
+    let topArtists = userObject.topArtistsLong;
+    let topTracks = userObject.topTracksLong;
+
+    if (timeType === 'recent') {
+      topArtists = userObject.topArtistsRecent;
+      topTracks = userObject.topTracksRecent;
+    } else if (timeType === 'medium') {
+      topArtists = userObject.topArtistsMedium;
+      topTracks = userObject.topTracksMedium;
+    }
 
     if (userObject.display_name.length > 0) {
       return (
@@ -598,13 +648,45 @@ class UserModal extends Component {
               </div>
             </UserWrapper>
           </HeaderWrapper>
+          <ToggleButtonWrapper>
+            <TimeSelectorHeading> Select time :</TimeSelectorHeading>
+            <form className="time-selector">
+              <FormInput
+                type="radio"
+                id="switch_recent"
+                name="switchToggle"
+                value="recent"
+                onChange={this.handleRecentClick}
+                checked={timeType === 'recent'}
+              />
+              <FormLabel htmlFor="switch_recent"> Recently Played </FormLabel>
+              <FormInput
+                type="radio"
+                id="switch_medium"
+                name="switchToggle"
+                value="medium"
+                onChange={this.handleMediumClick}
+                checked={timeType === 'medium'}
+              />
+              <FormLabel htmlFor="switch_medium"> Yearly </FormLabel>
+              <FormInput
+                type="radio"
+                id="switch_long"
+                name="switchToggle"
+                value="long"
+                onChange={this.handleLongClick}
+                checked={timeType === 'long'}
+              />
+              <FormLabel htmlFor="switch_long"> All Time </FormLabel>
+            </form>
+          </ToggleButtonWrapper>
           <MinorWrapper>
             <Heading>
               <HeadHeader>Top Listened Artists </HeadHeader>
               <div>
-                {userObject.topArtists ? (
+                {topArtists ? (
                   <UnorderedList key={nanoid()}>
-                    {userObject.topArtists.items.slice(0, 10).map((artist) => (
+                    {topArtists.items.slice(0, 10).map((artist) => (
                       <Artist key={nanoid()}>
                         <ArtistArtwork>
                           {artist.images.length && <img src={artist.images[1].url} alt="Artist" />}
@@ -626,9 +708,9 @@ class UserModal extends Component {
             <Heading style>
               <HeadHeader>Top Listened Songs</HeadHeader>
               <ListWrapper>
-                {userObject.topTracks ? (
+                {topTracks ? (
                   <UnorderedList key={nanoid()}>
-                    {userObject.topTracks.slice(0, 10).map((item) => (
+                    {topTracks.slice(0, 10).map((item) => (
                       <Artist key={nanoid()}>
                         <SongArtwork>
                           {item.album.images.length && (

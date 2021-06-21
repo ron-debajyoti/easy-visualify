@@ -91,8 +91,12 @@ const Main = () => {
       images: null,
       external_urls: null,
       product: null,
-      topTracks: null,
-      topArtists: null,
+      topTracksRecent: null,
+      topTracksMedium: null,
+      topTracksLong: null,
+      topArtistsRecent: null,
+      topArtistsMedium: null,
+      topArtistsLong: null,
       recommendedGenre: null,
       userPlaylists: null,
     },
@@ -101,7 +105,7 @@ const Main = () => {
 
   const updateGenre = async (data) => {
     let genre = [];
-    data.topArtists.items.slice(0, 15).map((artist) => {
+    data.topArtistsLong.items.slice(0, 15).map((artist) => {
       const temp = artist.genres;
       genre = genre.concat(temp);
       genre = _.uniq(genre);
@@ -122,8 +126,12 @@ const Main = () => {
       images: null,
       external_urls: null,
       product: null,
-      topTracks: null,
-      topArtists: null,
+      topTracksRecent: null,
+      topTracksMedium: null,
+      topTracksLong: null,
+      topArtistsRecent: null,
+      topArtistsMedium: null,
+      topArtistsLong: null,
       recommendedGenre: null,
       userPlaylists: null,
     };
@@ -139,10 +147,22 @@ const Main = () => {
           product: data.product,
         };
       }),
-      util.fetchTopTracks(accessToken).then((data) => {
+      util.fetchTopTracks(accessToken, 'short_term').then((data) => {
         userData = {
           ...userData,
-          topTracks: data.items,
+          topTracksRecent: data.items,
+        };
+      }),
+      util.fetchTopTracks(accessToken, 'medium_term').then((data) => {
+        userData = {
+          ...userData,
+          topTracksMedium: data.items,
+        };
+      }),
+      util.fetchTopTracks(accessToken, 'long_term').then((data) => {
+        userData = {
+          ...userData,
+          topTracksLong: data.items,
         };
       }),
       util.fetchUserPlaylists(accessToken).then((data) => {
@@ -151,12 +171,24 @@ const Main = () => {
           userPlaylists: data.items,
         };
       }),
+      util.fetchTopArtists(accessToken, 'short_term').then((data) => {
+        userData = {
+          ...userData,
+          topArtistsRecent: data,
+        };
+      }),
+      util.fetchTopArtists(accessToken, 'medium_term').then((data) => {
+        userData = {
+          ...userData,
+          topArtistsMedium: data,
+        };
+      }),
       util
-        .fetchTopArtists(accessToken)
+        .fetchTopArtists(accessToken, 'long_term')
         .then((data) => {
           userData = {
             ...userData,
-            topArtists: data,
+            topArtistsLong: data,
           };
         })
         .then(() => updateGenre(userData))

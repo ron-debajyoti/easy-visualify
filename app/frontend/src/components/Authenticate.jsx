@@ -12,9 +12,14 @@ const WrongPage = styled.div`
   text-align: center;
 `;
 
+const Wrap = styled.div`
+  text-align: center;
+`;
+
 const Gif = styled.img`
   max-width: 100%;
   margin: 10px;
+  object-fit: contain'
 `;
 
 const EXPIRATION_TIME = 60 * 60 * 1000;
@@ -98,10 +103,10 @@ const Authenticate = () => {
       {auth ? (
         <Main />
       ) : (
-        <div>
+        <Wrap>
           <WrongPage> Authenticating </WrongPage>
           <Gif src={authGif} alt="loading..." />
-        </div>
+        </Wrap>
       )}
     </div>
   );

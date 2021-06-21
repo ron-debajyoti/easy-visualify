@@ -45,7 +45,6 @@ const propTypes = {
 
 const SongRenderer = (props) => {
   const { content, contentType } = props;
-  console.log(content);
   if (content.length >= 2) {
     const populateCards1 = content[0].map((element) => (
       <PlayWidget type="song" key={element.uri} uri={element.uri} />
