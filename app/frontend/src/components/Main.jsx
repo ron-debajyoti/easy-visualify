@@ -251,21 +251,21 @@ const Main = () => {
           </Section1>
           <Section2>
             <ButtonWrapper>
-              <TriggerButton className="Daily Top 10" onClick={() => onButtonClick('top')}>
+              <TriggerButton className="daily-top" onClick={() => onButtonClick('top')}>
                 {' '}
-                Daily Top 10 Tracks
+                Daily Top Tracks
               </TriggerButton>
-              <TriggerButton className="Daily Viral 10" onClick={() => onButtonClick('viral')}>
+              <TriggerButton className="daily-viral" onClick={() => onButtonClick('viral')}>
                 {' '}
-                Daily Viral 10 Tracks{' '}
+                Daily Viral Tracks{' '}
               </TriggerButton>
-              <TriggerButton className="Radar" onClick={() => onButtonClick('radar')}>
+              <TriggerButton className="radar" onClick={() => onButtonClick('radar')}>
                 {' '}
                 Radar Tracks{' '}
               </TriggerButton>
-              <TriggerButton className="Weekly Top" onClick={() => onButtonClick('weekly')}>
+              <TriggerButton className="weekly-top" onClick={() => onButtonClick('weekly')}>
                 {' '}
-                Weekly Top 10 Tracks
+                Weekly Top Tracks
               </TriggerButton>
             </ButtonWrapper>
             <SongRenderer content={content} contentType={contentType} />

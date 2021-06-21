@@ -55,7 +55,7 @@ const SongRenderer = (props) => {
     const populateCards3 = content[2].map((element) => (
       <PlayWidget type="song" key={element.uri} uri={element.uri} />
     ));
-    const populateCards4 = <PlayWidget type="album" key={content[3]} uri={content[3]} />;
+    const populateCards4 = <PlayWidget type="playlist" key={content[3]} uri={content[3]} />;
 
     if (contentType === 'top') {
       if (content[0].length > 0) {
