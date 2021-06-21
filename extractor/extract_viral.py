@@ -24,7 +24,7 @@ for item in playlists:
         data ={
             'playlist_id' : result['id'],
             'country_code' : item['country_code'],
-            'data':result['tracks']['items'][0:10] 
+            'data':result['tracks']['items'][0:15] 
             }
         with open('data.json','w') as outfile:
             json.dump(data,outfile)

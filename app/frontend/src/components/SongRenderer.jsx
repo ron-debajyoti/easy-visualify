@@ -45,6 +45,7 @@ const propTypes = {
 
 const SongRenderer = (props) => {
   const { content, contentType } = props;
+  console.log(content);
   if (content.length >= 2) {
     const populateCards1 = content[0].map((element) => (
       <PlayWidget type="song" key={element.uri} uri={element.uri} />
@@ -55,14 +56,13 @@ const SongRenderer = (props) => {
     const populateCards3 = content[2].map((element) => (
       <PlayWidget type="song" key={element.uri} uri={element.uri} />
     ));
-
     const populateCards4 = <PlayWidget type="album" key={content[3]} uri={content[3]} />;
 
     if (contentType === 'top') {
       if (content[0].length > 0) {
         return (
           <WidgetWrapper>
-            <WidgetTitle> Top 10 Tracks of {content[4]} </WidgetTitle>
+            <WidgetTitle> Daily Top Tracks of {content[4]} </WidgetTitle>
 
             <OrderedList>{populateCards1}</OrderedList>
           </WidgetWrapper>
@@ -80,7 +80,7 @@ const SongRenderer = (props) => {
       if (content[1].length > 0) {
         return (
           <WidgetWrapper>
-            <WidgetTitle> Viral 10 Tracks of {content[4]} </WidgetTitle>
+            <WidgetTitle> Daily Viral Tracks of {content[4]} </WidgetTitle>
             <OrderedList>{populateCards2}</OrderedList>
           </WidgetWrapper>
         );
@@ -95,11 +95,21 @@ const SongRenderer = (props) => {
       );
     }
     if (contentType === 'weekly') {
+      if (content[4].length > 0) {
+        return (
+          <WidgetWrapper>
+            <WidgetTitle> Weekly Top Tracks of {content[4]} </WidgetTitle>
+            <OrderedList>{populateCards4}</OrderedList>
+          </WidgetWrapper>
+        );
+      }
       return (
-        <WidgetWrapper>
-          <WidgetTitle> Weekly Top Tracks of {content[4]} </WidgetTitle>
-          <OrderedList>{populateCards4}</OrderedList>
-        </WidgetWrapper>
+        <WidgetTitle>
+          <WidgetTitle style={{ fontSize: '1em' }}>
+            {' '}
+            Spotify doesn&apos;t have the data yet. Try Radar Tracks{' '}
+          </WidgetTitle>
+        </WidgetTitle>
       );
     }
     if (content[2].length > 0) {

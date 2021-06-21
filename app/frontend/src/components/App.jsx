@@ -84,8 +84,9 @@ class App extends Component {
         obj.viewCoverArt = true;
         finalData3.push(obj);
       });
-      const finalData = [[], [], []];
+      const finalData = [[], []];
       finalData.push(finalData3);
+      finalData.push([]);
       finalData.push([NAME]);
       setTooltipContent(finalData);
     } else {
