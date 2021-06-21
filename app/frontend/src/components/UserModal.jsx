@@ -33,7 +33,13 @@ const Button = styled.button`
 const FormInput = styled.input``;
 
 const FormLabel = styled.label`
+  ${media.lessThan('medium')`
+  font-size: small;
+  `}
+
+  ${media.greaterThan('medium')`
   font-size: medium;
+  `}
   color: white;
 `;
 
@@ -75,7 +81,13 @@ const HeaderHeading = styled.h2`
 `;
 
 const TimeSelectorHeading = styled.h3`
+  ${media.lessThan('medium')`
+  font-size: small;
+  `}
+
+  ${media.greaterThan('medium')`
   font-size: medium;
+  `}
   color: white;
 `;
 
@@ -705,7 +717,7 @@ class UserModal extends Component {
               </div>
             </Heading>
             <Space />
-            <Heading style>
+            <Heading>
               <HeadHeader>Top Listened Songs</HeadHeader>
               <ListWrapper>
                 {topTracks ? (
@@ -717,7 +729,7 @@ class UserModal extends Component {
                             <img src={item.album.images[0].url} alt="AlbumArt" />
                           )}
                         </SongArtwork>
-                        <div>
+                        <div style={{ textAlign: 'start' }}>
                           <ArtistName>
                             <a href={item.external_urls.spotify}>
                               <span>{item.name}</span>
@@ -740,7 +752,7 @@ class UserModal extends Component {
               </ListWrapper>
             </Heading>
             <Space />
-            <Heading style>
+            <Heading>
               <HeadHeader>Top Music Genre</HeadHeader>
               <div>
                 {userObject.recommendedGenre ? (

@@ -7,6 +7,7 @@ import App from './App';
 import UserModal from './UserModal';
 import SongRenderer from './SongRenderer';
 import * as util from '../utils/Utility';
+import authGif from '../images/auth.gif';
 
 const _ = require('lodash');
 
@@ -76,6 +77,22 @@ const MainTitle = styled.h2`
   color: white;
   text-align: start;
   background: black;
+`;
+
+const WrongPage = styled.div`
+  color: white;
+  font-size: 1.5em;
+  text-align: center;
+`;
+
+const Wrap = styled.div`
+  text-align: center;
+`;
+
+const Gif = styled.img`
+  max-width: 100%;
+  margin: 10px;
+  object-fit: contain'
 `;
 
 const Main = () => {
@@ -256,7 +273,10 @@ const Main = () => {
           <ReactTooltip>{country}</ReactTooltip>
         </Wrapper>
       ) : (
-        <h3 style={{ textAlign: 'center', color: 'white' }}>Loading ... </h3>
+        <Wrap>
+          <WrongPage> Authenticating </WrongPage>
+          <Gif src={authGif} alt="loading..." />
+        </Wrap>
       )}
     </div>
   );
