@@ -10,6 +10,7 @@
 
     "extends": ["airbnb","prettier"],
     "plugins": [
+        "react",
         "prettier",
         "import",
         "react-hooks"
