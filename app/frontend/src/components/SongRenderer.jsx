@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components/macro';
 import media from 'styled-media-query';
 import PlayWidget from './Widget';
+import { isInvalidInput } from '../utils/Utility';
 
 const WidgetTitle = styled.div`
   ${media.lessThan('medium')`
@@ -28,7 +29,7 @@ const OrderedList = styled.ol`
   `}
 
   ${media.greaterThan('medium')`
-    display: 'inline list-item'
+    display: inline list-item;
   `}
 `;
 
@@ -52,12 +53,21 @@ const SongRenderer = (props) => {
     const populateCards2 = content[1].map((element) => (
       <PlayWidget type="song" key={element.uri} uri={element.uri} />
     ));
-    const populateCards3 = content[2].map((element) => (
-      <PlayWidget type="song" key={element.uri} uri={element.uri} />
-    ));
-    const populateCards4 = <PlayWidget type="playlist" key={content[3]} uri={content[3]} />;
+
+    const populateCards3 = !isInvalidInput(content[2]) ? (
+      <PlayWidget type="playlist" key={content[2]} uri={content[2]} />
+    ) : (
+      <div />
+    );
+
+    const populateCards4 = !isInvalidInput(content[3]) ? (
+      <PlayWidget type="playlist" key={content[3]} uri={content[3]} />
+    ) : (
+      <div />
+    );
 
     if (contentType === 'top') {
+      /* for the Daily Top playlists */
       if (content[0].length > 0) {
         return (
           <WidgetWrapper>
@@ -76,6 +86,7 @@ const SongRenderer = (props) => {
       );
     }
     if (contentType === 'viral') {
+      /* for the Daily Viral playlists */
       if (content[1].length > 0) {
         return (
           <WidgetWrapper>
@@ -94,11 +105,12 @@ const SongRenderer = (props) => {
       );
     }
     if (contentType === 'weekly') {
+      /* for the Weekly Top playlists */
       if (content[4].length > 0) {
         return (
           <WidgetWrapper>
             <WidgetTitle> Weekly Top Tracks of {content[4]} </WidgetTitle>
-            <OrderedList>{populateCards4}</OrderedList>
+            <div>{populateCards4}</div>
           </WidgetWrapper>
         );
       }
@@ -111,6 +123,7 @@ const SongRenderer = (props) => {
         </WidgetTitle>
       );
     }
+    /* For the Radar playlists */
     if (content[2].length > 0) {
       return (
         <WidgetWrapper>

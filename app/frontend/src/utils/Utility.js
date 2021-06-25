@@ -29,6 +29,11 @@ export const isInvalid = (token) => {
   return false;
 };
 
+export const isInvalidInput = (input) => {
+  if (input === undefined || input === null) return true;
+  return false;
+};
+
 export const fetchUserData = (accessToken) =>
   fetch('https://api.spotify.com/v1/me', {
     method: 'GET',
