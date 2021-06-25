@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { act } from 'react-dom/test-utils';
-import App from '../components/App';
+import Main from '../components/Main';
 
 let container = null;
 beforeEach(() => {
@@ -11,13 +11,13 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  // cleanup on exiting
+  // cleanup on exitingq
   unmountComponentAtNode(container);
   container.remove();
   container = null;
 });
 
-it('renders without crashing', () => {
+it('Main renders without crashing', () => {
   const div = document.createElement('div');
-  render(<App />, div);
+  render(<Main />, div);
 });

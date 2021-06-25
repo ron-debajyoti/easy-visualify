@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
-import { act } from 'react-dom/test-utils';
-import App from '../components/App';
+import { BrowserRouter } from 'react-router-dom';
+import IndexPage from '../components/IndexPage';
 
 let container = null;
 beforeEach(() => {
@@ -17,7 +17,12 @@ afterEach(() => {
   container = null;
 });
 
-it('renders without crashing', () => {
+it('IndexPage runs without crashing', () => {
   const div = document.createElement('div');
-  render(<App />, div);
+  render(
+    <BrowserRouter>
+      <IndexPage />
+    </BrowserRouter>,
+    div
+  );
 });

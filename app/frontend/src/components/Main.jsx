@@ -92,7 +92,7 @@ const Wrap = styled.div`
 const Gif = styled.img`
   max-width: 100%;
   margin: 10px;
-  object-fit: contain'
+  object-fit: contain;
 `;
 
 const Main = () => {
@@ -218,6 +218,7 @@ const Main = () => {
     ]).then(() => {
       console.log('!!!!!!!!!!11');
       setUser(userData);
+      console.log(' user updated : ');
       setAllUpdated(true);
     });
   }, []);
@@ -244,6 +245,9 @@ const Main = () => {
     <div>
       {allUpdated ? (
         <Wrapper>
+          {console.log(user)}
+          {console.log(contentType)}
+          {console.log(content)}
           <MainTitle> Main Page </MainTitle>
           <Section1>
             <UserModal userObject={user} />
