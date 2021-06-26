@@ -7,28 +7,8 @@ const app = express();
 app.set('json spaces', 2);
 const port = process.env.PORT || 3001;
 const address = process.env.MONGODB_HOST || 'mongodb://localhost:27017/';
+
 app.use(cors());
-// .use(express.static(path.join(__dirname,"../frontend/build")))
-// .use(
-//     history({
-//         verbose: true,
-//         rewrites: [
-//             { from: /\/login/, to: '/login' },
-//             { from: /\/callback/, to: '/callback' },
-//             { from: /\/refresh_token/, to: '/refresh_token' },
-//             { from: /\/request/, to: '/request' }
-//         ]
-//     })
-// )
-
-// app.get('*', function(req, res) {
-//     res.sendFile(path.resolve(__dirname, '../frontend/build', 'index.html'));
-//   });
-
-// app.get('/', function (req, res) {
-// res.render(path.resolve(__dirname, '../frontend/build/index.html'));
-// });
-
 app.all('/*', (req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
@@ -36,13 +16,12 @@ app.all('/*', (req, res, next) => {
 });
 
 app.get('/request', (req, res) => {
-  mongoclient.connect(address, (err, client) => {
+  mongoclient.connect(address, { useUnifiedTopology: true }, (err, client) => {
     if (err) throw err;
     const messageData = [];
     const db = client.db('visualify');
     const topPlaylists = db.collection('myCollection');
     const viralPlaylists = db.collection('viralCollections');
-    const radarPlaylists = db.collection('radarCollections');
 
     const task1 = new Promise((resolve, reject) => {
       topPlaylists.find().toArray((error, result) => {
@@ -58,27 +37,22 @@ app.get('/request', (req, res) => {
       });
     });
 
-    const task3 = new Promise((resolve, reject) => {
-      radarPlaylists.find().toArray((error, result) => {
-        if (error) return reject(error);
-        return resolve({ radarPlaylists: result });
-      });
-    });
-
-    Promise.all([task1, task2, task3])
+    Promise.all([task1, task2])
       .then((taskEntries) => {
+        console.log('!!!!!!!!!!!!');
         taskEntries.forEach((task) => {
           messageData.push(task);
         });
         return messageData;
       })
-      .then((data) => res.send(JSON.stringify(data)));
+      .then((data) => res.send(JSON.stringify(data)))
+      .then(() => console.log('Data sent !'));
   });
 });
 
 app.get('/login', (req, res) => {
   const redirectUri = process.env.AUTH_URL;
-  console.log(redirectUri);
+  console.log('Redirected ! ');
   res.redirect(redirectUri);
 });
 

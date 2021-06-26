@@ -4,7 +4,7 @@ import styled from 'styled-components/macro';
 import media from 'styled-media-query';
 import PropTypes from 'prop-types';
 import * as util from '../utils/Utility';
-import weeklyPlaylists from '../utils/Playlists';
+import { weeklyPlaylists, radarPlaylists } from '../utils/Playlists';
 import countries from '../utils/Countries';
 import mapData from '../data/map.json';
 import loadingGif from '../images/loading2.gif';
@@ -72,21 +72,13 @@ class App extends Component {
           This is not a good approach but I shall definitely try for a better logic in
           the future. 
         */
-      const dataObj3 = playlists[2].radarPlaylists.filter(
+      const radarPlaylist = radarPlaylists.filter(
         (c) => c.country_code === countryObj.country_code
-      )[0].data;
+      );
 
-      const finalData3 = [];
-      dataObj3.forEach((element) => {
-        const obj = {};
-        obj.uri = element.track.uri;
-        obj.popularity = element.track.popularity;
-        obj.viewCoverArt = true;
-        finalData3.push(obj);
-      });
-      const finalData = [[], []];
-      finalData.push(finalData3);
-      finalData.push([]);
+      const finalData = [[], []]; // daily top and daily viral
+      finalData.push([radarPlaylist[0].uri]);
+      finalData.push([]); // weekly top
       finalData.push([NAME]);
       setTooltipContent(finalData);
     } else {
@@ -96,7 +88,6 @@ class App extends Component {
         */
       let dataObj1 = []; // top10 playlists array
       let dataObj2 = []; // viral10 playlists array
-      let dataObj3 = []; // radar playlists array
 
       if (playlists[0].topPlaylists.length > 0) {
         const o = playlists[0].topPlaylists.filter(
@@ -122,21 +113,13 @@ class App extends Component {
       /*
           Many countries still do not have the Radar playlists data available yet
         */
-      if (playlists[2].radarPlaylists.length > 0) {
-        // Filtering the country from the list of playlists
-        const obj = playlists[2].radarPlaylists.filter(
-          (c) => c.country_code === countryObj.country_code
-        );
 
-        // Checking if the Radar playlist for that country exists
-        if (obj[0] !== undefined && obj[0].data.length > 0) {
-          dataObj3 = obj[0].data;
-        }
-      }
+      const radarPlaylist = radarPlaylists.filter(
+        (c) => c.country_code === countryObj.country_code
+      );
 
       const finalData1 = [];
       const finalData2 = [];
-      const finalData3 = [];
 
       dataObj1.forEach((element) => {
         if (element.track !== null && element.track !== undefined) {
@@ -158,22 +141,10 @@ class App extends Component {
         }
       });
 
-      if (dataObj3.length > 0) {
-        dataObj3.forEach((element) => {
-          if (element.track !== null && element.track !== undefined) {
-            const obj = {};
-            obj.uri = element.track.uri;
-            obj.popularity = element.track.popularity;
-            obj.viewCoverArt = true;
-            finalData3.push(obj);
-          }
-        });
-      }
-
       const finalData = [];
       finalData.push(finalData1);
       finalData.push(finalData2);
-      finalData.push(finalData3);
+      finalData.push([radarPlaylist[0].uri]);
       finalData.push([weeklyPlaylist[0].uri]);
       finalData.push([NAME]);
       setTooltipContent(finalData);
