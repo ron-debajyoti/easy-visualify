@@ -131,10 +131,7 @@ const Main = () => {
     return genre;
   };
 
-  useEffect(() => {
-    // let accessToken = queryString.parse(window.location.search)['?access_token']
-    // console.log(queryString.parse(window.location.search))
-    // console.log(accessToken)
+  async function fetchAll() {
     const accessToken = Cookies.get('access_token');
     let userData = {
       display_name: null,
@@ -221,6 +218,13 @@ const Main = () => {
       console.log(' user updated : ');
       setAllUpdated(true);
     });
+  }
+
+  useEffect(() => {
+    // let accessToken = queryString.parse(window.location.search)['?access_token']
+    // console.log(queryString.parse(window.location.search))
+    // console.log(accessToken)
+    fetchAll();
   }, []);
 
   const onUpdate = (receivedContent) => {
@@ -245,9 +249,6 @@ const Main = () => {
     <div>
       {allUpdated ? (
         <Wrapper>
-          {console.log(user)}
-          {console.log(contentType)}
-          {console.log(content)}
           <MainTitle> Main Page </MainTitle>
           <Section1>
             <UserModal userObject={user} />

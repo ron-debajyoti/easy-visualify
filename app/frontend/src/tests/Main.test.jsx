@@ -2,6 +2,7 @@ import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { act } from 'react-dom/test-utils';
 import Main from '../components/Main';
+import user from './fakedata';
 
 let container = null;
 beforeEach(() => {
@@ -19,5 +20,5 @@ afterEach(() => {
 
 it('Main renders without crashing', () => {
   const div = document.createElement('div');
-  render(<Main />, div);
+  act(() => render(<Main />, div));
 });
