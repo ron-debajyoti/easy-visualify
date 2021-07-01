@@ -15,6 +15,9 @@ const images2 = [
   },
 ];
 
+const fakeTrackUri = 'spotify:track:4KD0lLJ4OGonZhBeKtct9I';
+const fakePlaylistUri = 'spotify:playlist:6sDvv5SNASdsfeeww';
+
 const fakeTrackData = {
   available_markets: ['AD', 'AE', 'AR'],
   disc_number: 1,
@@ -30,7 +33,7 @@ const fakeTrackData = {
   preview_url: null,
   track_number: 1,
   type: 'track',
-  uri: 'spotify:track:4KD0lLJ4OGonZhBeKtct9I',
+  uri: fakeTrackUri,
 };
 
 const fakeArtistData = {
@@ -69,7 +72,7 @@ const fakeUserPlaylist = {
     total: 940,
   },
   type: 'playlist',
-  uri: 'spotify:playlist:6sDvv5SNASdsfeeww',
+  uri: fakePlaylistUri,
 };
 
 const topTracks = [fakeTrackData, fakeTrackData, fakeTrackData];
@@ -105,4 +108,4 @@ const user = {
   userPlaylists,
 };
 
-export default user;
+export { user, fakeTrackUri, fakePlaylistUri };

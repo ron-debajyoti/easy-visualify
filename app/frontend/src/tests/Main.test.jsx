@@ -5,6 +5,10 @@ import Main from '../components/Main';
 import user from './fakedata';
 
 let container = null;
+const users = user;
+
+// jest.mock('');
+
 beforeEach(() => {
   // setup a DOM element as a render target
   container = document.createElement('div');
@@ -17,6 +21,10 @@ afterEach(() => {
   container.remove();
   container = null;
 });
+
+// it('should fetch user and playlist data', () => {
+//   const result = await
+// });
 
 it('Main renders without crashing', () => {
   const div = document.createElement('div');
