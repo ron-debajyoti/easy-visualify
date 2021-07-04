@@ -15,8 +15,11 @@ const images2 = [
   },
 ];
 
+/// For Widget.test.js //////////////////////////////////////////////////////////
 const fakeTrackUri = 'spotify:track:4KD0lLJ4OGonZhBeKtct9I';
+const fakeTrackUri2 = '4M6XHrTc4RtdgKN9gzEAM6';
 const fakePlaylistUri = 'spotify:playlist:6sDvv5SNASdsfeeww';
+const fakePlaylistUri2 = '37i9dQZF1DWY0DyDKedRYY';
 
 const fakeTrackData = {
   available_markets: ['AD', 'AE', 'AR'],
@@ -108,4 +111,4 @@ const user = {
   userPlaylists,
 };
 
-export { user, fakeTrackUri, fakePlaylistUri };
+export { user, fakeTrackUri, fakeTrackUri2, fakePlaylistUri, fakePlaylistUri2 };

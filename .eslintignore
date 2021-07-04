@@ -6,6 +6,7 @@ build/*
 !build/index.js
 node_modules/*
 
+app/frontend/src/tests/__snapshots__/*
 app/frontend/build/*
 app/backend/build/*
 app/frontend/node_modules/*

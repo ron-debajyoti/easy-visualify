@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders top tracks without crashing 1`] = `
+<div
+  className="SongRenderer__WidgetWrapper-sc-11c6ond-1 jHMGil"
+>
+  <div
+    className="SongRenderer__WidgetTitle-sc-11c6ond-0 etHUBZ"
+  >
+     Daily Top Tracks of 
+    United Kingdom
+     
+  </div>
+  <ol
+    className="SongRenderer__OrderedList-sc-11c6ond-2 fhCfNY"
+  >
+    <embed
+      className="Widget__Embed-sc-1dr9wfy-0 dljrWb widget-song"
+      src="https://open.spotify.com/embed?uri=spotify:track:4KD0lLJ4OGonZhBeKtct9I&theme=white"
+      title=""
+    />
+    <embed
+      className="Widget__Embed-sc-1dr9wfy-0 dljrWb widget-song"
+      src="https://open.spotify.com/embed?uri=4M6XHrTc4RtdgKN9gzEAM6&theme=white"
+      title=""
+    />
+  </ol>
+</div>
+`;

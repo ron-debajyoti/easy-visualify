@@ -1,5 +1,6 @@
 import React from 'react';
-import { render, unmountComponentAtNode } from 'react-dom';
+import renderer from 'react-test-renderer';
+import { unmountComponentAtNode } from 'react-dom';
 import PlayWidget from '../components/Widget';
 import { fakePlaylistUri, fakeTrackUri } from './fakedata';
 
@@ -21,17 +22,16 @@ it('renders tracks without crashing', () => {
   const div = document.createElement('div');
   const type = 'song';
   const uri = fakeTrackUri;
-  const title = 'Test 1 ';
-  render(<PlayWidget type={type} uri={uri} title={title} />, div);
-  expect(container)
-    .contains(<embed />)
-    .toBe(true);
+  const title = 'Test 1';
+  const tree = renderer.create(<PlayWidget type={type} uri={uri} title={title} />, div).toJSON();
+  expect(tree).toMatchSnapshot();
 });
 
 it('renders playlists without crashing', () => {
   const div = document.createElement('div');
-  const type = 'song';
+  const type = 'playlist';
   const uri = fakePlaylistUri;
-  const title = 'Test 2 ';
-  render(<PlayWidget type={type} uri={uri} title={title} />, div);
+  const title = 'Test 2';
+  const tree = renderer.create(<PlayWidget type={type} uri={uri} title={title} />, div).toJSON();
+  expect(tree).toMatchSnapshot();
 });

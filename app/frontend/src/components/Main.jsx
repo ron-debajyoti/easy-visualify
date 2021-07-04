@@ -97,7 +97,7 @@ const Gif = styled.img`
 
 const Main = () => {
   /* setting various hooks here  */
-  const [content, setContent] = useState([]);
+  const [content, setContent] = useState([[]]);
   const [country, setCountry] = useState('None');
   const [contentType, setContentType] = useState('top');
   const [user, setUser] = useState({
@@ -213,9 +213,7 @@ const Main = () => {
           };
         }),
     ]).then(() => {
-      console.log('!!!!!!!!!!11');
       setUser(userData);
-      console.log(' user updated : ');
       setAllUpdated(true);
     });
   }

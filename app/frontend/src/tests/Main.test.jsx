@@ -2,10 +2,8 @@ import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { act } from 'react-dom/test-utils';
 import Main from '../components/Main';
-import user from './fakedata';
 
 let container = null;
-const users = user;
 
 // jest.mock('');
 
