@@ -1,16 +1,35 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders playlists without crashing 1`] = `
+.c0 {
+  min-width: 35vh;
+  min-height: 100vh;
+}
+
 <iframe
-  className="Widget__Playlist-sc-1dr9wfy-1 hllMHj widget-playlist"
+  className="c0 widget-playlist"
   src="https://open.spotify.com/embed/playlist/spotify:playlist:6sDvv5SNASdsfeeww"
   title="Test 2"
 />
 `;
 
 exports[`renders tracks without crashing 1`] = `
+@media (max-width:768px) {
+  .c0 {
+    width: 250px;
+    height: 70px;
+  }
+}
+
+@media (min-width:768px) {
+  .c0 {
+    width: 250px;
+    height: 70px;
+  }
+}
+
 <embed
-  className="Widget__Embed-sc-1dr9wfy-0 dljrWb widget-song"
+  className="c0 widget-song"
   src="https://open.spotify.com/embed?uri=spotify:track:4KD0lLJ4OGonZhBeKtct9I&theme=white"
   title="Test 1"
 />

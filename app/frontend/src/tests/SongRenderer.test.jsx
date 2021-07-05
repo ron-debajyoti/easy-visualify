@@ -45,3 +45,17 @@ it('renders top tracks without crashing', () => {
     .toJSON();
   expect(tree).toMatchSnapshot();
 });
+
+it('renders weekly playlist without crashing', () => {
+  const div = document.createElement('div');
+  const tree = renderer
+    .create(<SongRenderer content={fakeCurrentData} contentType="weekly" />, div)
+    .toJSON();
+  expect(tree).toMatchSnapshot();
+});
+
+it('renders corrent message at the start', () => {
+  const div = document.createElement('div');
+  const tree = renderer.create(<SongRenderer content={[]} contentType="" />, div).toJSON();
+  expect(tree).toMatchSnapshot();
+});

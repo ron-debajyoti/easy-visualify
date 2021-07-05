@@ -149,7 +149,7 @@ const RadarChart = (props) => {
       <Wrapper>
         <Message>User created playlists</Message>
         <CheckBoxWrapper>
-          <CheckBox id="checkbox" type="checkbox" onChange={() => handleOnChange()} />
+          <CheckBox className="checkbox" type="checkbox" onChange={() => handleOnChange()} />
           <CheckBoxLabel htmlFor="checkbox" />
         </CheckBoxWrapper>
       </Wrapper>

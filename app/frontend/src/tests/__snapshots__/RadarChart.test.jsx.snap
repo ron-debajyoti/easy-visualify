@@ -1,0 +1,145 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders the Radar Chart without crashing 1`] = `
+.c3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: relative;
+  margin: 10px;
+}
+
+.c1 {
+  float: right;
+  margin-right: auto;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  font-weight: 75;
+  color: white;
+  margin: 5px;
+}
+
+.c6 {
+  float: right;
+  width: 42px;
+  height: 26px;
+  border-radius: 15px;
+  background: #bebebe;
+  cursor: pointer;
+}
+
+.c6::after {
+  content: '';
+  display: block;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  margin: 3px;
+  background: #ffffff;
+  box-shadow: 1px 3px 3px 1px rgba(0,0,0,0.2);
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+
+.c4 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  opacity: 0;
+  z-index: 1;
+  border-radius: 15px;
+  width: 42px;
+  height: 26px;
+}
+
+.c4:checked + .c5 {
+  background: #4fbe79;
+}
+
+.c4:checked + .c5::after {
+  content: '';
+  display: block;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  margin-left: 21px;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+
+.c0 {
+  text-align: center;
+}
+
+@media (max-width:768px) {
+  .c7 {
+    min-height: 60vh;
+    min-width: 40vh;
+  }
+}
+
+@media (min-width:768px) {
+  .c7 {
+    min-height: 85vh;
+  }
+}
+
+<div>
+  <h3
+    className="c0"
+    style={
+      Object {
+        "color": "white",
+      }
+    }
+  >
+     
+    Audio Analysis of Tracks and Saved Playlists
+     
+  </h3>
+  <div
+    className="c1"
+  >
+    <h5
+      className="c2"
+    >
+      User created playlists
+    </h5>
+    <div
+      className="c3"
+    >
+      <input
+        className="c4 checkbox"
+        onChange={[Function]}
+        type="checkbox"
+      />
+      <label
+        className="c5 c6"
+        htmlFor="checkbox"
+      />
+    </div>
+  </div>
+  <div
+    className="c7"
+  >
+    <canvas
+      data-testid="canvas"
+      height={150}
+      onClick={[Function]}
+      role="img"
+      width={300}
+    />
+  </div>
+</div>
+`;

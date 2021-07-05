@@ -15,7 +15,7 @@ const images2 = [
   },
 ];
 
-/// For Widget.test.js //////////////////////////////////////////////////////////
+/// For Widget and SongRenderer //////////////////////////////////////////////////////////
 const fakeTrackUri = 'spotify:track:4KD0lLJ4OGonZhBeKtct9I';
 const fakeTrackUri2 = '4M6XHrTc4RtdgKN9gzEAM6';
 const fakePlaylistUri = 'spotify:playlist:6sDvv5SNASdsfeeww';
@@ -38,6 +38,37 @@ const fakeTrackData = {
   type: 'track',
   uri: fakeTrackUri,
 };
+
+// For RadarChart
+
+const fakeRadarChartLabelObject1 = {
+  backgroundColor: 'rgba(255,99,132,0.2)',
+  borderColor: 'rgba(179,181,198,1)',
+  data: [0.6, 0.5, 0.4, 0.53, 0.21],
+  label: 'Trial Data Check 1',
+  pointBackgroundColor: 'rgba(179,181,198,1)',
+  pointBorderColor: '#fff',
+  pointHoverBackgroundColor: '#fff',
+  pointHoverBorderColor: 'rgba(179,181,198,1)',
+};
+
+const fakeRadarChartLabelObject2 = {
+  backgroundColor: '#3315ce8b',
+  borderColor: '#33746c93',
+  data: [0.622, 0.335, 0.114, 0.53, 0.921],
+  label: 'Trial Data Check 2',
+  pointBackgroundColor: '#33746c93',
+  pointBorderColor: '#fff',
+  pointHoverBackgroundColor: '#fff',
+  pointHoverBorderColor: '#33746c93',
+};
+
+const fakeRadarChartData = {
+  labels: ['label1', 'label2', 'label3', 'label4', 'label5'],
+  datasets: [fakeRadarChartLabelObject1, fakeRadarChartLabelObject2],
+};
+
+/// ////////////////////////////////////////
 
 const fakeArtistData = {
   external_urls: { spotify: 'https://open.spotify.com/artist/2YZyLoL8N0Wb9xBt1NhZWg' },
@@ -111,4 +142,4 @@ const user = {
   userPlaylists,
 };
 
-export { user, fakeTrackUri, fakeTrackUri2, fakePlaylistUri, fakePlaylistUri2 };
+export { user, fakeTrackUri, fakeTrackUri2, fakePlaylistUri, fakePlaylistUri2, fakeRadarChartData };
