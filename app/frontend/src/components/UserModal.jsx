@@ -352,21 +352,21 @@ const user = {
   display_name: PropTypes.string.isRequired,
   country: PropTypes.string.isRequired,
   followers: PropTypes.number.isRequired,
-  images: PropTypes.any,
-  external_urls: PropTypes.string,
-  product: PropTypes.any,
+  images: PropTypes.array,
+  external_urls: PropTypes.object,
+  product: PropTypes.string,
   topTracksRecent: PropTypes.array.isRequired,
   topTracksMedium: PropTypes.array.isRequired,
   topTracksLong: PropTypes.array.isRequired,
-  topArtistsRecent: PropTypes.array.isRequired,
-  topArtistsMedium: PropTypes.array.isRequired,
-  topArtistsLong: PropTypes.array.isRequired,
+  topArtistsRecent: PropTypes.object.isRequired,
+  topArtistsMedium: PropTypes.object.isRequired,
+  topArtistsLong: PropTypes.object.isRequired,
   recommendedGenre: PropTypes.array.isRequired,
   userPlaylists: PropTypes.array.isRequired,
 };
 
 const propTypes = {
-  userObject: PropTypes.instanceOf(user).isRequired,
+  userObject: PropTypes.shape(user).isRequired,
 };
 
 class UserModal extends Component {
@@ -636,9 +636,9 @@ class UserModal extends Component {
     if (userObject.display_name.length > 0) {
       return (
         <IsDataWrapper>
-          <HeaderWrapper>
-            <HeaderHeading> Statistics </HeaderHeading>
-            <UserWrapper>
+          <HeaderWrapper className="main-wrapper">
+            <HeaderHeading className="main-heading"> Statistics </HeaderHeading>
+            <UserWrapper className="user-details-wrapper">
               {userObject.images.length > 0 ? (
                 <UserImage src={userObject.images[0].url} alt="avatar" />
               ) : (
@@ -650,17 +650,17 @@ class UserModal extends Component {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Name>{userObject.display_name}</Name>
+                  <Name className="username">{userObject.display_name}</Name>
                 </UserName>
 
-                <Stat>
+                <Stat className="user-statistics">
                   <Number>{userObject.followers}</Number>
                   <NumberLabel>Followers</NumberLabel>
                 </Stat>
               </div>
             </UserWrapper>
           </HeaderWrapper>
-          <ToggleButtonWrapper>
+          <ToggleButtonWrapper className="toggle-button-wrapper">
             <TimeSelectorHeading> Select time :</TimeSelectorHeading>
             <form className="time-selector">
               <FormInput
@@ -692,9 +692,9 @@ class UserModal extends Component {
               <FormLabel htmlFor="switch_long"> All Time </FormLabel>
             </form>
           </ToggleButtonWrapper>
-          <MinorWrapper>
+          <MinorWrapper className="spotify-data-wrapper">
             <Heading>
-              <HeadHeader>Top Listened Artists </HeadHeader>
+              <HeadHeader className="header-artists">Top Listened Artists </HeadHeader>
               <div>
                 {topArtists ? (
                   <UnorderedList key={nanoid()}>
@@ -718,7 +718,7 @@ class UserModal extends Component {
             </Heading>
             <Space />
             <Heading>
-              <HeadHeader>Top Listened Songs</HeadHeader>
+              <HeadHeader className="header-tracks">Top Listened Tracks</HeadHeader>
               <ListWrapper>
                 {topTracks ? (
                   <UnorderedList key={nanoid()}>
@@ -753,7 +753,7 @@ class UserModal extends Component {
             </Heading>
             <Space />
             <Heading>
-              <HeadHeader>Top Music Genre</HeadHeader>
+              <HeadHeader classNmae="header-genre">Top Music Genre</HeadHeader>
               <div>
                 {userObject.recommendedGenre ? (
                   <UnorderedList key={nanoid()}>
@@ -796,7 +796,10 @@ class UserModal extends Component {
     const { userObject } = this.props;
     return (
       <Wrapper>
-        <Button onClick={this.handleOpenModal}>{userObject.display_name}&apos;s Stats! </Button>
+        {/* {console.log(userObject)} */}
+        <Button className="modal-enter" onClick={this.handleOpenModal}>
+          {userObject.display_name}&apos;s Stats!{' '}
+        </Button>
         <ReactModal isOpen={showModal} contentLabel="Modal" className="Popup">
           <this.checkPropIsNull />
         </ReactModal>

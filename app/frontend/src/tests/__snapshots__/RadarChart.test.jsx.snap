@@ -131,7 +131,7 @@ exports[`renders the Radar Chart without crashing 1`] = `
     </div>
   </div>
   <div
-    className="c7"
+    className="c7 toggle-false"
   >
     <canvas
       data-testid="canvas"

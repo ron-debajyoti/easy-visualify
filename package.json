@@ -53,6 +53,7 @@
   "scripts": {
     "build": "cd app/frontend && react-scripts build",
     "heroku-postbuild": "npm run build",
-    "lint": "eslint --quiet --ext js,jsx ."
+    "lint": "eslint --quiet --ext js,jsx .",
+    "lint:fix" : "eslint --quiet --ext js,jsx . --fix"
   }
 }

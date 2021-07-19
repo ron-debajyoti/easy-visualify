@@ -102,7 +102,7 @@ const RadarChart = (props) => {
     const { type } = click;
     if (type) {
       return (
-        <ChartWrapper>
+        <ChartWrapper className="toggle-true">
           <Radar
             data={userChartData}
             options={{
@@ -121,7 +121,7 @@ const RadarChart = (props) => {
       );
     }
     return (
-      <ChartWrapper>
+      <ChartWrapper className="toggle-false">
         <Radar
           data={chartData}
           options={{

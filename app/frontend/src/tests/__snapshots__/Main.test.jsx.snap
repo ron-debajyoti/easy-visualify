@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Testing the Main component :  check loading snapshot for Main 1`] = `
+.c1 {
+  color: white;
+  font-size: 1.5em;
+  text-align: center;
+}
+
+.c0 {
+  text-align: center;
+}
+
+.c2 {
+  max-width: 100%;
+  margin: 10px;
+  object-fit: contain;
+}
+
+<div>
+  <div
+    className="c0"
+  >
+    <div
+      className="c1"
+    >
+       Authenticating 
+    </div>
+    <img
+      alt="loading..."
+      className="c2"
+      src="auth.gif"
+    />
+  </div>
+</div>
+`;

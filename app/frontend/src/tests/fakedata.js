@@ -21,7 +21,54 @@ const fakeTrackUri2 = '4M6XHrTc4RtdgKN9gzEAM6';
 const fakePlaylistUri = 'spotify:playlist:6sDvv5SNASdsfeeww';
 const fakePlaylistUri2 = '37i9dQZF1DWY0DyDKedRYY';
 
-const fakeTrackData = {
+const fakeArtistData = {
+  external_urls: { spotify: 'https://open.spotify.com/artist/2YZyLoL8N0Wb9xBt1NhZWg' },
+  followers: { href: null, total: 17587070 },
+  genres: ['conscious hip hop', 'hip hop', 'rap'],
+  href: 'https://api.spotify.com/v1/artists/2YZyLoL8N0Wb9xBt1NhZWg',
+  id: '2YZyLoL8N0Wb9xBt1NhZWg',
+  images: [images2, images2, images2],
+  name: 'Kendrick Lamar',
+  popularity: 89,
+  type: 'artist',
+  uri: 'spotify:artist:2YZyLoL8N0Wb9xBt1NhZWg',
+};
+
+const fakeAlbumData1 = {
+  album_type: 'ALBUM',
+  artists: [fakeArtistData],
+  available_markets: ['AD', 'AE', 'AR', 'US'],
+  external_urls: { spotify: 'https://open.spotify.com/album/3uyOwJu4r3yroAkFywNFM3' },
+  href: 'https://api.spotify.com/v1/albums/3uyOwJu4r3yroAkFywNFM3',
+  id: '3uyOwJu4r3yroAkFywNFM3',
+  images: [images1, images1, images1],
+  name: 'Culture III',
+  release_date: '2021-02-01',
+  release_date_precision: 'day',
+  total_tracks: 19,
+  type: 'album',
+  uri: 'spotify:album:3uyOwJu4r3yroAkFywNFM3',
+};
+
+const fakeAlbumData2 = {
+  album_type: 'SINGLE',
+  artists: [fakeArtistData],
+  available_markets: ['AD', 'AE', 'AR', 'US'],
+  external_urls: { spotify: 'https://open.spotify.com/album/71qxIkZvfyFGQKUe9YA0ry' },
+  href: 'https://api.spotify.com/v1/albums/71qxIkZvfyFGQKUe9YA0ry',
+  id: '71qxIkZvfyFGQKUe9YA0ry',
+  images: [images1, images1, images1],
+  name: 'Culture III',
+  release_date: '2021-02-01',
+  release_date_precision: 'day',
+  total_tracks: 19,
+  type: 'album',
+  uri: 'spotify:album:71qxIkZvfyFGQKUe9YA0ry',
+};
+
+const fakeTrackData1 = {
+  album: fakeAlbumData1,
+  artists: [fakeArtistData],
   available_markets: ['AD', 'AE', 'AR'],
   disc_number: 1,
   duration_ms: 206271,
@@ -37,6 +84,26 @@ const fakeTrackData = {
   track_number: 1,
   type: 'track',
   uri: fakeTrackUri,
+};
+
+const fakeTrackData2 = {
+  album: fakeAlbumData2,
+  artists: [fakeArtistData],
+  available_markets: ['AD', 'AE', 'AR'],
+  disc_number: 1,
+  duration_ms: 206271,
+  explicit: true,
+  external_ids: { isrc: 'USRC12100215' },
+  external_urls: { spotify: 'https://open.spotify.com/track/3uOIoS7lOvzQAtbbyttHp6' },
+  href: 'https://api.spotify.com/v1/tracks/3uOIoS7lOvzQAtbbyttHp6',
+  id: '3uOIoS7lOvzQAtbbyttHp6',
+  is_local: false,
+  name: 'BUZZCUT',
+  popularity: 60,
+  preview_url: null,
+  track_number: 1,
+  type: 'track',
+  uri: 'spotify:track:3uOIoS7lOvzQAtbbyttHp6',
 };
 
 // For RadarChart
@@ -70,26 +137,13 @@ const fakeRadarChartData = {
 
 /// ////////////////////////////////////////
 
-const fakeArtistData = {
-  external_urls: { spotify: 'https://open.spotify.com/artist/2YZyLoL8N0Wb9xBt1NhZWg' },
-  followers: { href: null, total: 17587070 },
-  genres: ['conscious hip hop', 'hip hop', 'rap'],
-  href: 'https://api.spotify.com/v1/artists/2YZyLoL8N0Wb9xBt1NhZWg',
-  id: '2YZyLoL8N0Wb9xBt1NhZWg',
-  images: images2,
-  name: 'Kendrick Lamar',
-  popularity: 89,
-  type: 'artist',
-  uri: 'spotify:artist:2YZyLoL8N0Wb9xBt1NhZWg',
-};
-
 const fakeUserPlaylist = {
   collaborative: false,
   description: 'Mainly work rap jam and all time high songs',
   external_urls: { spotify: 'https://open.spotify.com/playlist/6sDvdsfdf449' },
   href: 'https://api.spotify.com/v1/playlists/6sDvv5ew',
   id: '6sDvv5SNAwNK9',
-  images: images1,
+  images: [images1, images1, images1],
   name: 'Fake Playlist 1',
   owner: {
     display_name: 'Ron',
@@ -109,7 +163,7 @@ const fakeUserPlaylist = {
   uri: fakePlaylistUri,
 };
 
-const topTracks = [fakeTrackData, fakeTrackData, fakeTrackData];
+const topTracks = [fakeTrackData1, fakeTrackData2, fakeTrackData1];
 
 const topArtists = {
   href: null,
@@ -123,14 +177,14 @@ const topArtists = {
 
 const userPlaylists = [fakeUserPlaylist, fakeUserPlaylist];
 
-const user = {
+const fakeUser = {
   country: 'US',
   display_name: 'Ron',
   external_urls: {
     spotify: 'https://open.spotify.com/user/ronwilson69',
   },
   followers: 7,
-  images1,
+  images: images1,
   product: 'open',
   recommendedGenre,
   topTracksRecent: topTracks,
@@ -142,4 +196,11 @@ const user = {
   userPlaylists,
 };
 
-export { user, fakeTrackUri, fakeTrackUri2, fakePlaylistUri, fakePlaylistUri2, fakeRadarChartData };
+export {
+  fakeUser,
+  fakeTrackUri,
+  fakeTrackUri2,
+  fakePlaylistUri,
+  fakePlaylistUri2,
+  fakeRadarChartData,
+};

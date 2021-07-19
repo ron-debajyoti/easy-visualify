@@ -22,6 +22,7 @@ afterEach(() => {
 });
 
 it('renders the Radar Chart without crashing', () => {
+  // snapshot contains toggle-false
   const tree = renderer
     .create(<RadarChart chartData={fakeRadarChartData} username="trialUsername" />, container)
     .toJSON();
@@ -40,5 +41,6 @@ it('renders the chart correctly before/after toggling', () => {
 
   expect(wrapped.find('[className="checkbox"]')).toBeTruthy();
   wrapped.find('[className="checkbox"]').simulate('change', { target: { checked: true } });
+  expect(wrapped.find('[className="toggle-true"]')).toBeTruthy();
   expect(onChange).toBeTruthy();
 });

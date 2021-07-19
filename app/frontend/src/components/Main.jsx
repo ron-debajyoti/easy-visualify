@@ -106,7 +106,7 @@ const Main = () => {
       country: null,
       followers: null,
       images: null,
-      external_urls: null,
+      external_urls: '',
       product: null,
       topTracksRecent: null,
       topTracksMedium: null,
@@ -239,20 +239,16 @@ const Main = () => {
     ReactTooltip.rebuild();
   };
 
-  // useEffect(() => {
-
-  // }, [contentType])
-
   return (
     <div>
       {allUpdated ? (
         <Wrapper>
           <MainTitle> Main Page </MainTitle>
-          <Section1>
+          <Section1 classname="section-1">
             <UserModal userObject={user} />
             <App setTooltipContent={(e) => onUpdate(e)} setTooltip={tooltipRender} />
           </Section1>
-          <Section2>
+          <Section2 classname="section-2">
             <ButtonWrapper>
               <TriggerButton className="daily-top" onClick={() => onButtonClick('top')}>
                 {' '}

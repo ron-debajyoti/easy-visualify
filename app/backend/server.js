@@ -18,7 +18,7 @@ app.all('/*', (req, res, next) => {
 app.get('/request', (req, res) => {
   mongoclient.connect(address, { useUnifiedTopology: true }, (err, client) => {
     if (err) throw err;
-    const messageData = [];
+    // const messageData = [];
     const db = client.db('visualify');
     const topPlaylists = db.collection('myCollection');
     const viralPlaylists = db.collection('viralCollections');
@@ -38,13 +38,6 @@ app.get('/request', (req, res) => {
     });
 
     Promise.all([task1, task2])
-      .then((taskEntries) => {
-        console.log('!!!!!!!!!!!!');
-        taskEntries.forEach((task) => {
-          messageData.push(task);
-        });
-        return messageData;
-      })
       .then((data) => res.send(JSON.stringify(data)))
       .then(() => console.log('Data sent !'));
   });
