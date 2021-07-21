@@ -661,7 +661,7 @@ class UserModal extends Component {
             </UserWrapper>
           </HeaderWrapper>
           <ToggleButtonWrapper className="toggle-button-wrapper">
-            <TimeSelectorHeading> Select time :</TimeSelectorHeading>
+            <TimeSelectorHeading> Select time : </TimeSelectorHeading>
             <form className="time-selector">
               <FormInput
                 type="radio"
@@ -693,11 +693,11 @@ class UserModal extends Component {
             </form>
           </ToggleButtonWrapper>
           <MinorWrapper className="spotify-data-wrapper">
-            <Heading>
+            <Heading className="div-section-artists">
               <HeadHeader className="header-artists">Top Listened Artists </HeadHeader>
               <div>
                 {topArtists ? (
-                  <UnorderedList key={nanoid()}>
+                  <UnorderedList className="list-artists" key={nanoid()}>
                     {topArtists.items.slice(0, 10).map((artist) => (
                       <Artist key={nanoid()}>
                         <ArtistArtwork>
@@ -717,11 +717,11 @@ class UserModal extends Component {
               </div>
             </Heading>
             <Space />
-            <Heading>
+            <Heading className="div-section-tracks">
               <HeadHeader className="header-tracks">Top Listened Tracks</HeadHeader>
               <ListWrapper>
                 {topTracks ? (
-                  <UnorderedList key={nanoid()}>
+                  <UnorderedList className="list-tracks" key={nanoid()}>
                     {topTracks.slice(0, 10).map((item) => (
                       <Artist key={nanoid()}>
                         <SongArtwork>
@@ -752,11 +752,11 @@ class UserModal extends Component {
               </ListWrapper>
             </Heading>
             <Space />
-            <Heading>
+            <Heading className="div-section-genre">
               <HeadHeader classNmae="header-genre">Top Music Genre</HeadHeader>
               <div>
                 {userObject.recommendedGenre ? (
-                  <UnorderedList key={nanoid()}>
+                  <UnorderedList className="list-genres" key={nanoid()}>
                     {userObject.recommendedGenre.slice(0, 15).map((item) => (
                       <Artist key={nanoid()}>
                         <ArtistName>

@@ -34,6 +34,7 @@
   "devDependencies": {
     "babel-eslint": "^10.1.0",
     "babel-plugin-styled-components": "^1.11.1",
+    "enzyme-to-json": "^3.6.2",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.20.2",
