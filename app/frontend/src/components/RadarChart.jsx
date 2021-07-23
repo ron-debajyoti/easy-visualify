@@ -141,7 +141,7 @@ const RadarChart = (props) => {
   };
 
   return (
-    <div>
+    <div className="radar-chart">
       <ChartTitle style={{ color: 'white' }}>
         {' '}
         Audio Analysis of Tracks and Saved Playlists{' '}

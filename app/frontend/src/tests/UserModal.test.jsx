@@ -4,6 +4,7 @@ import { unmountComponentAtNode } from 'react-dom';
 import { mount } from 'enzyme';
 import { createSerializer } from 'enzyme-to-json';
 import { act } from 'react-dom/test-utils';
+import { expect } from '@jest/globals';
 import UserModal from '../components/UserModal';
 import { fakeUser } from './fakedata';
 
@@ -11,8 +12,9 @@ let container = null;
 expect.addSnapshotSerializer(createSerializer({ mode: 'deep' }));
 
 const renderingDataTest = (artistsWrapper, tracksWrapper, genreWrapper, timeType) => {
-  // Snapshot testing if the data is rendered properly
+  // TODO: Snapshot testing if the data is rendered properly
 
+  console.log(timeType);
   if (timeType === 'long') {
     artistsWrapper.children().forEach((artistNode) => {
       expect(artistNode.childAt(0).children()).toHaveLength(2);
@@ -137,6 +139,9 @@ describe('Testing the UserModal component', () => {
       wrapper.update();
     });
     wrapper.find('button.modal-enter').simulate('click');
+    act(() => {
+      wrapper.update();
+    });
     expect(wrapper.find('.Popup')).toBeTruthy();
 
     /* toggle button section */
@@ -157,9 +162,26 @@ describe('Testing the UserModal component', () => {
     expect(tracksWrapper.children()).toHaveLength(fakeUser.topTracksLong.length);
     expect(genreWrapper.children()).toHaveLength(fakeUser.recommendedGenre.length);
 
-    // expect(toJson(wrapper)).toMatchSnapshot();
-    renderingDataTest(artistsWrapper, tracksWrapper, genreWrapper);
+    renderingDataTest(artistsWrapper, tracksWrapper, genreWrapper, 'long');
 
+    // changing radio button to recent
     buttonForm.simulate('change', { target: { timeType: 'recent' } });
+    act(() => {
+      wrapper.update();
+      artistsWrapper.update();
+      tracksWrapper.update();
+      genreWrapper.update();
+    });
+    renderingDataTest(artistsWrapper, tracksWrapper, genreWrapper, 'recent');
+
+    // changing radio button to medium
+    buttonForm.simulate('change', { target: { timeType: 'medium' } });
+    act(() => {
+      wrapper.update();
+      artistsWrapper.update();
+      tracksWrapper.update();
+      genreWrapper.update();
+    });
+    renderingDataTest(artistsWrapper, tracksWrapper, genreWrapper, 'medium');
   });
 });

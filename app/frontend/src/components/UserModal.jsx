@@ -387,8 +387,12 @@ class UserModal extends Component {
   }
 
   componentDidMount() {
-    this.renderChart();
     ReactModal.setAppElement('body');
+    this.renderChart().then((data) => {
+      this.setState({
+        chartData: data,
+      });
+    });
   }
 
   handleRecentClick() {
@@ -538,84 +542,6 @@ class UserModal extends Component {
         .then((dataTrack) => ({ topSongsData, playlistData: dataTrack }));
     });
     // end of visualTrackData
-  };
-
-  renderChart = () => {
-    this.visualTrackData()
-      .then((dataPassed) => {
-        const playlistData = JSON.parse(JSON.stringify(dataPassed.playlistData));
-        const topSongsData = dataPassed.topSongsData[0];
-
-        let datasets = [];
-        let labelData = [];
-        // modeling data for Top 30 songs
-        if (topSongsData !== null || topSongsData !== undefined) {
-          let temp = [];
-
-          Object.keys(topSongsData).forEach((key) => {
-            labelData = labelData.concat(key);
-            temp = temp.concat(topSongsData[key]);
-          });
-
-          datasets = datasets.concat({
-            label: 'Top 30 songs analysis',
-            backgroundColor: 'rgba(255,99,132,0.2)',
-            borderColor: 'rgba(179,181,198,1)',
-            pointBackgroundColor: 'rgba(179,181,198,1)',
-            pointBorderColor: '#fff',
-            pointHoverBackgroundColor: '#fff',
-            pointHoverBorderColor: 'rgba(179,181,198,1)',
-            data: temp.slice(0, 7),
-          });
-        }
-
-        // modeling data for Playlists
-        /* Creating two datasets , one with saved playlists and other with owner's playlist only
-          is kinda better. Might take some extra time preprocessing it but rendering the chart is 
-          going to be easy wrt to the toggle button.
-        */
-
-        playlistData.forEach((item) => {
-          if (item.trackData !== null || item.trackData !== undefined) {
-            let temp = [];
-            Object.keys(item.trackData).forEach((e) => {
-              temp = temp.concat(item.trackData[e]);
-            });
-
-            temp = temp.slice(0, 7);
-            const backgroundColor = `#33${(0x1000000 + Math.random() * 0xffffff)
-              .toString(16)
-              .substr(1, 6)}`;
-            const borderColor = `#33${(0x1000000 + Math.random() * 0xffffff)
-              .toString(16)
-              .substr(1, 6)}`;
-
-            datasets = datasets.concat({
-              owner: item.owner,
-              label: item.name,
-              backgroundColor,
-              borderColor,
-              fill: true,
-              pointBackgroundColor: borderColor,
-              pointBorderColor: '#fff',
-              pointHoverBackgroundColor: '#fff',
-              pointHoverBorderColor: borderColor,
-              data: temp,
-            });
-          }
-        });
-
-        const data = {
-          labels: labelData.slice(0, 7),
-          datasets,
-        };
-        return data;
-      })
-      .then((data) => {
-        this.setState({
-          chartData: data,
-        });
-      });
   };
 
   checkPropIsNull = () => {
@@ -790,6 +716,78 @@ class UserModal extends Component {
       </div>
     );
   };
+
+  async renderChart() {
+    this.visualTrackData().then((dataPassed) => {
+      const playlistData = JSON.parse(JSON.stringify(dataPassed.playlistData));
+      const topSongsData = dataPassed.topSongsData[0];
+
+      let datasets = [];
+      let labelData = [];
+      // modeling data for Top 30 songs
+      if (topSongsData !== null || topSongsData !== undefined) {
+        let temp = [];
+
+        Object.keys(topSongsData).forEach((key) => {
+          labelData = labelData.concat(key);
+          temp = temp.concat(topSongsData[key]);
+        });
+
+        datasets = datasets.concat({
+          label: 'Top 30 songs analysis',
+          backgroundColor: 'rgba(255,99,132,0.2)',
+          borderColor: 'rgba(179,181,198,1)',
+          pointBackgroundColor: 'rgba(179,181,198,1)',
+          pointBorderColor: '#fff',
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: 'rgba(179,181,198,1)',
+          data: temp.slice(0, 7),
+        });
+      }
+
+      // modeling data for Playlists
+      /* Creating two datasets , one with saved playlists and other with owner's playlist only
+          is kinda better. Might take some extra time preprocessing it but rendering the chart is 
+          going to be easy wrt to the toggle button.
+        */
+
+      playlistData.forEach((item) => {
+        if (item.trackData !== null || item.trackData !== undefined) {
+          let temp = [];
+          Object.keys(item.trackData).forEach((e) => {
+            temp = temp.concat(item.trackData[e]);
+          });
+
+          temp = temp.slice(0, 7);
+          const backgroundColor = `#33${(0x1000000 + Math.random() * 0xffffff)
+            .toString(16)
+            .substr(1, 6)}`;
+          const borderColor = `#33${(0x1000000 + Math.random() * 0xffffff)
+            .toString(16)
+            .substr(1, 6)}`;
+
+          datasets = datasets.concat({
+            owner: item.owner,
+            label: item.name,
+            backgroundColor,
+            borderColor,
+            fill: true,
+            pointBackgroundColor: borderColor,
+            pointBorderColor: '#fff',
+            pointHoverBackgroundColor: '#fff',
+            pointHoverBorderColor: borderColor,
+            data: temp,
+          });
+        }
+      });
+
+      const data = {
+        labels: labelData.slice(0, 7),
+        datasets,
+      };
+      return data;
+    });
+  }
 
   render() {
     const { showModal } = this.state;
