@@ -95,7 +95,9 @@ exports[`renders the Radar Chart without crashing 1`] = `
   }
 }
 
-<div>
+<div
+  className="radar-chart"
+>
   <h3
     className="c0"
     style={
@@ -121,6 +123,7 @@ exports[`renders the Radar Chart without crashing 1`] = `
     >
       <input
         className="c4 checkbox"
+        id="checkbox"
         onChange={[Function]}
         type="checkbox"
       />

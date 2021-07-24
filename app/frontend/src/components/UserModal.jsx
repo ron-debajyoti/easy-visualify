@@ -679,7 +679,7 @@ class UserModal extends Component {
             </Heading>
             <Space />
             <Heading className="div-section-genre">
-              <HeadHeader classNmae="header-genre">Top Music Genre</HeadHeader>
+              <HeadHeader className="header-genre">Top Music Genre</HeadHeader>
               <div>
                 {userObject.recommendedGenre ? (
                   <UnorderedList className="list-genres" key={nanoid()}>
@@ -718,7 +718,7 @@ class UserModal extends Component {
   };
 
   async renderChart() {
-    this.visualTrackData().then((dataPassed) => {
+    return this.visualTrackData().then((dataPassed) => {
       const playlistData = JSON.parse(JSON.stringify(dataPassed.playlistData));
       const topSongsData = dataPassed.topSongsData[0];
 
