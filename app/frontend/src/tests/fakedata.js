@@ -135,6 +135,25 @@ const fakeRadarChartData = {
   datasets: [fakeRadarChartLabelObject1, fakeRadarChartLabelObject2],
 };
 
+/// ////  For App  //////////////////
+
+const fakeTopPlaylistEntry = {
+  country_code: 'US',
+  data: [fakeTrackData2, fakeTrackData2, fakeTrackData2],
+  playlist_id: fakePlaylistUri2,
+};
+
+const fakeViralPlaylistEntry = {
+  country_code: 'US',
+  data: [fakeTrackData2, fakeTrackData2, fakeTrackData2],
+  playlist_id: fakePlaylistUri2,
+};
+
+const fakePlaylistMap = [
+  { topPlaylists: [fakeTopPlaylistEntry, fakeTopPlaylistEntry] },
+  { viralPlaylists: [fakeViralPlaylistEntry, fakeViralPlaylistEntry] },
+];
+
 /// ////////////////////////////////////////
 
 const fakeUserPlaylist = {
@@ -198,6 +217,7 @@ const fakeUser = {
 
 export {
   fakeUser,
+  fakePlaylistMap,
   fakeTrackUri,
   fakeTrackUri2,
   fakePlaylistUri,
