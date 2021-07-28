@@ -352,21 +352,21 @@ const user = {
   display_name: PropTypes.string.isRequired,
   country: PropTypes.string.isRequired,
   followers: PropTypes.number.isRequired,
-  images: PropTypes.any,
-  external_urls: PropTypes.string,
-  product: PropTypes.any,
+  images: PropTypes.array,
+  external_urls: PropTypes.object,
+  product: PropTypes.string,
   topTracksRecent: PropTypes.array.isRequired,
   topTracksMedium: PropTypes.array.isRequired,
   topTracksLong: PropTypes.array.isRequired,
-  topArtistsRecent: PropTypes.array.isRequired,
-  topArtistsMedium: PropTypes.array.isRequired,
-  topArtistsLong: PropTypes.array.isRequired,
+  topArtistsRecent: PropTypes.object.isRequired,
+  topArtistsMedium: PropTypes.object.isRequired,
+  topArtistsLong: PropTypes.object.isRequired,
   recommendedGenre: PropTypes.array.isRequired,
   userPlaylists: PropTypes.array.isRequired,
 };
 
 const propTypes = {
-  userObject: PropTypes.instanceOf(user).isRequired,
+  userObject: PropTypes.shape(user).isRequired,
 };
 
 class UserModal extends Component {
@@ -387,8 +387,12 @@ class UserModal extends Component {
   }
 
   componentDidMount() {
-    this.renderChart();
     ReactModal.setAppElement('body');
+    this.renderChart().then((data) => {
+      this.setState({
+        chartData: data,
+      });
+    });
   }
 
   handleRecentClick() {
@@ -540,84 +544,6 @@ class UserModal extends Component {
     // end of visualTrackData
   };
 
-  renderChart = () => {
-    this.visualTrackData()
-      .then((dataPassed) => {
-        const playlistData = JSON.parse(JSON.stringify(dataPassed.playlistData));
-        const topSongsData = dataPassed.topSongsData[0];
-
-        let datasets = [];
-        let labelData = [];
-        // modeling data for Top 30 songs
-        if (topSongsData !== null || topSongsData !== undefined) {
-          let temp = [];
-
-          Object.keys(topSongsData).forEach((key) => {
-            labelData = labelData.concat(key);
-            temp = temp.concat(topSongsData[key]);
-          });
-
-          datasets = datasets.concat({
-            label: 'Top 30 songs analysis',
-            backgroundColor: 'rgba(255,99,132,0.2)',
-            borderColor: 'rgba(179,181,198,1)',
-            pointBackgroundColor: 'rgba(179,181,198,1)',
-            pointBorderColor: '#fff',
-            pointHoverBackgroundColor: '#fff',
-            pointHoverBorderColor: 'rgba(179,181,198,1)',
-            data: temp.slice(0, 7),
-          });
-        }
-
-        // modeling data for Playlists
-        /* Creating two datasets , one with saved playlists and other with owner's playlist only
-          is kinda better. Might take some extra time preprocessing it but rendering the chart is 
-          going to be easy wrt to the toggle button.
-        */
-
-        playlistData.forEach((item) => {
-          if (item.trackData !== null || item.trackData !== undefined) {
-            let temp = [];
-            Object.keys(item.trackData).forEach((e) => {
-              temp = temp.concat(item.trackData[e]);
-            });
-
-            temp = temp.slice(0, 7);
-            const backgroundColor = `#33${(0x1000000 + Math.random() * 0xffffff)
-              .toString(16)
-              .substr(1, 6)}`;
-            const borderColor = `#33${(0x1000000 + Math.random() * 0xffffff)
-              .toString(16)
-              .substr(1, 6)}`;
-
-            datasets = datasets.concat({
-              owner: item.owner,
-              label: item.name,
-              backgroundColor,
-              borderColor,
-              fill: true,
-              pointBackgroundColor: borderColor,
-              pointBorderColor: '#fff',
-              pointHoverBackgroundColor: '#fff',
-              pointHoverBorderColor: borderColor,
-              data: temp,
-            });
-          }
-        });
-
-        const data = {
-          labels: labelData.slice(0, 7),
-          datasets,
-        };
-        return data;
-      })
-      .then((data) => {
-        this.setState({
-          chartData: data,
-        });
-      });
-  };
-
   checkPropIsNull = () => {
     const { userObject } = this.props;
     const { chartData, timeType } = this.state;
@@ -636,9 +562,9 @@ class UserModal extends Component {
     if (userObject.display_name.length > 0) {
       return (
         <IsDataWrapper>
-          <HeaderWrapper>
-            <HeaderHeading> Statistics </HeaderHeading>
-            <UserWrapper>
+          <HeaderWrapper className="main-wrapper">
+            <HeaderHeading className="main-heading"> Statistics </HeaderHeading>
+            <UserWrapper className="user-details-wrapper">
               {userObject.images.length > 0 ? (
                 <UserImage src={userObject.images[0].url} alt="avatar" />
               ) : (
@@ -650,18 +576,18 @@ class UserModal extends Component {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Name>{userObject.display_name}</Name>
+                  <Name className="username">{userObject.display_name}</Name>
                 </UserName>
 
-                <Stat>
+                <Stat className="user-statistics">
                   <Number>{userObject.followers}</Number>
                   <NumberLabel>Followers</NumberLabel>
                 </Stat>
               </div>
             </UserWrapper>
           </HeaderWrapper>
-          <ToggleButtonWrapper>
-            <TimeSelectorHeading> Select time :</TimeSelectorHeading>
+          <ToggleButtonWrapper className="toggle-button-wrapper">
+            <TimeSelectorHeading> Select time : </TimeSelectorHeading>
             <form className="time-selector">
               <FormInput
                 type="radio"
@@ -692,12 +618,12 @@ class UserModal extends Component {
               <FormLabel htmlFor="switch_long"> All Time </FormLabel>
             </form>
           </ToggleButtonWrapper>
-          <MinorWrapper>
-            <Heading>
-              <HeadHeader>Top Listened Artists </HeadHeader>
+          <MinorWrapper className="spotify-data-wrapper">
+            <Heading className="div-section-artists">
+              <HeadHeader className="header-artists">Top Listened Artists </HeadHeader>
               <div>
                 {topArtists ? (
-                  <UnorderedList key={nanoid()}>
+                  <UnorderedList className="list-artists" key={nanoid()}>
                     {topArtists.items.slice(0, 10).map((artist) => (
                       <Artist key={nanoid()}>
                         <ArtistArtwork>
@@ -717,11 +643,11 @@ class UserModal extends Component {
               </div>
             </Heading>
             <Space />
-            <Heading>
-              <HeadHeader>Top Listened Songs</HeadHeader>
+            <Heading className="div-section-tracks">
+              <HeadHeader className="header-tracks">Top Listened Tracks</HeadHeader>
               <ListWrapper>
                 {topTracks ? (
-                  <UnorderedList key={nanoid()}>
+                  <UnorderedList className="list-tracks" key={nanoid()}>
                     {topTracks.slice(0, 10).map((item) => (
                       <Artist key={nanoid()}>
                         <SongArtwork>
@@ -752,11 +678,11 @@ class UserModal extends Component {
               </ListWrapper>
             </Heading>
             <Space />
-            <Heading>
-              <HeadHeader>Top Music Genre</HeadHeader>
+            <Heading className="div-section-genre">
+              <HeadHeader className="header-genre">Top Music Genre</HeadHeader>
               <div>
                 {userObject.recommendedGenre ? (
-                  <UnorderedList key={nanoid()}>
+                  <UnorderedList className="list-genres" key={nanoid()}>
                     {userObject.recommendedGenre.slice(0, 15).map((item) => (
                       <Artist key={nanoid()}>
                         <ArtistName>
@@ -791,12 +717,87 @@ class UserModal extends Component {
     );
   };
 
+  async renderChart() {
+    return this.visualTrackData().then((dataPassed) => {
+      const playlistData = JSON.parse(JSON.stringify(dataPassed.playlistData));
+      const topSongsData = dataPassed.topSongsData[0];
+
+      let datasets = [];
+      let labelData = [];
+      // modeling data for Top 30 songs
+      if (topSongsData !== null || topSongsData !== undefined) {
+        let temp = [];
+
+        Object.keys(topSongsData).forEach((key) => {
+          labelData = labelData.concat(key);
+          temp = temp.concat(topSongsData[key]);
+        });
+
+        datasets = datasets.concat({
+          label: 'Top 30 songs analysis',
+          backgroundColor: 'rgba(255,99,132,0.2)',
+          borderColor: 'rgba(179,181,198,1)',
+          pointBackgroundColor: 'rgba(179,181,198,1)',
+          pointBorderColor: '#fff',
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: 'rgba(179,181,198,1)',
+          data: temp.slice(0, 7),
+        });
+      }
+
+      // modeling data for Playlists
+      /* Creating two datasets , one with saved playlists and other with owner's playlist only
+          is kinda better. Might take some extra time preprocessing it but rendering the chart is 
+          going to be easy wrt to the toggle button.
+        */
+
+      playlistData.forEach((item) => {
+        if (item.trackData !== null || item.trackData !== undefined) {
+          let temp = [];
+          Object.keys(item.trackData).forEach((e) => {
+            temp = temp.concat(item.trackData[e]);
+          });
+
+          temp = temp.slice(0, 7);
+          const backgroundColor = `#33${(0x1000000 + Math.random() * 0xffffff)
+            .toString(16)
+            .substr(1, 6)}`;
+          const borderColor = `#33${(0x1000000 + Math.random() * 0xffffff)
+            .toString(16)
+            .substr(1, 6)}`;
+
+          datasets = datasets.concat({
+            owner: item.owner,
+            label: item.name,
+            backgroundColor,
+            borderColor,
+            fill: true,
+            pointBackgroundColor: borderColor,
+            pointBorderColor: '#fff',
+            pointHoverBackgroundColor: '#fff',
+            pointHoverBorderColor: borderColor,
+            data: temp,
+          });
+        }
+      });
+
+      const data = {
+        labels: labelData.slice(0, 7),
+        datasets,
+      };
+      return data;
+    });
+  }
+
   render() {
     const { showModal } = this.state;
     const { userObject } = this.props;
     return (
       <Wrapper>
-        <Button onClick={this.handleOpenModal}>{userObject.display_name}&apos;s Stats! </Button>
+        {/* {console.log(userObject)} */}
+        <Button className="modal-enter" onClick={this.handleOpenModal}>
+          {userObject.display_name}&apos;s Stats!{' '}
+        </Button>
         <ReactModal isOpen={showModal} contentLabel="Modal" className="Popup">
           <this.checkPropIsNull />
         </ReactModal>

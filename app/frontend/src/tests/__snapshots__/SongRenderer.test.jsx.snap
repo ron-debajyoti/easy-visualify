@@ -1,0 +1,153 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders corrent message at the start 1`] = `
+.c0 {
+  margin: 30px 20px text-align:left;
+  color: white;
+}
+
+@media (max-width:768px) {
+  .c0 {
+    font-size: small;
+  }
+}
+
+@media (min-width:768px) {
+  .c0 {
+    font-size: large;
+  }
+}
+
+<div
+  className="c0"
+>
+   Click on a country to begin! 
+</div>
+`;
+
+exports[`renders top tracks without crashing 1`] = `
+.c1 {
+  margin: 30px 20px text-align:left;
+  color: white;
+}
+
+.c0 {
+  display: inline;
+  padding: 0.7em;
+}
+
+@media (max-width:768px) {
+  .c3 {
+    width: 250px;
+    height: 70px;
+  }
+}
+
+@media (min-width:768px) {
+  .c3 {
+    width: 250px;
+    height: 70px;
+  }
+}
+
+@media (max-width:768px) {
+  .c1 {
+    font-size: small;
+  }
+}
+
+@media (min-width:768px) {
+  .c1 {
+    font-size: large;
+  }
+}
+
+@media (max-width:768px) {
+  .c2 {
+    display: -webkit-inline-box;
+    display: -webkit-inline flow-root list-item;
+    display: -ms-inline flow-root list-itembox;
+    display: inline flow-root list-item;
+  }
+}
+
+@media (min-width:768px) {
+  .c2 {
+    display: inline list-item;
+  }
+}
+
+<div
+  className="c0"
+>
+  <div
+    className="c1"
+  >
+     Daily Top Tracks of 
+    United Kingdom
+     
+  </div>
+  <ol
+    className="c2"
+  >
+    <embed
+      className="c3 widget-song"
+      src="https://open.spotify.com/embed?uri=spotify:track:4KD0lLJ4OGonZhBeKtct9I&theme=white"
+      title=""
+    />
+    <embed
+      className="c3 widget-song"
+      src="https://open.spotify.com/embed?uri=4M6XHrTc4RtdgKN9gzEAM6&theme=white"
+      title=""
+    />
+  </ol>
+</div>
+`;
+
+exports[`renders weekly playlist without crashing 1`] = `
+.c2 {
+  min-width: 35vh;
+  min-height: 100vh;
+}
+
+.c1 {
+  margin: 30px 20px text-align:left;
+  color: white;
+}
+
+.c0 {
+  display: inline;
+  padding: 0.7em;
+}
+
+@media (max-width:768px) {
+  .c1 {
+    font-size: small;
+  }
+}
+
+@media (min-width:768px) {
+  .c1 {
+    font-size: large;
+  }
+}
+
+<div
+  className="c0"
+>
+  <div
+    className="c1"
+  >
+     Weekly Top Tracks of 
+    United Kingdom
+     
+  </div>
+  <div>
+    <iframe
+      className="c2 widget-playlist"
+      src="https://open.spotify.com/embed/playlist/45ba6QAtNrdv6Ke4MFOKk9"
+      title=""
+    />
+  </div>
+</div>
+`;

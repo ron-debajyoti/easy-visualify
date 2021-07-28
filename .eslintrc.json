@@ -10,6 +10,7 @@
 
     "extends": ["airbnb","prettier"],
     "plugins": [
+        "react",
         "prettier",
         "import",
         "react-hooks"
@@ -21,6 +22,7 @@
 
     "env": {
         "es6": true,
+        "jest": true,
         "node": true,
         "browser": true
     }
