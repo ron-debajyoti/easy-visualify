@@ -2,18 +2,20 @@
 
 exports[`renders corrent message at the start 1`] = `
 .c0 {
-  margin: 30px 20px text-align:left;
+  text-align: left;
   color: white;
 }
 
 @media (max-width:768px) {
   .c0 {
-    font-size: small;
+    margin: 5px 20px;
+    font-size: medium;
   }
 }
 
 @media (min-width:768px) {
   .c0 {
+    margin: 20px;
     font-size: large;
   }
 }
@@ -21,13 +23,14 @@ exports[`renders corrent message at the start 1`] = `
 <div
   className="c0"
 >
-   Click on a country to begin! 
+   Spotify is not supported in 
+   !
 </div>
 `;
 
 exports[`renders top tracks without crashing 1`] = `
 .c1 {
-  margin: 30px 20px text-align:left;
+  text-align: left;
   color: white;
 }
 
@@ -36,6 +39,10 @@ exports[`renders top tracks without crashing 1`] = `
   padding: 0.7em;
 }
 
+.c2 {
+  padding: 20px;
+}
+
 @media (max-width:768px) {
   .c3 {
     width: 250px;
@@ -52,12 +59,14 @@ exports[`renders top tracks without crashing 1`] = `
 
 @media (max-width:768px) {
   .c1 {
-    font-size: small;
+    margin: 5px 20px;
+    font-size: medium;
   }
 }
 
 @media (min-width:768px) {
   .c1 {
+    margin: 20px;
     font-size: large;
   }
 }
@@ -73,7 +82,7 @@ exports[`renders top tracks without crashing 1`] = `
 
 @media (min-width:768px) {
   .c2 {
-    display: inline list-item;
+    display: contents;
   }
 }
 
@@ -111,7 +120,7 @@ exports[`renders weekly playlist without crashing 1`] = `
 }
 
 .c1 {
-  margin: 30px 20px text-align:left;
+  text-align: left;
   color: white;
 }
 
@@ -122,12 +131,14 @@ exports[`renders weekly playlist without crashing 1`] = `
 
 @media (max-width:768px) {
   .c1 {
-    font-size: small;
+    margin: 5px 20px;
+    font-size: medium;
   }
 }
 
 @media (min-width:768px) {
   .c1 {
+    margin: 20px;
     font-size: large;
   }
 }

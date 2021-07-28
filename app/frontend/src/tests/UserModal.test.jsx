@@ -120,7 +120,7 @@ describe('Testing the UserModal component', () => {
 
     // checks for proper rendering of header
     expect(wrapper.find('div.main-wrapper').children()).toHaveLength(2);
-    expect(wrapper.find('div.main-wrapper').childAt(0).text()).toBe(' Statistics ');
+    expect(wrapper.find('div.main-wrapper').childAt(0).text()).toBe(' User Statistics ');
     expect(wrapper.find('div.user-details-wrapper').children()).toHaveLength(2);
     expect(wrapper.find('div.user-details-wrapper').childAt(0).find('img').prop('src')).toEqual(
       fakeUser.images[0].url

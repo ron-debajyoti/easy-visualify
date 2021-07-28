@@ -28,6 +28,13 @@ const ChartWrapper = styled.div`
 `;
 
 const Message = styled.h5`
+  ${media.lessThan('medium')`
+    font-size: small;
+  `}
+
+  ${media.greaterThan('medium')`
+    font-size: medium;
+  `}
   display: flex;
   font-weight: 75;
   color: white;
