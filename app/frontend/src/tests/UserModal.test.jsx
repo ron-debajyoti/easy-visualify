@@ -14,7 +14,6 @@ expect.addSnapshotSerializer(createSerializer({ mode: 'deep' }));
 const renderingDataTest = (artistsWrapper, tracksWrapper, genreWrapper, timeType) => {
   // TODO: Snapshot testing if the data is rendered properly
 
-  console.log(timeType);
   if (timeType === 'long') {
     artistsWrapper.children().forEach((artistNode) => {
       expect(artistNode.childAt(0).children()).toHaveLength(2);

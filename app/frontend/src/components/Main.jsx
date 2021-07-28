@@ -244,12 +244,12 @@ const Main = () => {
       {allUpdated ? (
         <Wrapper>
           <MainTitle> Main Page </MainTitle>
-          <Section1 classname="section-1">
+          <Section1 className="section-1">
             <UserModal userObject={user} />
             <App setTooltipContent={(e) => onUpdate(e)} setTooltip={tooltipRender} />
           </Section1>
-          <Section2 classname="section-2">
-            <ButtonWrapper>
+          <Section2 className="section-2">
+            <ButtonWrapper className="wrapper-button">
               <TriggerButton className="daily-top" onClick={() => onButtonClick('top')}>
                 {' '}
                 Daily Top Tracks

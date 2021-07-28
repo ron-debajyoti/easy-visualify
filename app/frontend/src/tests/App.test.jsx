@@ -3,6 +3,7 @@ import { unmountComponentAtNode } from 'react-dom';
 import { Geographies } from 'react-simple-maps';
 import { mount } from 'enzyme';
 import { expect } from '@jest/globals';
+import mapData from '../data/map.json';
 
 import App from '../components/App';
 
@@ -39,8 +40,7 @@ describe('Testing App component: ', () => {
       wrapper.update();
       const geographyWrapper = wrapper.find(Geographies);
       expect(geographyWrapper).toBeTruthy();
+      expect(geographyWrapper.prop('geography')).toBe(mapData);
     });
-
-    // console.log(wrapper.debug());
   });
 });
