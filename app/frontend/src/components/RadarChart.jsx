@@ -102,7 +102,7 @@ const RadarChart = (props) => {
     const { type } = click;
     if (type) {
       return (
-        <ChartWrapper>
+        <ChartWrapper className="toggle-true">
           <Radar
             data={userChartData}
             options={{
@@ -121,7 +121,7 @@ const RadarChart = (props) => {
       );
     }
     return (
-      <ChartWrapper>
+      <ChartWrapper className="toggle-false">
         <Radar
           data={chartData}
           options={{
@@ -141,7 +141,7 @@ const RadarChart = (props) => {
   };
 
   return (
-    <div>
+    <div className="radar-chart">
       <ChartTitle style={{ color: 'white' }}>
         {' '}
         Audio Analysis of Tracks and Saved Playlists{' '}
@@ -149,7 +149,12 @@ const RadarChart = (props) => {
       <Wrapper>
         <Message>User created playlists</Message>
         <CheckBoxWrapper>
-          <CheckBox id="checkbox" type="checkbox" onChange={() => handleOnChange()} />
+          <CheckBox
+            className="checkbox"
+            id="checkbox"
+            type="checkbox"
+            onChange={() => handleOnChange()}
+          />
           <CheckBoxLabel htmlFor="checkbox" />
         </CheckBoxWrapper>
       </Wrapper>

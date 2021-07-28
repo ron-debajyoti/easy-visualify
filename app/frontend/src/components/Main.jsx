@@ -92,12 +92,12 @@ const Wrap = styled.div`
 const Gif = styled.img`
   max-width: 100%;
   margin: 10px;
-  object-fit: contain'
+  object-fit: contain;
 `;
 
 const Main = () => {
   /* setting various hooks here  */
-  const [content, setContent] = useState([]);
+  const [content, setContent] = useState([[]]);
   const [country, setCountry] = useState('None');
   const [contentType, setContentType] = useState('top');
   const [user, setUser] = useState({
@@ -106,7 +106,7 @@ const Main = () => {
       country: null,
       followers: null,
       images: null,
-      external_urls: null,
+      external_urls: '',
       product: null,
       topTracksRecent: null,
       topTracksMedium: null,
@@ -131,10 +131,7 @@ const Main = () => {
     return genre;
   };
 
-  useEffect(() => {
-    // let accessToken = queryString.parse(window.location.search)['?access_token']
-    // console.log(queryString.parse(window.location.search))
-    // console.log(accessToken)
+  async function fetchAll() {
     const accessToken = Cookies.get('access_token');
     let userData = {
       display_name: null,
@@ -216,10 +213,16 @@ const Main = () => {
           };
         }),
     ]).then(() => {
-      console.log('!!!!!!!!!!11');
       setUser(userData);
       setAllUpdated(true);
     });
+  }
+
+  useEffect(() => {
+    // let accessToken = queryString.parse(window.location.search)['?access_token']
+    // console.log(queryString.parse(window.location.search))
+    // console.log(accessToken)
+    fetchAll();
   }, []);
 
   const onUpdate = (receivedContent) => {
@@ -236,21 +239,17 @@ const Main = () => {
     ReactTooltip.rebuild();
   };
 
-  // useEffect(() => {
-
-  // }, [contentType])
-
   return (
     <div>
       {allUpdated ? (
         <Wrapper>
           <MainTitle> Main Page </MainTitle>
-          <Section1>
+          <Section1 className="section-1">
             <UserModal userObject={user} />
             <App setTooltipContent={(e) => onUpdate(e)} setTooltip={tooltipRender} />
           </Section1>
-          <Section2>
-            <ButtonWrapper>
+          <Section2 className="section-2">
+            <ButtonWrapper className="wrapper-button">
               <TriggerButton className="daily-top" onClick={() => onButtonClick('top')}>
                 {' '}
                 Daily Top Tracks

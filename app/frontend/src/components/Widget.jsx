@@ -14,7 +14,7 @@ const Embed = styled.embed`
   `}
 `;
 
-const Album = styled.iframe`
+const Playlist = styled.iframe`
   min-width: 35vh;
   min-height: 100vh;
 `;
@@ -34,9 +34,9 @@ const PlayWidget = (props) => {
       : `https://open.spotify.com/embed/playlist/${uri}`;
 
   if (type === 'song') {
-    return <Embed title={title} src={src} />;
+    return <Embed className="widget-song" title={title} src={src} />;
   }
-  return <Album title={title} src={src} />;
+  return <Playlist className="widget-playlist" title={title} src={src} />;
 };
 
 PlayWidget.propTypes = propTypes;

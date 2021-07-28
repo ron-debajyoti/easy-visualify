@@ -40,7 +40,9 @@ const songObject = {
 };
 
 const propTypes = {
-  content: PropTypes.arrayOf(PropTypes.arrayOf(songObject)).isRequired,
+  content: PropTypes.arrayOf(
+    PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape(songObject)), PropTypes.string])
+  ),
   contentType: PropTypes.string.isRequired,
 };
 
@@ -149,5 +151,8 @@ const SongRenderer = (props) => {
 };
 
 SongRenderer.propTypes = propTypes;
+SongRenderer.defaultProps = {
+  content: [],
+};
 
 export default memo(SongRenderer);

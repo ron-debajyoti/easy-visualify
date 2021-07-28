@@ -158,7 +158,7 @@ class App extends Component {
     if (dataFetch) {
       const { setTooltipContent, setTooltip } = this.props;
       return (
-        <div>
+        <div className="app-map-div">
           <ComposableMap data-tip="" projectionConfig={{ scale: 150 }}>
             <ZoomableGroup zoom={1}>
               <Geographies geography={mapData}>
