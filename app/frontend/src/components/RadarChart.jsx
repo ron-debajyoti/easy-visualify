@@ -107,7 +107,7 @@ const RadarChart = (props) => {
             data={userChartData}
             options={{
               responsive: true,
-              maintainAspectRatio: false,
+              maintainAspectRatio: true,
               legend: {
                 scale: { pointLabels: { fontSize: 20 } },
                 labels: {
@@ -126,7 +126,7 @@ const RadarChart = (props) => {
           data={chartData}
           options={{
             responsive: true,
-            maintainAspectRatio: false,
+            maintainAspectRatio: true,
             legend: {
               scale: { pointLabels: { fontSize: 20 } },
               labels: {

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, memo } from 'react';
 import ReactModal from 'react-modal';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/macro';
@@ -808,4 +808,4 @@ class UserModal extends Component {
 
 UserModal.propTypes = propTypes;
 
-export default UserModal;
+export default memo(UserModal);
