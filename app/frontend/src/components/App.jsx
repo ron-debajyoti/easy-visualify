@@ -52,8 +52,6 @@ class App extends Component {
         playlists,
         dataFetch: true,
       }));
-
-      console.log('fetched data!');
     });
   }
 
