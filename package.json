@@ -54,6 +54,7 @@
     "build": "cd app/frontend && react-scripts build",
     "heroku-postbuild": "npm run build",
     "lint": "eslint --quiet --ext js,jsx .",
-    "lint:fix" : "eslint --quiet --ext js,jsx . --fix"
+    "lint:fix" : "eslint --quiet --ext js,jsx . --fix",
+    "test": "cd app/frontend && react-scripts test --env=jsdom --watchAll"
   }
 }
