@@ -7,13 +7,14 @@ import { isInvalidInput } from '../utils/Utility';
 
 const WidgetTitle = styled.div`
   ${media.lessThan('medium')`
-    font-size: small;
+    margin: 5px 20px;
+    font-size: medium;
   `}
 
   ${media.greaterThan('medium')`
+    margin: 20px;
     font-size: large;
   `}
-  margin: 30px 20px
   text-align: left;
   color: white;
 `;
@@ -29,8 +30,9 @@ const OrderedList = styled.ol`
   `}
 
   ${media.greaterThan('medium')`
-    display: inline list-item;
+    display: contents;
   `}
+  padding: 20px;
 `;
 
 const songObject = {
@@ -144,7 +146,7 @@ const SongRenderer = (props) => {
     );
   }
 
-  if (content.length === 0) {
+  if (content.length === 1 && content[0].length === 0) {
     return <WidgetTitle> Click on a country to begin! </WidgetTitle>;
   }
   return <WidgetTitle> Spotify is not supported in {content[0]} !</WidgetTitle>;

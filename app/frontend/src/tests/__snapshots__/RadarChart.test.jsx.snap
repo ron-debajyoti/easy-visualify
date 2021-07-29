@@ -95,6 +95,18 @@ exports[`renders the Radar Chart without crashing 1`] = `
   }
 }
 
+@media (max-width:768px) {
+  .c2 {
+    font-size: small;
+  }
+}
+
+@media (min-width:768px) {
+  .c2 {
+    font-size: medium;
+  }
+}
+
 <div
   className="radar-chart"
 >

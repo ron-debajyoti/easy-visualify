@@ -28,6 +28,13 @@ const ChartWrapper = styled.div`
 `;
 
 const Message = styled.h5`
+  ${media.lessThan('medium')`
+    font-size: small;
+  `}
+
+  ${media.greaterThan('medium')`
+    font-size: medium;
+  `}
   display: flex;
   font-weight: 75;
   color: white;
@@ -107,7 +114,7 @@ const RadarChart = (props) => {
             data={userChartData}
             options={{
               responsive: true,
-              maintainAspectRatio: false,
+              maintainAspectRatio: true,
               legend: {
                 scale: { pointLabels: { fontSize: 20 } },
                 labels: {
@@ -126,7 +133,7 @@ const RadarChart = (props) => {
           data={chartData}
           options={{
             responsive: true,
-            maintainAspectRatio: false,
+            maintainAspectRatio: true,
             legend: {
               scale: { pointLabels: { fontSize: 20 } },
               labels: {

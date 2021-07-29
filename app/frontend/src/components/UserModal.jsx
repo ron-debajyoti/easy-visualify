@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, memo } from 'react';
 import ReactModal from 'react-modal';
 import PropTypes from 'prop-types';
 import styled from 'styled-components/macro';
@@ -157,7 +157,13 @@ const ToggleButtonWrapper = styled.div`
   display: flex;
   align-items: baseline;
   justify-content: flex-start;
-  margin: 5px;
+  ${media.lessThan('medium')`
+    margin: 10px;
+  `}
+
+  ${media.greaterThan('medium')`
+    margin: 5px;
+  `}
 `;
 
 /* styled user template */
@@ -182,7 +188,7 @@ const UserImage = styled.img`
     height: 150px;
     width: 125px;
   `}
-
+  object-fit: cover;
   border-radius: 50%;
 `;
 
@@ -320,7 +326,13 @@ const ArtistName = styled.div`
     text-decoration: none;
   }
   span {
-    font-size: medium;
+    ${media.lessThan('medium')`
+      font-size: small;
+    `}
+
+    ${media.greaterThan('medium')`
+      font-size: medium;
+    `}
     border-bottom: 1px solid transparent;
     &:hover,
     &:focus {
@@ -332,7 +344,13 @@ const ArtistName = styled.div`
 
 const SongName = styled.div`
   flex-grow: 1;
-  margin: 5px;
+  ${media.lessThan('medium')`
+    margin: 2px;
+  `}
+
+  ${media.greaterThan('medium')`
+    margin: 5px;
+  `}
   a {
     color: white;
     text-decoration: none;
@@ -563,7 +581,7 @@ class UserModal extends Component {
       return (
         <IsDataWrapper>
           <HeaderWrapper className="main-wrapper">
-            <HeaderHeading className="main-heading"> Statistics </HeaderHeading>
+            <HeaderHeading className="main-heading"> User Statistics </HeaderHeading>
             <UserWrapper className="user-details-wrapper">
               {userObject.images.length > 0 ? (
                 <UserImage src={userObject.images[0].url} alt="avatar" />
@@ -606,7 +624,7 @@ class UserModal extends Component {
                 onChange={this.handleMediumClick}
                 checked={timeType === 'medium'}
               />
-              <FormLabel htmlFor="switch_medium"> Yearly </FormLabel>
+              <FormLabel htmlFor="switch_medium"> Half-Yearly </FormLabel>
               <FormInput
                 type="radio"
                 id="switch_long"
@@ -808,4 +826,4 @@ class UserModal extends Component {
 
 UserModal.propTypes = propTypes;
 
-export default UserModal;
+export default memo(UserModal);
