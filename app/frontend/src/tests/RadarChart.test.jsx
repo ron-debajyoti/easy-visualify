@@ -1,6 +1,5 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import sinon from 'sinon';
 import { shallow } from 'enzyme';
 import { unmountComponentAtNode } from 'react-dom';
 import RadarChart from '../components/RadarChart';
@@ -30,7 +29,7 @@ it('renders the Radar Chart without crashing', () => {
 });
 
 it('renders the chart correctly before/after toggling', () => {
-  const onChange = sinon.spy();
+  const onChange = jest.mock();
 
   // act(() =>
   //   render(<RadarChart chartData={fakeRadarChartData} username="trialUsername" />, container)
