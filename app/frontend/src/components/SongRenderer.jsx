@@ -110,7 +110,7 @@ const SongRenderer = (props) => {
     }
     if (contentType === 'weekly') {
       /* for the Weekly Top playlists */
-      if (content[4].length > 0) {
+      if (content[3].length > 0) {
         return (
           <WidgetWrapper>
             <WidgetTitle> Weekly Top Tracks of {content[4]} </WidgetTitle>

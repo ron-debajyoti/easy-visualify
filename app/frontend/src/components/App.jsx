@@ -142,8 +142,8 @@ class App extends Component {
       const finalData = [];
       finalData.push(finalData1);
       finalData.push(finalData2);
-      finalData.push([radarPlaylist[0].uri]);
-      finalData.push([weeklyPlaylist[0].uri]);
+      finalData.push(radarPlaylist.length > 0 ? [radarPlaylist[0].uri] : []);
+      finalData.push(weeklyPlaylist.length > 0 ? [weeklyPlaylist[0].uri] : []);
       finalData.push([NAME]);
       setTooltipContent(finalData);
     }

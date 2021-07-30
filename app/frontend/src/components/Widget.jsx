@@ -5,12 +5,12 @@ import media from 'styled-media-query';
 
 const Embed = styled.embed`
   ${media.lessThan('medium')`
-    width: 250px;
+    min-width: 250px;
     height: 70px;
   `}
   ${media.greaterThan('medium')`
-    width: 250px;
-    height: 70px;
+    min-width: 250px;
+    height: 100px;
   `}
 `;
 
