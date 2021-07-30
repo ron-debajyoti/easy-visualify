@@ -16,15 +16,15 @@ exports[`renders playlists without crashing 1`] = `
 exports[`renders tracks without crashing 1`] = `
 @media (max-width:768px) {
   .c0 {
-    width: 250px;
+    min-width: 250px;
     height: 70px;
   }
 }
 
 @media (min-width:768px) {
   .c0 {
-    width: 250px;
-    height: 70px;
+    min-width: 250px;
+    height: 100px;
   }
 }
 
