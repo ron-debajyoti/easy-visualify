@@ -195,7 +195,7 @@ class App extends Component {
     }
     return (
       <div>
-        <Header>Map data is loading and rendering. Please wait.</Header>
+        <Header>Map data is loading and rendering...</Header>
         <Gif src={loadingGif} alt="loading..." />
       </div>
     );

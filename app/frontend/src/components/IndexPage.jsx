@@ -64,7 +64,7 @@ function IndexPage() {
               window.location.href = process.env.REACT_APP_AUTH_URL;
             }}
           >
-            Log In
+            Log in using Spotify
           </Button>
         </Link>
         <Gif src={IndexFile} alt="indexImage" />
