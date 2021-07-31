@@ -243,7 +243,7 @@ const Main = () => {
     <div>
       {allUpdated ? (
         <Wrapper>
-          <MainTitle> Main Page </MainTitle>
+          <MainTitle />
           <Section1 className="section-1">
             <UserModal userObject={user} />
             <App setTooltipContent={(e) => onUpdate(e)} setTooltip={tooltipRender} />

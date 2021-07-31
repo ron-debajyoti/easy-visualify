@@ -674,7 +674,7 @@ class UserModal extends Component {
                           )}
                         </SongArtwork>
                         <div style={{ textAlign: 'start' }}>
-                          <ArtistName>
+                          <ArtistName style={{ fontWeight: 'bold' }}>
                             <a href={item.external_urls.spotify}>
                               <span>{item.name}</span>
                             </a>

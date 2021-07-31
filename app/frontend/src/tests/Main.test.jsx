@@ -56,7 +56,6 @@ describe('Testing the Main component before loading: ', () => {
 
       expect(sectionOneWrapper.exists()).toBeTruthy();
       expect(sectionTwoWrapper.exists()).toBeTruthy();
-      expect(wrapper.find('h2').childAt(0).text()).toEqual(' Main Page ');
 
       // checking Section-1
       expect(sectionOneWrapper.exists(App)).toBeTruthy();
