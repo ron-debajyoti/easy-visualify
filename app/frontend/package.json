@@ -14,7 +14,7 @@
     "jest-styled-components": "^7.0.4",
     "js-cookie": "^3.0.0",
     "lodash": "^4.17.20",
-    "nanoid": "^3.1.22",
+    "nanoid": "^3.1.31",
     "node-fetch": "^2.6.0",
     "prop-types": "^15.7.2",
     "query-string": "^7.0.1",
