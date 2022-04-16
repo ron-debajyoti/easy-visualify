@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const mcache = require('memory-cache');
 const mongoclient = require('mongodb').MongoClient;
 
 const app = express();
@@ -15,32 +16,44 @@ app.all('/*', (req, res, next) => {
   next();
 });
 
-app.get('/request', (req, res) => {
-  mongoclient.connect(address, { useUnifiedTopology: true }, (err, client) => {
-    if (err) throw err;
-    // const messageData = [];
-    const db = client.db('visualify');
-    const topPlaylists = db.collection('myCollection');
-    const viralPlaylists = db.collection('viralCollections');
+app.get('/request', async (req, res) => {
+  try {
+    const key = `__express__${req.originalUrl}` || req.url;
+    const cachedBody = mcache.get(key);
+    if (cachedBody && cachedBody.length === 2) {
+      res.send(cachedBody);
+    } else {
+      mongoclient.connect(address, { useUnifiedTopology: true }, (err, client) => {
+        if (err) throw err;
+        const db = client.db('visualify');
+        const topPlaylists = db.collection('myCollection');
+        const viralPlaylists = db.collection('viralCollections');
 
-    const task1 = new Promise((resolve, reject) => {
-      topPlaylists.find().toArray((error, result) => {
-        if (error) return reject(EvalError);
-        return resolve({ topPlaylists: result });
+        const task1 = new Promise((resolve, reject) => {
+          topPlaylists.find().toArray((error, result) => {
+            if (error) return reject(EvalError);
+            return resolve({ topPlaylists: result });
+          });
+        });
+
+        const task2 = new Promise((resolve, reject) => {
+          viralPlaylists.find().toArray((error, result) => {
+            if (error) return reject(error);
+            return resolve({ viralPlaylists: result });
+          });
+        });
+
+        Promise.all([task1, task2])
+          .then((data) => {
+            mcache.put(key, data, 30 * 1000);
+            return res.send(JSON.stringify(data));
+          })
+          .then(() => console.log('Data sent !'));
       });
-    });
-
-    const task2 = new Promise((resolve, reject) => {
-      viralPlaylists.find().toArray((error, result) => {
-        if (error) return reject(error);
-        return resolve({ viralPlaylists: result });
-      });
-    });
-
-    Promise.all([task1, task2])
-      .then((data) => res.send(JSON.stringify(data)))
-      .then(() => console.log('Data sent !'));
-  });
+    }
+  } catch {
+    res.status(500).json('Server Error ! ');
+  }
 });
 
 app.get('/login', (req, res) => {
