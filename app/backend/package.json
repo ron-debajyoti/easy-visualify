@@ -10,8 +10,10 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "fs": "0.0.1-security",
+    "memory-cache": "^0.2.0",
     "mongodb": "^3.5.9",
     "node-fetch": "^2.6.0",
+    "nodemon": "^2.0.15",
     "request": "^2.88.2"
   },
   "devDependencies": {},

@@ -25,7 +25,7 @@ weeklyPlaylists = [
   {'country_code':'ES','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbJwoKy8qKpHG'},
   {'country_code':'IT','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbJUPkgaWZcWG'},
   {'country_code':'DE','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbK8BKKMArIyl'},
-  {'country_code':'RU','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbNALwC1jxb5m'},
+  #{'country_code':'RU','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbNALwC1jxb5m'},
   {'country_code':'UK','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbMwmF30ppw50'},
   {'country_code':'SE','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbKVvfnL1Us06'},
   {'country_code':'NO','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbLWYFZ5CkSvr'},
