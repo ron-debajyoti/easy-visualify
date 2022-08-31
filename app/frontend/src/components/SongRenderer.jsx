@@ -3,35 +3,30 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components/macro';
 import media from 'styled-media-query';
 import PlayWidget from './Widget';
+
+import { Div } from './Reusables';
 import { isInvalidInput } from '../utils/Utility';
 
-const WidgetTitle = styled.div`
-  ${media.lessThan('medium')`
-    margin: 5px 20px;
-    font-size: medium;
-  `}
+// const WidgetTitle = Div`
+//   margin: 5px 20px;
+//   font-size: medium;
+//   text-align: left;
+//   color: white;
+// `;
 
-  ${media.greaterThan('medium')`
-    margin: 20px;
-    font-size: large;
-  `}
-  text-align: left;
-  color: white;
-`;
-
-const WidgetWrapper = styled.div`
-  display: inline;
-  padding: 0.7em;
-`;
+// const WidgetWrapper = Div`
+//   display: inline;
+//   padding: 0.7em;
+// `;
 
 const OrderedList = styled.ol`
   ${media.lessThan('medium')`
-    display: inline flow-root list-item;
   `}
 
   ${media.greaterThan('medium')`
-    display: contents;
   `}
+  display: flex;
+  flex-direction: column;
   padding: 20px;
 `;
 
@@ -74,82 +69,160 @@ const SongRenderer = (props) => {
       /* for the Daily Top playlists */
       if (content[0].length > 0) {
         return (
-          <WidgetWrapper>
-            <WidgetTitle> Daily Top Tracks of {content[4]} </WidgetTitle>
+          <Div
+            className="div-list-top-tracks"
+            display="flex"
+            fontSize="medium"
+            color="white"
+            margin="5px 20px"
+            flexDirection="column"
+            justifyContent="center"
+          >
+            <Div display="flex" padding="0.7em" color="white" justifyContent="center">
+              {' '}
+              Daily Top Tracks of {content[4]}{' '}
+            </Div>
 
             <OrderedList>{populateCards1}</OrderedList>
-          </WidgetWrapper>
+          </Div>
         );
       }
       return (
-        <WidgetTitle>
-          <WidgetTitle style={{ fontSize: '1em' }}>
+        <Div
+          className="div-list-no-tracks"
+          display="flex"
+          fontSize="medium"
+          color="white"
+          margin="5px 20px"
+        >
+          <Div display="flex" padding="0.7em" color="white" style={{ fontSize: '1em' }}>
             Spotify doesn&apos;t have the data yet. Try Radar Tracks
-          </WidgetTitle>
-        </WidgetTitle>
+          </Div>
+        </Div>
       );
     }
     if (contentType === 'viral') {
       /* for the Daily Viral playlists */
       if (content[1].length > 0) {
         return (
-          <WidgetWrapper>
-            <WidgetTitle> Daily Viral Tracks of {content[4]} </WidgetTitle>
+          <Div
+            className="div-list-viral-tracks"
+            display="flex"
+            fontSize="medium"
+            color="white"
+            margin="5px 20px"
+            flexDirection="column"
+            justifyContent="center"
+          >
+            <Div display="flex" padding="0.7em" color="white" justifyContent="center">
+              {' '}
+              Daily Viral Tracks of {content[4]}{' '}
+            </Div>
             <OrderedList>{populateCards2}</OrderedList>
-          </WidgetWrapper>
+          </Div>
         );
       }
       return (
-        <WidgetTitle>
-          <WidgetTitle style={{ fontSize: '1em' }}>
+        <Div
+          className="div-list-no-tracks"
+          display="flex"
+          fontSize="medium"
+          color="white"
+          margin="5px 20px"
+        >
+          <Div display="flex" padding="0.7em" color="white" style={{ fontSize: '1em' }}>
             {' '}
             Spotify doesn&apos;t have the data yet. Try Radar Tracks{' '}
-          </WidgetTitle>
-        </WidgetTitle>
+          </Div>
+        </Div>
       );
     }
     if (contentType === 'weekly') {
       /* for the Weekly Top playlists */
       if (content[3].length > 0) {
         return (
-          <WidgetWrapper>
-            <WidgetTitle> Weekly Top Tracks of {content[4]} </WidgetTitle>
+          <Div
+            className="div-list-weekly-tracks"
+            display="flex"
+            fontSize="medium"
+            color="white"
+            margin="5px 20px"
+            flexDirection="column"
+            justifyContent="center"
+          >
+            <Div display="flex" padding="0.7em" color="white" justifyContent="center">
+              {' '}
+              Weekly Top Tracks of {content[4]}{' '}
+            </Div>
             <div>{populateCards4}</div>
-          </WidgetWrapper>
+          </Div>
         );
       }
       return (
-        <WidgetTitle>
-          <WidgetTitle style={{ fontSize: '1em' }}>
+        <Div
+          className="div-list-no-tracks"
+          display="flex"
+          fontSize="medium"
+          color="white"
+          margin="5px 20px"
+        >
+          <Div display="flex" padding="0.7em" color="white" style={{ fontSize: '1em' }}>
             {' '}
             Spotify doesn&apos;t have the data yet. Try Radar Tracks{' '}
-          </WidgetTitle>
-        </WidgetTitle>
+          </Div>
+        </Div>
       );
     }
     /* For the Radar playlists */
     if (content[2].length > 0) {
       return (
-        <WidgetWrapper>
-          <WidgetTitle> Radar Tracks of {content[4]} </WidgetTitle>
+        <Div
+          className="div-list-radar-tracks"
+          display="flex"
+          fontSize="medium"
+          color="white"
+          margin="5px 20px"
+          flexDirection="column"
+          justifyContent="center"
+        >
+          <Div display="flex" padding="0.7em" color="white" justifyContent="center">
+            {' '}
+            Radar Tracks of {content[4]}{' '}
+          </Div>
           <div>{populateCards3}</div>
-        </WidgetWrapper>
+        </Div>
       );
     }
     return (
-      <WidgetTitle>
-        <WidgetTitle style={{ fontSize: '1em' }}>
+      <Div
+        className="div-list-no-tracks"
+        display="flex"
+        fontSize="medium"
+        color="white"
+        margin="5px 20px"
+      >
+        <Div display="flex" padding="0.7em" color="white" style={{ fontSize: '1em' }}>
           {' '}
           Spotify doesn&apos;t have the data yet. Try other Tracks{' '}
-        </WidgetTitle>
-      </WidgetTitle>
+        </Div>
+      </Div>
     );
   }
 
   if (content.length === 1 && content[0].length === 0) {
-    return <WidgetTitle> Click on a country to begin! </WidgetTitle>;
+    return (
+      <Div display="flex" padding="0.7em" color="white">
+        {' '}
+        Click on a country to begin!{' '}
+      </Div>
+    );
   }
-  return <WidgetTitle> Spotify is not supported in {content[0]} !</WidgetTitle>;
+  return (
+    <Div display="flex" padding="0.7em" color="white">
+      {' '}
+      Spotify is not supported in {content[0]} !
+    </Div>
+  );
 };
 
 SongRenderer.propTypes = propTypes;

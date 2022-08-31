@@ -1,29 +1,17 @@
-import React, { Component, memo } from 'react';
+import React, { memo, useState, useEffect } from 'react';
 import { ZoomableGroup, ComposableMap, Geographies, Geography } from 'react-simple-maps';
 import styled from 'styled-components/macro';
-import media from 'styled-media-query';
+// import media from 'styled-media-query';
 import PropTypes from 'prop-types';
 import * as util from '../utils/Utility';
 import { weeklyPlaylists, radarPlaylists } from '../utils/Playlists';
+import { Div } from './Reusables';
 import countries from '../utils/Countries';
 import mapData from '../data/map.json';
 import loadingGif from '../images/loading2.gif';
 
 import '../css/styles.css';
 import '../css/App.css';
-
-// setting styled macros
-const Header = styled.div`
-  ${media.lessThan('medium')`
-    font-size: small;
-  `}
-
-  ${media.lessThan('medium')`
-    font-size: medium;
-  `}
-
-  color: white;
-`;
 
 const Gif = styled.img`
   max-width: 100%;
@@ -34,31 +22,33 @@ const Gif = styled.img`
 const propTypes = {
   setTooltipContent: PropTypes.func.isRequired,
   setTooltip: PropTypes.func.isRequired,
+  setDatafetch: PropTypes.func.isRequired,
 };
 
 //
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      playlists: null,
-      dataFetch: false,
-    };
-  }
+const App = (props) => {
+  const [playlists, setPlaylists] = useState(null);
+  const [isReady, setReady] = useState(false);
 
-  componentDidMount() {
-    util.fetchData().then((playlists) => {
-      this.setState(() => ({
-        playlists,
-        dataFetch: true,
-      }));
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     playlists: null,
+  //     dataFetch: false,
+  //   };
+  // }
+
+  useEffect(() => {
+    util.fetchData().then((fetchedPlaylists) => {
+      setPlaylists(fetchedPlaylists);
+      setReady(true);
+      props.setDatafetch(true);
     });
-  }
+  }, []);
 
-  renderDataOnClick = (geo, setTooltipContent) => {
+  const renderDataOnClick = (geo, setTooltipContent) => {
     const { NAME, CONTINENT } = geo.properties;
     const countryObj = countries.filter((c) => c.country === NAME || c.continent === CONTINENT)[0];
-    const { playlists } = this.state;
     if (countryObj === undefined) {
       // spotify data doesn't exist
       setTooltipContent([NAME]);
@@ -149,58 +139,52 @@ class App extends Component {
     }
   };
 
-  render() {
-    /* The render function of the class App  */
-
-    const { dataFetch } = this.state;
-    if (dataFetch) {
-      const { setTooltipContent, setTooltip } = this.props;
-      return (
-        <div className="app-map-div">
-          <ComposableMap data-tip="" projectionConfig={{ scale: 150 }}>
-            <ZoomableGroup zoom={1}>
-              <Geographies geography={mapData}>
-                {({ geographies }) =>
-                  geographies.map((geo) => (
-                    <Geography
-                      key={geo.rsmKey}
-                      geography={geo}
-                      onClick={() => this.renderDataOnClick(geo, setTooltipContent)}
-                      onMouseEnter={() => {
-                        const { NAME } = geo.properties;
-                        setTooltip(NAME);
-                      }}
-                      onMouseLeave={() => {
-                        setTooltip('');
-                      }}
-                      style={{
-                        default: { fill: '#CFD8DC' },
-                        hover: {
-                          fill: '#F53',
-                          outline: 'none',
-                        },
-                        pressed: {
-                          fill: '#E42',
-                          outline: 'none',
-                        },
-                      }}
-                    />
-                  ))
-                }
-              </Geographies>
-            </ZoomableGroup>
-          </ComposableMap>
-        </div>
-      );
-    }
+  if (isReady) {
+    const { setTooltipContent, setTooltip } = props;
     return (
-      <div>
-        <Header>Map data is loading and rendering...</Header>
-        <Gif src={loadingGif} alt="loading..." />
-      </div>
+      <Div className="app-map-div">
+        <ComposableMap data-tip="" projectionConfig={{ scale: 150 }}>
+          <ZoomableGroup zoom={1}>
+            <Geographies geography={mapData}>
+              {({ geographies }) =>
+                geographies.map((geo) => (
+                  <Geography
+                    key={geo.rsmKey}
+                    geography={geo}
+                    onClick={() => renderDataOnClick(geo, setTooltipContent)}
+                    onMouseEnter={() => {
+                      const { NAME } = geo.properties;
+                      setTooltip(NAME);
+                    }}
+                    onMouseLeave={() => {
+                      setTooltip('');
+                    }}
+                    style={{
+                      default: { fill: '#CFD8DC' },
+                      hover: {
+                        fill: '#F53',
+                        outline: 'none',
+                      },
+                      pressed: {
+                        fill: '#E42',
+                        outline: 'none',
+                      },
+                    }}
+                  />
+                ))
+              }
+            </Geographies>
+          </ZoomableGroup>
+        </ComposableMap>
+      </Div>
     );
   }
-}
+  return (
+    <Div className="div-map-loading" flexDirection="column">
+      <Gif src={loadingGif} alt="loading..." />
+    </Div>
+  );
+};
 
 App.propTypes = propTypes;
 

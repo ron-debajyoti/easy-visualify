@@ -4,17 +4,19 @@ import styled from 'styled-components/macro';
 import queryString from 'query-string';
 import Main from './Main';
 import * as util from '../utils/Utility';
+import { Div } from './Reusables';
+
 import authGif from '../images/auth.gif';
 
-const WrongPage = styled.div`
-  color: white;
-  font-size: 1.5em;
-  text-align: center;
-`;
+// const WrongPage = styled.div`
+//   color: white;
+//   font-size: 1.5em;
+//   text-align: center;
+// `;
 
-const Wrap = styled.div`
-  text-align: center;
-`;
+// const Wrap = styled.div`
+//   text-align: center;
+// `;
 
 const Gif = styled.img`
   max-width: 100%;
@@ -98,17 +100,24 @@ const Authenticate = () => {
     authenticate().then((isAuthenticatedState) => setAuth(isAuthenticatedState));
   });
 
+  if (auth) {
+    return <Main />;
+  }
+
   return (
-    <div>
-      {auth ? (
-        <Main />
-      ) : (
-        <Wrap>
-          <WrongPage> Authenticating </WrongPage>
-          <Gif src={authGif} alt="loading..." />
-        </Wrap>
-      )}
-    </div>
+    <Div
+      className="div-authenticating"
+      textAlign="center"
+      justifyContent="center"
+      flexDirection="column"
+      alignItems="center"
+    >
+      <Div classname="div-authenticate-text" color="white" fontSize="1.5em" textAlign="center">
+        {' '}
+        Authenticating{' '}
+      </Div>
+      <Gif src={authGif} alt="loading..." />
+    </Div>
   );
 };
 

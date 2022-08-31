@@ -1,83 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import ReactTooltip from 'react-tooltip';
 import styled from 'styled-components/macro';
-import media from 'styled-media-query';
+// import media from 'styled-media-query';
 import Cookies from 'js-cookie';
 import App from './App';
 import UserModal from './UserModal';
 import SongRenderer from './SongRenderer';
 import * as util from '../utils/Utility';
+import { Button, Div } from './Reusables';
+
 import authGif from '../images/auth.gif';
 
+// setting styled macros
+const Header = Div;
+
 const _ = require('lodash');
-
-const Button = styled.button`
-  background: palevioletred;
-  color: white;
-  ${media.lessThan('medium')`
-    font-size: 0.75h;
-    margin: 2vh;
-    padding: 0.5vh 1vh;
-  `}
-  ${media.greaterThan('medium')`
-    font-size: 0.75em;
-    margin: 1em;
-    padding: 0.5em 1em;
-  `}
-  border: 2px solid black;
-  border-radius: 3px;
-`;
-
-const TriggerButton = styled(Button)`
-  float: right;
-`;
-
-const ButtonWrapper = styled.div`
-  ${media.lessThan('medium')`
-    display: inline-flex;
-  `}
-  ${media.greaterThan('medium')`
-    display: inline-grid;
-  `}
-`;
-
-const Wrapper = styled.main``;
-
-const Section1 = styled.div`
-  ${media.lessThan('medium')`
-    width: 100%;
-    height: 100%;
-  `}
-
-  ${media.greaterThan('medium')`
-    width: 70%;
-    height: 100%;
-  `}
-  float: left;
-`;
-
-const Section2 = styled.div`
-  ${media.lessThan('medium')`
-    width: 100%;
-    height: 100%;
-  `}
-
-  ${media.greaterThan('medium')`
-    display: inline-grid;
-    height: 100%;
-    width: 30%;
-  `}
-`;
-
-const MainTitle = styled.h2`
-  ${media.lessThan('medium')`
-    font-size: large;
-  `}
-
-  color: white;
-  text-align: start;
-  background: black;
-`;
 
 const WrongPage = styled.div`
   color: white;
@@ -119,6 +56,7 @@ const Main = () => {
     },
   });
   const [allUpdated, setAllUpdated] = useState(false);
+  const [updatefromApp, SetUpdateFromApp] = useState(false);
 
   const updateGenre = async (data) => {
     let genre = [];
@@ -240,44 +178,51 @@ const Main = () => {
   };
 
   return (
-    <div>
+    <Div className="div-main-section">
       {allUpdated ? (
-        <Wrapper>
-          <MainTitle />
-          <Section1 className="section-1">
-            <UserModal userObject={user} />
-            <App setTooltipContent={(e) => onUpdate(e)} setTooltip={tooltipRender} />
-          </Section1>
-          <Section2 className="section-2">
-            <ButtonWrapper className="wrapper-button">
-              <TriggerButton className="daily-top" onClick={() => onButtonClick('top')}>
-                {' '}
-                Daily Top Tracks
-              </TriggerButton>
-              <TriggerButton className="daily-viral" onClick={() => onButtonClick('viral')}>
-                {' '}
-                Daily Viral Tracks{' '}
-              </TriggerButton>
-              <TriggerButton className="radar" onClick={() => onButtonClick('radar')}>
-                {' '}
-                Radar Tracks{' '}
-              </TriggerButton>
-              <TriggerButton className="weekly-top" onClick={() => onButtonClick('weekly')}>
-                {' '}
-                Weekly Top Tracks
-              </TriggerButton>
-            </ButtonWrapper>
-            <SongRenderer content={content} contentType={contentType} />
-          </Section2>
-          <ReactTooltip>{country}</ReactTooltip>
-        </Wrapper>
+        <Div className="main-page" justifyContent="center" alignItems="stretch">
+          <Div className="div-section-1" flexDirection="column" justifyContent="center">
+            {updatefromApp ? (
+              <Div className="div-wrapper-button">
+                <UserModal userObject={user} />
+                <Button className="daily-top" onClick={() => onButtonClick('top')}>
+                  {' '}
+                  Daily Top Tracks
+                </Button>
+                <Button className="daily-viral" onClick={() => onButtonClick('viral')}>
+                  {' '}
+                  Daily Viral Tracks{' '}
+                </Button>
+                <Button className="radar" onClick={() => onButtonClick('radar')}>
+                  {' '}
+                  Radar Tracks{' '}
+                </Button>
+                <Button className="weekly-top" onClick={() => onButtonClick('weekly')}>
+                  {' '}
+                  Weekly Top Tracks
+                </Button>
+              </Div>
+            ) : (
+              <Header color="white" fontSize="medium">
+                Map data is loading and rendering...
+              </Header>
+            )}
+            <App
+              setTooltipContent={(e) => onUpdate(e)}
+              setTooltip={tooltipRender}
+              setDatafetch={SetUpdateFromApp}
+            />
+            <ReactTooltip>{country}</ReactTooltip>
+          </Div>
+          <SongRenderer content={content} contentType={contentType} />
+        </Div>
       ) : (
         <Wrap>
           <WrongPage> Authenticating </WrongPage>
           <Gif src={authGif} alt="loading..." />
         </Wrap>
       )}
-    </div>
+    </Div>
   );
 };
 

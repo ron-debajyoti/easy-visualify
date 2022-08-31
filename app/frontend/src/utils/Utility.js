@@ -34,13 +34,15 @@ export const isInvalidInput = (input) => {
   return false;
 };
 
-export const fetchUserData = (accessToken) =>
-  fetch('https://api.spotify.com/v1/me', {
+export const fetchUserData = (accessToken) => {
+  console.log(accessToken);
+  return fetch('https://api.spotify.com/v1/me', {
     method: 'GET',
     headers: { Authorization: ` Bearer ${accessToken}` },
   })
     .then((resp) => resp.json())
     .catch((err) => console.log(err));
+};
 
 export const fetchTopTracks = (accessToken, timeRange) =>
   fetch(`https://api.spotify.com/v1/me/top/tracks?limit=30&time_range=${timeRange}`, {
