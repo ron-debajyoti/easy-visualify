@@ -12,11 +12,11 @@
     "fs": "0.0.1-security",
     "memory-cache": "^0.2.0",
     "mongodb": "^3.5.9",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.7",
     "nodemon": "^2.0.15",
+    "querystring": "^0.2.1",
     "request": "^2.88.2"
   },
-  "devDependencies": {},
   "scripts": {
     "server": "nodemon server.js"
   }
