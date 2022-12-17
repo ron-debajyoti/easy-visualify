@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import styled from 'styled-components/macro';
 import queryString from 'query-string';
+import { Redirect } from 'react-router-dom';
 import Main from './Main';
 import * as util from '../utils/Utility';
-import { Div } from './Reusables';
+import { Button, Div, H3 } from './Reusables';
 
 import authGif from '../images/auth.gif';
 
@@ -29,10 +30,10 @@ const EXPIRATION_TIME = 60 * 60 * 1000;
 // functions required for auth
 
 const setTimestamp = () => {
-  window.localStorage.setItem('token_timestamp', Date.now());
+  Cookies.set('token_timestamp', Date.now());
 };
 
-const getTimestamp = () => Number(window.localStorage.getItem('token_timestamp'));
+const getTimestamp = () => Number(Cookies.get('token_timestamp'));
 
 const getAccessToken = () => Cookies.get('access_token');
 
@@ -41,30 +42,28 @@ const getRefreshToken = () => Cookies.get('refresh_token');
 const refreshAccessToken = async (refreshToken) => {
   try {
     const accessToken = await util.getNewAccessToken(refreshToken);
-    if (accessToken === undefined || accessToken === null || accessToken.length === 0) return false;
+    if (util.isInvalid(accessToken)) return false;
 
-    setTimestamp();
     Cookies.set('access_token', accessToken);
-    return true;
+    setTimestamp();
+    return 1;
   } catch (e) {
     console.error(e);
-    return false;
+    return 0;
   }
 };
 
 const setTokens = () => {
-  const tokens = queryString.parse(window.location.search);
-  const accessToken = tokens.access_token;
-  const refreshToken = tokens.refresh_token;
+  const { accessToken, refreshToken } = queryString.parse(window.location.search);
+
   if (util.isInvalid(refreshToken) && util.isInvalid(accessToken)) {
+    console.log('both are invalid !');
+    Cookies.set('access_token', null);
+    Cookies.set('refresh_token', null);
     return false;
   }
-  if (util.isInvalid(accessToken) && !util.isInvalid(refreshToken)) {
-    console.log('!!!!!!!!!!!!!!!!!!');
-    return refreshAccessToken(getRefreshToken());
-  }
-  Cookies.set('access_token', tokens.access_token);
-  Cookies.set('refresh_token', tokens.refresh_token);
+  Cookies.set('access_token', accessToken);
+  Cookies.set('refresh_token', refreshToken);
   return true;
 };
 
@@ -75,33 +74,41 @@ const authenticate = async () => {
 
   if (util.isInvalid(accessToken)) {
     const result = setTokens();
-    if (result) {
-      setTimestamp();
-      return true;
-    }
+    setTimestamp();
+    if (result) return 1;
+
+    return 0;
   }
   if (!util.isInvalid(accessToken) && timePassed < EXPIRATION_TIME) {
     console.log('authentication successful');
-    return true;
+    return 1;
   }
-  if (!util.isInvalid(refreshToken)) {
-    console.log('!!!!!!!!!!!!!!!!!!');
+  if (timePassed > EXPIRATION_TIME && !util.isInvalid(refreshToken)) {
+    console.log('Acess token was present but expired');
     return refreshAccessToken(getRefreshToken());
   }
-  return false;
+  return 0;
 };
 
 /* Authentication Class */
 
 const Authenticate = () => {
-  const [auth, setAuth] = useState(false);
-
+  const [auth, setAuth] = useState(-1);
+  setTokens();
   useEffect(() => {
     authenticate().then((isAuthenticatedState) => setAuth(isAuthenticatedState));
-  });
+  }, []);
 
-  if (auth) {
+  if (auth === 1) {
     return <Main />;
+  }
+  if (auth === 0) {
+    return (
+      <Div>
+        <H3>The authentication was not successful. Please head back</H3>
+        <Button onClick={() => Redirect('/')} />
+      </Div>
+    );
   }
 
   return (

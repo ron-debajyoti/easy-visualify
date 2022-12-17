@@ -32,6 +32,13 @@ const Gif = styled.img`
   object-fit: contain;
 `;
 
+const SESSION_IDENTIFIER = 'user_data';
+
+const getSessionStorage = () => JSON.stringify(sessionStorage.getItem(SESSION_IDENTIFIER));
+
+const setSessionStorage = (data) =>
+  sessionStorage.setItem(SESSION_IDENTIFIER, JSON.stringify(data));
+
 const Main = () => {
   /* setting various hooks here  */
   const [content, setContent] = useState([[]]);
@@ -151,7 +158,10 @@ const Main = () => {
           };
         }),
     ]).then(() => {
+      console.log('DONE TLL HERE');
+      console.log(userData);
       setUser(userData);
+      setSessionStorage(userData);
       setAllUpdated(true);
     });
   }
@@ -160,7 +170,15 @@ const Main = () => {
     // let accessToken = queryString.parse(window.location.search)['?access_token']
     // console.log(queryString.parse(window.location.search))
     // console.log(accessToken)
-    fetchAll();
+    const oldUserData = getSessionStorage();
+    if (oldUserData === undefined || oldUserData === null) {
+      if (Object.keys(oldUserData.user).length < 2) {
+        fetchAll();
+      }
+    } else {
+      setUser(oldUserData);
+      setAllUpdated(true);
+    }
   }, []);
 
   const onUpdate = (receivedContent) => {
@@ -203,7 +221,7 @@ const Main = () => {
                 </Button>
               </Div>
             ) : (
-              <Header color="white" fontSize="medium">
+              <Header color="white" fontSize="large" padding="0.7em">
                 Map data is loading and rendering...
               </Header>
             )}
@@ -214,7 +232,7 @@ const Main = () => {
             />
             <ReactTooltip>{country}</ReactTooltip>
           </Div>
-          <SongRenderer content={content} contentType={contentType} />
+          <SongRenderer content={content} contentType={contentType} isUpdated={updatefromApp} />
         </Div>
       ) : (
         <Wrap>

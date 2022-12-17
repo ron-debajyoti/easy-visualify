@@ -41,10 +41,11 @@ const propTypes = {
     PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape(songObject)), PropTypes.string])
   ),
   contentType: PropTypes.string.isRequired,
+  isUpdated: PropTypes.bool.isRequired,
 };
 
 const SongRenderer = (props) => {
-  const { content, contentType } = props;
+  const { content, contentType, isUpdated } = props;
   if (content.length >= 2) {
     const populateCards1 = content[0].map((element) => (
       <PlayWidget type="song" key={element.uri} uri={element.uri} />
@@ -210,12 +211,15 @@ const SongRenderer = (props) => {
   }
 
   if (content.length === 1 && content[0].length === 0) {
-    return (
-      <Div display="flex" padding="0.7em" color="white">
-        {' '}
-        Click on a country to begin!{' '}
-      </Div>
-    );
+    if (isUpdated) {
+      return (
+        <Div display="flex" padding="0.7em" color="white">
+          {' '}
+          Click on a country to begin!{' '}
+        </Div>
+      );
+    }
+    return <Div />;
   }
   return (
     <Div display="flex" padding="0.7em" color="white">
