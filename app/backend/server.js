@@ -133,7 +133,7 @@ app.get('/refresh_token', async (req, res) => {
 
   try {
     const response = await fetch('https://accounts.spotify.com/api/token', config);
-    if (!response.ok) throw new Error('response error');
+    if (!response.ok) throw new Error(response.error);
 
     const body = await response.json();
     const { access_token: accessToken } = body;
