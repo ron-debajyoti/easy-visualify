@@ -12,6 +12,10 @@ jest.mock('../utils/Utility');
 
 const flushPromises = () => new Promise((resolve) => setImmediate(resolve));
 
+const mockSetTooltip = jest.fn();
+const mockSetTooltipContent = jest.fn();
+const mockSetDataFetch = jest.fn();
+
 beforeEach(() => {
   // setup a DOM element as a render target
   container = document.createElement('div');
@@ -29,10 +33,12 @@ afterEach(() => {
 describe('Testing App component: ', () => {
   it('renders App without crashing', () => {
     jest.useFakeTimers();
-    const mockSetTooltip = jest.fn();
-    const mockSetTooltipContent = jest.fn();
     const wrapper = mount(
-      <App setTooltip={mockSetTooltip} setTooltipContent={mockSetTooltipContent} />,
+      <App
+        setTooltip={mockSetTooltip}
+        setTooltipContent={mockSetTooltipContent}
+        setDatafetch={mockSetDataFetch}
+      />,
       container
     );
 

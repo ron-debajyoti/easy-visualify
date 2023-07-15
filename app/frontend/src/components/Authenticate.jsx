@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import styled from 'styled-components/macro';
 import queryString from 'query-string';
-import { Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Main from './Main';
 import * as util from '../utils/Utility';
 import { Button, Div, H3 } from './Reusables';
@@ -18,6 +18,19 @@ import authGif from '../images/auth.gif';
 // const Wrap = styled.div`
 //   text-align: center;
 // `;
+
+/**
+ * Auth workflow :
+ * check if refresh token exists :
+ *  - if null:
+ *     - get token
+ *     - store token locally
+ *     - extract and set refresh token
+ *     - pass access tokens
+ *  - if not null:
+ *     - refresh token
+ *     - do the above
+ */
 
 const Gif = styled.img`
   max-width: 100%;
@@ -35,7 +48,7 @@ const setTimestamp = () => {
 
 const getTimestamp = () => Number(Cookies.get('token_timestamp'));
 
-const getAccessToken = () => Cookies.get('access_token');
+const getToken = () => Cookies.get('token');
 
 const getRefreshToken = () => Cookies.get('refresh_token');
 
@@ -57,7 +70,6 @@ const setTokens = () => {
   const { accessToken, refreshToken } = queryString.parse(window.location.search);
 
   if (util.isInvalid(refreshToken) && util.isInvalid(accessToken)) {
-    console.log('both are invalid !');
     Cookies.set('access_token', null);
     Cookies.set('refresh_token', null);
     return false;
@@ -68,23 +80,26 @@ const setTokens = () => {
 };
 
 const authenticate = async () => {
-  const accessToken = getAccessToken();
+  const jwtToken = getToken();
+  const token = 
   const refreshToken = getRefreshToken();
   const timePassed = Date.now() - getTimestamp();
+
+  console.log(refreshToken);
+  console.log(timePassed < EXPIRATION_TIME);
 
   if (util.isInvalid(accessToken)) {
     const result = setTokens();
     setTimestamp();
+    console.log(result);
     if (result) return 1;
 
     return 0;
   }
   if (!util.isInvalid(accessToken) && timePassed < EXPIRATION_TIME) {
-    console.log('authentication successful');
     return 1;
   }
   if (timePassed > EXPIRATION_TIME && !util.isInvalid(refreshToken)) {
-    console.log('Acess token was present but expired');
     return refreshAccessToken(getRefreshToken());
   }
   return 0;
@@ -94,19 +109,24 @@ const authenticate = async () => {
 
 const Authenticate = () => {
   const [auth, setAuth] = useState(-1);
-  setTokens();
+  const history = useHistory();
+  const routeChange = () => {
+    history.push('/');
+  };
+
   useEffect(() => {
     authenticate().then((isAuthenticatedState) => setAuth(isAuthenticatedState));
   }, []);
 
   if (auth === 1) {
+    console.log('CHER  : ');
     return <Main />;
   }
   if (auth === 0) {
     return (
-      <Div>
+      <Div display="flex" flexDirection="column">
         <H3>The authentication was not successful. Please head back</H3>
-        <Button onClick={() => Redirect('/')} />
+        <Button onClick={routeChange}> Back </Button>
       </Div>
     );
   }

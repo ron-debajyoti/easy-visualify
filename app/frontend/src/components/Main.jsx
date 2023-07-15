@@ -34,7 +34,7 @@ const Gif = styled.img`
 
 const SESSION_IDENTIFIER = 'user_data';
 
-const getSessionStorage = () => JSON.stringify(sessionStorage.getItem(SESSION_IDENTIFIER));
+const getSessionStorage = () => JSON.parse(sessionStorage.getItem(SESSION_IDENTIFIER));
 
 const setSessionStorage = (data) =>
   sessionStorage.setItem(SESSION_IDENTIFIER, JSON.stringify(data));
@@ -76,7 +76,7 @@ const Main = () => {
     return genre;
   };
 
-  async function fetchAll() {
+  const fetchAll = async () => {
     const accessToken = Cookies.get('access_token');
     let userData = {
       display_name: null,
@@ -94,7 +94,7 @@ const Main = () => {
       recommendedGenre: null,
       userPlaylists: null,
     };
-    Promise.all([
+    await Promise.all([
       util.fetchUserData(accessToken).then((data) => {
         userData = {
           ...userData,
@@ -157,25 +157,21 @@ const Main = () => {
             recommendedGenre: genre,
           };
         }),
-    ]).then(() => {
-      console.log('DONE TLL HERE');
-      console.log(userData);
-      setUser(userData);
-      setSessionStorage(userData);
-      setAllUpdated(true);
-    });
-  }
+    ]);
+    return userData;
+  };
 
   useEffect(() => {
-    // let accessToken = queryString.parse(window.location.search)['?access_token']
-    // console.log(queryString.parse(window.location.search))
-    // console.log(accessToken)
     const oldUserData = getSessionStorage();
     if (oldUserData === undefined || oldUserData === null) {
-      if (Object.keys(oldUserData.user).length < 2) {
-        fetchAll();
-      }
+      fetchAll().then((userData) => {
+        setUser(userData);
+        setSessionStorage(userData);
+        setAllUpdated(true);
+      });
     } else {
+      console.log('got from session cache');
+      console.log(oldUserData);
       setUser(oldUserData);
       setAllUpdated(true);
     }
@@ -183,7 +179,6 @@ const Main = () => {
 
   const onUpdate = (receivedContent) => {
     setContent(receivedContent);
-    console.log('updated state !');
   };
 
   const onButtonClick = (type) => {

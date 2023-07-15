@@ -39,12 +39,10 @@ function IndexPage() {
   );
 
   return (
-    <Route>
-      <Switch>
-        <Route exact path="/" component={mainPage} />
-        <Route path="/main" component={Authenticate} />
-      </Switch>
-    </Route>
+    <Switch>
+      <Route exact path="/" component={mainPage} />
+      <Route path="/main" component={Authenticate} />
+    </Switch>
   );
 }
 

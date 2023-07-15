@@ -27,6 +27,7 @@ const propTypes = {
 
 //
 const App = (props) => {
+  const { setDatafetch } = props;
   const [playlists, setPlaylists] = useState(null);
   const [isReady, setReady] = useState(false);
 
@@ -42,7 +43,7 @@ const App = (props) => {
     util.fetchData().then((fetchedPlaylists) => {
       setPlaylists(fetchedPlaylists);
       setReady(true);
-      props.setDatafetch(true);
+      setDatafetch(true);
     });
   }, []);
 
