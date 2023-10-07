@@ -60,7 +60,7 @@ viralPlaylists = [
     {'country_code':'PT','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbKHoaIcElSSA'},
 
     {'country_code':'RO','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbNwDVyEEfWV3'},
-    {'country_code':'RU','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbNwDVyEEfWV3'},
+    #{'country_code':'RU','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbNwDVyEEfWV3'},
     {'country_code':'SG','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbJVi45MafAu0'},
     {'country_code':'SA','uri':'spotify:user:spotifycharts:playlist:37i9dQZEVXbMq8xkWZE6se'},
 

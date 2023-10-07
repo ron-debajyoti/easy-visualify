@@ -1,12 +1,13 @@
-require('dotenv').config();
 const express = require('express');
+const config = require('config');
 const cors = require('cors');
-const mongoclient = require('mongodb').MongoClient;
+const { requestRoute, loginRoute, callbackLoginRoute, refreshTokenRoute } = require('./router');
 
 const app = express();
 app.set('json spaces', 2);
 const port = process.env.PORT || 3001;
-const address = process.env.MONGODB_HOST || 'mongodb://localhost:27017/';
+
+const { frontend: { main: frontendUrl } = {} } = config.get('easyVisualify');
 
 app.use(cors());
 app.all('/*', (req, res, next) => {
@@ -15,57 +16,27 @@ app.all('/*', (req, res, next) => {
   next();
 });
 
-app.get('/request', (req, res) => {
-  mongoclient.connect(address, { useUnifiedTopology: true }, (err, client) => {
-    if (err) throw err;
-    // const messageData = [];
-    const db = client.db('visualify');
-    const topPlaylists = db.collection('myCollection');
-    const viralPlaylists = db.collection('viralCollections');
-
-    const task1 = new Promise((resolve, reject) => {
-      topPlaylists.find().toArray((error, result) => {
-        if (error) return reject(EvalError);
-        return resolve({ topPlaylists: result });
-      });
-    });
-
-    const task2 = new Promise((resolve, reject) => {
-      viralPlaylists.find().toArray((error, result) => {
-        if (error) return reject(error);
-        return resolve({ viralPlaylists: result });
-      });
-    });
-
-    Promise.all([task1, task2])
-      .then((data) => res.send(JSON.stringify(data)))
-      .then(() => console.log('Data sent !'));
-  });
+app.get('/request', async (req, res) => {
+  const result = await requestRoute(req);
+  res.status(result.status).send(result.data);
 });
 
-app.get('/login', (req, res) => {
-  const redirectUri = process.env.AUTH_URL;
-  console.log('Redirected ! ');
-  res.redirect(redirectUri);
+app.get('/login', async (_, res) => {
+  const { url } = await loginRoute();
+  res.redirect(url);
 });
 
-// app.get('/refresh_token', (req, res) => {
-//   console.log('wt');
-//   const { refreshToken } = req.query;
-//   const authOptions = {
-//     url: 'https://accounts.spotify.com/api/token',
-//     headers: {
-//       Authorization: `Basic ${new Buffer.from(
-//         `${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`
-//       ).toString('base64')}`,
-//     },
-//     form: {
-//       grant_type: 'refresh_token',
-//       refreshToken,
-//     },
-//     json: true,
-//   };
-// });
+app.get('/callback', async (req, res) => {
+  const { query: { code: codeQuery = '' } = {} } = req;
+  const token = await callbackLoginRoute(codeQuery);
+  res.redirect(`${frontendUrl}/${token}`);
+});
+
+app.get('/refresh_token', async (req, res) => {
+  const { query } = req;
+  const token = await refreshTokenRoute(query);
+  res.redirect(`${frontendUrl}/${token}`);
+});
 
 module.exports = app;
 console.log(`Listening on port ${port}`);

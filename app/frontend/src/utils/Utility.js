@@ -2,7 +2,7 @@ require('dotenv').config();
 const fetch = require('node-fetch');
 
 const url = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3001/request/';
-const url2 = process.env.REACT_APP_AUTHEN_URL || 'http://localhost:8888/refresh_token';
+const url2 = process.env.REACT_APP_AUTHEN_URL || 'http://localhost:3001/refresh_token';
 export const fetchData = () =>
   fetch(url, {
     method: 'GET',

@@ -2,31 +2,9 @@ import React from 'react';
 import { Route, Switch, Link } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import Authenticate from './Authenticate';
+import { Button, H1, H3 } from './Reusables';
+
 import Background from '../images/background.jpeg';
-import IndexFile from '../images/indexPage.gif';
-
-const Title = styled.h1`
-  font-size: xx-large;
-  margin: 20px;
-  color: white;
-  float: center;
-`;
-
-const About = styled.h3`
-  font-size: large;
-  color: white;
-  margin: 10px;
-`;
-
-const Base = styled.div`
-  display: flex;
-`;
-
-const Gif = styled.img`
-  max-width: 100%;
-  height: auto;
-  margin: 10px;
-`;
 
 const Wrapper = styled.main`
   min-height: 100vh;
@@ -38,47 +16,33 @@ const Wrapper = styled.main`
   flex-direction: column;
   // background-image: url(${Background});
 `;
-const Button = styled.button`
-  font-size: 1em;
-  margin: 1em;
-  padding: 0.25em 1em;
-  background-color: rgb(29, 185, 84);
-  color: white;
-  text-align: center;
-  border: 2px solid black;
-  border-radius: 20px;
-`;
 
 function IndexPage() {
   const mainPage = () => (
-    <Base>
-      <Wrapper>
-        <Title>Easy Visualify</Title>
-        <About>
-          {' '}
-          Find out Spotify&apos;s Top10, Viral10 and Radar charts for countries across the world
-        </About>
-        <Link to="/">
-          <Button
-            onClick={() => {
-              window.location.href = process.env.REACT_APP_AUTH_URL;
-            }}
-          >
-            Log in using Spotify
-          </Button>
-        </Link>
-        <Gif src={IndexFile} alt="indexImage" />
-      </Wrapper>
-    </Base>
+    <Wrapper className="index-wrapper">
+      <H1 fontSize="xx-large">Easy Visualify</H1>
+      <H3 fontSize="large">
+        {' '}
+        Find out Spotify&apos;s Top10, Viral10 and Radar charts for countries across the world
+      </H3>
+      <Link to="/">
+        <Button
+          backgroundColor="rgb(29, 185, 84)"
+          onClick={() => {
+            window.location.href = process.env.REACT_APP_AUTH_URL;
+          }}
+        >
+          Log in using Spotify
+        </Button>
+      </Link>
+    </Wrapper>
   );
 
   return (
-    <Route>
-      <Switch>
-        <Route exact path="/" component={mainPage} />
-        <Route path="/main" component={Authenticate} />
-      </Switch>
-    </Route>
+    <Switch>
+      <Route exact path="/" component={mainPage} />
+      <Route path="/main" component={Authenticate} />
+    </Switch>
   );
 }
 

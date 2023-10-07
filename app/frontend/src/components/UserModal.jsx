@@ -511,6 +511,7 @@ class UserModal extends Component {
             valence: 0,
             tempo: 0,
           };
+
           const template2 = {
             name: playlist.name,
             owner: playlist.owner,
@@ -539,7 +540,12 @@ class UserModal extends Component {
           for (i = 0; i < j; i += chunk) {
             const block = playlist.tracks
               .slice(i, i + chunk)
-              .map((t) => t.track.id)
+              .map((t) => {
+                if (t && t.track && t.track.id) {
+                  return t.track.id;
+                }
+                return null;
+              })
               .join();
             promises.push(
               f(block).then((response) => {
