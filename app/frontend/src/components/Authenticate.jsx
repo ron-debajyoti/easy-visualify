@@ -81,7 +81,7 @@ const setTokens = () => {
 
 const authenticate = async () => {
   const jwtToken = getToken();
-  const token = 
+  const { access_token: accessToken } = jwtToken;
   const refreshToken = getRefreshToken();
   const timePassed = Date.now() - getTimestamp();
 
